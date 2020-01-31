@@ -14,8 +14,8 @@
         <TabControl DockPanel.Dock="Top">
             <TabItem Header="Формирование группы рассылки">
                 <DockPanel>
-                    <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" >
-                        <ToolBar HorizontalAlignment="Left">
+                    <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal" >
+                        <ToolBar Band="0" BandIndex="0">
                             <Label Width="140">Выбрать отправителя:</Label>
                             <ComboBox Width="200"></ComboBox>
                             <Button>
@@ -28,15 +28,13 @@
                                 <Image Source="..\Resources/icons8-minus-50.png" Width="20"/>
                             </Button>
                         </ToolBar>
-                        <ToolBar HorizontalAlignment="Left">
+                        <ToolBar Band="0" BandIndex="1">
                             <Label Width="202">Перейти в планировщик</Label>
                             <Button HorizontalAlignment="Right">
                                 <Image Source="..\Resources\icons8-alarm-clock-50.png" Width="20"/>
                             </Button>
                         </ToolBar>
-                    </ToolBarPanel>
-                    <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" >
-                        <ToolBar HorizontalAlignment="Left">
+                        <ToolBar Band="1" BandIndex="0">
                             <Label Width="140">Выбрать SMTP-сервер:</Label>
                             <ComboBox Width="200"></ComboBox>
                             <Button>
@@ -49,7 +47,7 @@
                                 <Image Source="..\Resources/icons8-minus-50.png" Width="20"/>
                             </Button>
                         </ToolBar>
-                        <ToolBar HorizontalAlignment="Left">
+                        <ToolBar Band="1" BandIndex="1">
                             <Label Width="150">Список адресатов</Label>
                             <Button>
                                 <Image Source="..\Resources/icons8-add-50.png" Width="20"/>
@@ -61,8 +59,8 @@
                                 <Image Source="..\Resources/icons8-minus-50.png" Width="20"/>
                             </Button>
                         </ToolBar>
-                    </ToolBarPanel>
-                    <DataGrid DockPanel.Dock="Top"/>
+                    </ToolBarTray>
+                    <DataGrid/>
                 </DockPanel>
             </TabItem>
             <TabItem Header="Планировщик">

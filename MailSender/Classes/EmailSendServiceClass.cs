@@ -38,8 +38,7 @@ namespace WpfTestMailSender
         /// <param name="to">Получатель</param>
         /// <param name="subject">Тема</param>
         /// <param name="body">Сообщение</param>
-        /// <returns></returns>
-        public bool Send(string from, string to, string subject, string body)
+        public void Send(string from, string to, string subject, string body)
         {
             try
             {
@@ -53,8 +52,6 @@ namespace WpfTestMailSender
                 client.Send(message);
 
                 Debug.WriteLine($"Success: Message sent");
-
-                return true;
             }
             catch (Exception e)
             {
