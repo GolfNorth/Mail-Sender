@@ -22,7 +22,7 @@ namespace WpfTestMailSender
             var userName = UserNameEdit.Text;
             var userPassword = PasswordEdit.SecurePassword;
 
-            var emailService = new EmailSend(SMTPServer.Host, SMTPServer.Port, userName, userPassword);
+            var emailService = new EmailSend(SMTPServer.Host, SMTPServer.Port, userName, userPassword, false);
 
             try
             {

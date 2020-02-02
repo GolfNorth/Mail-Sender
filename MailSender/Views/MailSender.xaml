@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:MailSender"
+        xmlns:viewModels="clr-namespace:MailSender.ViewModels"
+        xmlns:entities="clr-namespace:MailSender.Library.Entities;assembly=MailSender.Library"
         mc:Ignorable="d"
         Title="Рассыльщик" Height="450" Width="800">
     <DockPanel>
@@ -12,12 +15,24 @@
             <MenuItem Header="Помощь"></MenuItem>
         </Menu>
         <TabControl DockPanel.Dock="Top">
-            <TabItem Header="Формирование группы рассылки">
+            <TabItem Name="DistributionGroup" Header="Формирование группы рассылки">
+                <TabItem.DataContext>
+                    <viewModels:DistributionGroupVM />
+                </TabItem.DataContext>
                 <DockPanel>
                     <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal" >
                         <ToolBar Band="0" BandIndex="0">
                             <Label Width="140">Выбрать отправителя:</Label>
-                            <ComboBox Width="200"></ComboBox>
+                            <ComboBox Width="200" ItemsSource="{Binding Senders}" SelectedIndex="0">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate DataType="entities:Sender">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}"/>
+                                            <TextBlock Text="{Binding Address, StringFormat=({0})}" Margin="5 0 0 0" Opacity="0.6"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <Button>
                                 <Image Source="..\Resources/icons8-add-50.png" Width="20"/>
                             </Button>
@@ -36,7 +51,23 @@
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
                             <Label Width="140">Выбрать SMTP-сервер:</Label>
-                            <ComboBox Width="200"></ComboBox>
+                            <ComboBox Width="200" ItemsSource="{Binding Servers}" SelectedIndex="0">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate DataType="entities:Server">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}"/>
+                                            <TextBlock Margin="5 0 0 0" Opacity="0.6">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}:{1}">
+                                                        <Binding Path="Host" />
+                                                        <Binding Path="Port" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <Button>
                                 <Image Source="..\Resources/icons8-add-50.png" Width="20"/>
                             </Button>
@@ -60,10 +91,24 @@
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <DataGrid/>
+                    <DataGrid ItemsSource="{Binding Recipients}"
+                              Name="RecipientsList"
+                              AutoGenerateColumns="False"
+                              SelectionMode="Single"
+                              IsReadOnly="True"
+                              AlternatingRowBackground="LightGray">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="id"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Планировщик">
+            <TabItem Name="Scheduler" Header="Планировщик">
+                <TabItem.DataContext>
+                    <viewModels:SchedulerVM />
+                </TabItem.DataContext>
                 <DockPanel>
                     <GroupBox Header="Управление">
                         <StackPanel>
@@ -111,7 +156,10 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Редактор писем">
+            <TabItem Name="MailEditor" Header="Редактор писем">
+                <TabItem.DataContext>
+                    <viewModels:MailEditorVM />
+                </TabItem.DataContext>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="150" MaxWidth="300" Width="Auto"/>
@@ -143,7 +191,10 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Статистика">
+            <TabItem Name="Statistics" Header="Статистика">
+                <TabItem.DataContext>
+                    <viewModels:StatisticsVM />
+                </TabItem.DataContext>
                 <Grid>
                     <TextBlock>To Do...</TextBlock>
                 </Grid>

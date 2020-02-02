@@ -8,7 +8,7 @@ namespace MailSender.Library.Data
     {
         public static List<Server> Servers { get; } = new List<Server>
         {
-            new Server {Name = "Localhost", Host = "127.0.0.1", Port = 25, Login = "", Password = "".Encode(3)}
+            new Server {Name = "Localhost", Host = "127.0.0.1", Port = 25, Login = "", Password = "".Encode(3), EnableSsl = false}
         };
 
         public static List<Sender> Senders { get; } = new List<Sender>
