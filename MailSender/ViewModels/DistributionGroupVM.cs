@@ -15,9 +15,12 @@ namespace MailSender.ViewModels
         public List<Sender> Senders => DevData.Senders;
         public List<Recipient> Recipients => DevData.Recipients;
 
-        public void SwitchToScheduler(TabControl tc)
+        /*
+        public void SwitchToScheduler(TabItem ti)
         {
+            var tc = ti.Parent as TabControl;
             tc.TabIndex = 1;
         }
+        */
     }
 }
