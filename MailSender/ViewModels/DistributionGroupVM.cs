@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
 using MailSender.Library.Data;
 using MailSender.Library.Entities;
 using Prism.Commands;
@@ -14,5 +15,9 @@ namespace MailSender.ViewModels
         public List<Sender> Senders => DevData.Senders;
         public List<Recipient> Recipients => DevData.Recipients;
 
+        public void SwitchToScheduler(TabControl tc)
+        {
+            tc.TabIndex = 1;
+        }
     }
 }

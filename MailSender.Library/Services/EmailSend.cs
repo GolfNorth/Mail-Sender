@@ -8,7 +8,7 @@ namespace MailSender.Library.Services
     {
         private readonly string _host; // Адрес почтового сервера
         private readonly string _login; // Логин для авторизации на почтовом сервере
-        private readonly SecureString _password; // Пароль для авторизации на почтовом сервере
+        private readonly string _password; // Пароль для авторизации на почтовом сервере
         private readonly int _port; // Порт почтового сервера
         private readonly bool _ssl; // Защита соединения
 
@@ -20,7 +20,7 @@ namespace MailSender.Library.Services
         /// <param name="login">Логин для авторизации на почтовом сервере</param>
         /// <param name="password">Пароль для авторизации на почтовом сервере</param>
         /// <param name="ssl">Защита соединения</param>
-        public EmailSend(string host, int port, string login, SecureString password, bool ssl = true)
+        public EmailSend(string host, int port, string login, string password, bool ssl = true)
         {
             _host = host;
             _port = port;

@@ -7,14 +7,18 @@
         xmlns:local="clr-namespace:MailSender"
         xmlns:viewModels="clr-namespace:MailSender.ViewModels"
         xmlns:entities="clr-namespace:MailSender.Library.Entities;assembly=MailSender.Library"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Рассыльщик" Height="450" Width="800">
+    <Window.DataContext>
+        <viewModels:MailSenderVM />
+    </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл"></MenuItem>
             <MenuItem Header="Помощь"></MenuItem>
         </Menu>
-        <TabControl DockPanel.Dock="Top">
+        <TabControl Name="TabControl" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem Name="DistributionGroup" Header="Формирование группы рассылки">
                 <TabItem.DataContext>
                     <viewModels:DistributionGroupVM />
@@ -23,7 +27,7 @@
                     <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal" >
                         <ToolBar Band="0" BandIndex="0">
                             <Label Width="140">Выбрать отправителя:</Label>
-                            <ComboBox Width="200" ItemsSource="{Binding Senders}" SelectedIndex="0">
+                            <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Sender">
                                         <StackPanel Orientation="Horizontal">
@@ -51,7 +55,7 @@
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
                             <Label Width="140">Выбрать SMTP-сервер:</Label>
-                            <ComboBox Width="200" ItemsSource="{Binding Servers}" SelectedIndex="0">
+                            <ComboBox Name="ServersList" Width="200" ItemsSource="{Binding Servers}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Server">
                                         <StackPanel Orientation="Horizontal">
@@ -114,9 +118,20 @@
                         <StackPanel>
                             <TextBlock Text="Календарь"/>
                             <Calendar/>
-                            <StackPanel Margin="0 5">
-                                <Button Content="Запланировать"/>
-                                <Button Content="Отправить" />
+                            <xctk:TimePicker/>
+                            <StackPanel>
+                                <Button Margin="0 3 0 0">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Source="..\Resources/icons8-planner-50.png" Width="20"/>
+                                        <TextBlock Margin="5 0 0 0" Text="Запланировать"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Margin="0 5 0 0" Click="Button_Click">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Source="..\Resources/icons8-send-50.png" Width="20"/>
+                                        <TextBlock Margin="5 0 0 0" Text="Отправить"/>
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -167,10 +182,20 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Список писем">
                         <DockPanel>
-                            <UniformGrid DockPanel.Dock="Bottom" Rows="1">
-                                <Button Content="Добавить"/>
-                                <Button Content="Удалить"/>
-                            </UniformGrid>
+                            <StackPanel DockPanel.Dock="Bottom">
+                                <Button Margin="0 5 0 0">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Source="..\Resources/icons8-new-message-50.png" Width="20"/>
+                                        <TextBlock Margin="5 0 0 0" Text="Добавить"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Margin="0 5 0 0">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Image Source="..\Resources/icons8-deleted-message-50.png" Width="20"/>
+                                        <TextBlock Margin="5 0 0 0" Text="Удалить"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                             <ListBox>
                                 <ListBoxItem>Письмо 1</ListBoxItem>
                                 <ListBoxItem>Письмо 2</ListBoxItem>
