@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MailSender.Library\MailSender.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\icons8-alarm-clock-50.png" />
     <Resource Include="Resources\icons8-add-50.png" />
     <Resource Include="Resources\icons8-minus-50.png" />

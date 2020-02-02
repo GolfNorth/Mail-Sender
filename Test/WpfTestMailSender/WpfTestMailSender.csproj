@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MailSender.Library\MailSender.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Theme.xaml">
       <SubType>Designer</SubType>
     </Page>
