@@ -119,7 +119,8 @@
                             <StackPanel>
                                 <Button Margin="0 3 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/MailSender;component/Resources/icons8-planner-50.png" Width="20" />
+                                        <Image Source="/MailSender;component/Resources/icons8-planner-50.png"
+                                               Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Отправить запланировано" />
                                     </StackPanel>
                                 </Button>
@@ -180,13 +181,15 @@
                             <StackPanel DockPanel.Dock="Bottom">
                                 <Button Margin="0 5 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/MailSender;component/Resources/icons8-new-message-50.png" Width="20" />
+                                        <Image Source="/MailSender;component/Resources/icons8-new-message-50.png"
+                                               Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Добавить" />
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="0 5 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/MailSender;component/Resources/icons8-deleted-message-50.png" Width="20" />
+                                        <Image Source="/MailSender;component/Resources/icons8-deleted-message-50.png"
+                                               Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Удалить" />
                                     </StackPanel>
                                 </Button>

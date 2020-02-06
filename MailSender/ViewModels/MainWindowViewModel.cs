@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 
 namespace MailSender.ViewModels
 {
