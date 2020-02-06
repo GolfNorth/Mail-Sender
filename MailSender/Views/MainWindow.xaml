@@ -7,9 +7,10 @@
         xmlns:local="clr-namespace:MailSender"
         xmlns:entities="clr-namespace:MailSender.Library.Entities;assembly=MailSender.Library"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:views="clr-namespace:MailSender.Views"
         mc:Ignorable="d"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
-        Icon="/MailSender;component/Resources/icons8-group-message-50.png"
+        Icon="/MailSender;component/Resources/icons8-group-message-48.png"
         Title="Рассыльщик" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -35,20 +36,20 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-add-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-add-48.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-minus-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
                         <ToolBar Band="0" BandIndex="1">
                             <Button HorizontalAlignment="Right" Command="{Binding SwitchToScheduler}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Width="202">Перейти в планировщик</TextBlock>
-                                    <Image Source="..\Resources\icons8-alarm-clock-50.png" Width="20" />
+                                    <Image Source="..\Resources\icons8-alarm-clock-48.png" Width="20" />
                                 </StackPanel>
                             </Button>
                         </ToolBar>
@@ -72,40 +73,29 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-add-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-add-48.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-minus-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="1">
                             <Label Width="150">Список адресатов</Label>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-add-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-add-48.png" Width="20" />
+                            </Button>
+                            <Button Command="{Binding RecipientEditCommand}">
+                                <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-50.png" Width="20" />
-                            </Button>
-                            <Button>
-                                <Image Source="/MailSender;component/Resources/icons8-minus-50.png" Width="20" />
+                                <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <DataGrid ItemsSource="{Binding Recipients}"
-                              Name="RecipientsList"
-                              AutoGenerateColumns="False"
-                              SelectionMode="Single"
-                              IsReadOnly="True"
-                              AlternatingRowBackground="LightGray">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="id" />
-                            <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <views:RecipientsView />
                 </DockPanel>
             </TabItem>
             <TabItem Name="Scheduler" Header="Планировщик"
@@ -119,14 +109,14 @@
                             <StackPanel>
                                 <Button Margin="0 3 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/MailSender;component/Resources/icons8-planner-50.png"
+                                        <Image Source="/MailSender;component/Resources/icons8-planner-48.png"
                                                Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Отправить запланировано" />
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="0 5 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/MailSender;component/Resources/icons8-send-50.png" Width="20" />
+                                        <Image Source="/MailSender;component/Resources/icons8-send-48.png" Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Отправить сразу" />
                                     </StackPanel>
                                 </Button>
@@ -181,14 +171,14 @@
                             <StackPanel DockPanel.Dock="Bottom">
                                 <Button Margin="0 5 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/MailSender;component/Resources/icons8-new-message-50.png"
+                                        <Image Source="/MailSender;component/Resources/icons8-new-message-48.png"
                                                Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Добавить" />
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="0 5 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/MailSender;component/Resources/icons8-deleted-message-50.png"
+                                        <Image Source="/MailSender;component/Resources/icons8-deleted-message-48.png"
                                                Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Удалить" />
                                     </StackPanel>
