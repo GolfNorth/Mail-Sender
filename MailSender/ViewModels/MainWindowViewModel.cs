@@ -1,25 +1,20 @@
 ﻿using System.Diagnostics;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace MailSender.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        private int _selectedTabIndex;
+
         /// <summary>
         ///     Индекс главного TabControl
         /// </summary>
-        public int SelectedTabIndex { get; set; }
-
-        /// <summary>
-        ///     Изменение текущего TabItem
-        /// </summary>
-        /// <param name="index"></param>
-        public void SwitchTabIndex(string index)
+        public int SelectedTabIndex
         {
-            Debug.WriteLine(123);
-            SelectedTabIndex = int.Parse(index); // index.ToIn;
-
-            RaisePropertyChanged(nameof(SelectedTabIndex));
+            get => _selectedTabIndex;
+            set => SetProperty(ref _selectedTabIndex, value);
         }
     }
 }

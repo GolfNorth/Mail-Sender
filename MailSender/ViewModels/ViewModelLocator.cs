@@ -14,12 +14,12 @@ namespace MailSender.ViewModels
 
             ServiceLocator.SetLocatorProvider(() => new UnityServiceLocatorAdapter(container));
 
-            container.RegisterType<MainWindowViewModel>();
+            container.RegisterType<MainWindowViewModel>(TypeLifetime.Singleton);
 
-            container.RegisterType<DistributionGroupViewModel>();
-            container.RegisterType<MailEditorViewModel>();
-            container.RegisterType<SchedulerViewModel>();
-            container.RegisterType<StatisticsViewModel>();
+            container.RegisterType<DistributionGroupViewModel>(TypeLifetime.Singleton);
+            container.RegisterType<MailEditorViewModel>(TypeLifetime.Singleton);
+            container.RegisterType<SchedulerViewModel>(TypeLifetime.Singleton);
+            container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
 
             container.RegisterType<IRecipientsManager, RecipientsManager>();
             container.RegisterType<IRecipientsStore, RecipientsStoreInMemory>();

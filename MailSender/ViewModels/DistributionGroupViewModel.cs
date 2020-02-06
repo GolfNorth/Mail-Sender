@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using MailSender.Library.Data;
 using MailSender.Library.Entities;
+using CommonServiceLocator;
+using MailSender.Enums;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace MailSender.ViewModels
@@ -11,12 +14,19 @@ namespace MailSender.ViewModels
         public List<Sender> Senders => DevData.Senders;
         public List<Recipient> Recipients => DevData.Recipients;
 
-        /*
-        public void SwitchToScheduler(TabItem ti)
+        public DistributionGroupViewModel()
         {
-            var tc = ti.Parent as TabControl;
-            tc.TabIndex = 1;
+            SwitchToScheduler = new DelegateCommand((() =>
+            {
+                var mainWindowViewModel = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+
+                mainWindowViewModel.SelectedTabIndex = (int) MainWindowTabItems.Scheduler;
+            }));
         }
-        */
+
+        /// <summary>
+        ///     Сменяет вкладку на "Планировщик"
+        /// </summary>
+        public DelegateCommand SwitchToScheduler { get; private set; }
     }
 }
