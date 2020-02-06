@@ -5,52 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:MailSender"
-        xmlns:viewModels="clr-namespace:MailSender.ViewModels"
         xmlns:entities="clr-namespace:MailSender.Library.Entities;assembly=MailSender.Library"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Title="Рассыльщик" Height="450" Width="800">
-    <Window.DataContext>
-        <viewModels:MailSenderVM />
-    </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Файл"></MenuItem>
-            <MenuItem Header="Помощь"></MenuItem>
+            <MenuItem Header="Файл" />
+            <MenuItem Header="Помощь" />
         </Menu>
         <TabControl Name="TabControl" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
-            <TabItem Name="DistributionGroup" Header="Формирование группы рассылки">
-                <TabItem.DataContext>
-                    <viewModels:DistributionGroupVM />
-                </TabItem.DataContext>
+            <TabItem Name="DistributionGroup" Header="Формирование группы рассылки"
+                     DataContext="{Binding DistributionGroupViewModel, Source={StaticResource Locator}}">
                 <DockPanel>
-                    <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal" >
+                    <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
                         <ToolBar Band="0" BandIndex="0">
                             <Label Width="140">Выбрать отправителя:</Label>
                             <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Sender">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}"/>
-                                            <TextBlock Text="{Binding Address, StringFormat=({0})}" Margin="5 0 0 0" Opacity="0.6"/>
+                                            <TextBlock Text="{Binding Name}" />
+                                            <TextBlock Text="{Binding Address, StringFormat=({0})}" Margin="5 0 0 0"
+                                                       Opacity="0.6" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button>
-                                <Image Source="..\Resources/icons8-add-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-add-50.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="..\Resources/icons8-pencil-drawing-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-pencil-drawing-50.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="..\Resources/icons8-minus-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-minus-50.png" Width="20" />
                             </Button>
                         </ToolBar>
                         <ToolBar Band="0" BandIndex="1">
                             <Label Width="202">Перейти в планировщик</Label>
                             <Button HorizontalAlignment="Right">
-                                <Image Source="..\Resources\icons8-alarm-clock-50.png" Width="20"/>
+                                <Image Source="..\Resources\icons8-alarm-clock-50.png" Width="20" />
                             </Button>
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
@@ -59,7 +55,7 @@
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Server">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}"/>
+                                            <TextBlock Text="{Binding Name}" />
                                             <TextBlock Margin="5 0 0 0" Opacity="0.6">
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat="{}{0}:{1}">
@@ -73,25 +69,25 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <Button>
-                                <Image Source="..\Resources/icons8-add-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-add-50.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="..\Resources/icons8-pencil-drawing-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-pencil-drawing-50.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="..\Resources/icons8-minus-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-minus-50.png" Width="20" />
                             </Button>
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="1">
                             <Label Width="150">Список адресатов</Label>
                             <Button>
-                                <Image Source="..\Resources/icons8-add-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-add-50.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="..\Resources/icons8-pencil-drawing-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-pencil-drawing-50.png" Width="20" />
                             </Button>
                             <Button>
-                                <Image Source="..\Resources/icons8-minus-50.png" Width="20"/>
+                                <Image Source="..\Resources/icons8-minus-50.png" Width="20" />
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
@@ -102,34 +98,32 @@
                               IsReadOnly="True"
                               AlternatingRowBackground="LightGray">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="id"/>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*"/>
-                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
+                            <DataGridTextColumn Header="id" />
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
             </TabItem>
-            <TabItem Name="Scheduler" Header="Планировщик">
-                <TabItem.DataContext>
-                    <viewModels:SchedulerVM />
-                </TabItem.DataContext>
+            <TabItem Name="Scheduler" Header="Планировщик"
+                     DataContext="{Binding SchedulerViewModel, Source={StaticResource Locator}}">
                 <DockPanel>
                     <GroupBox Header="Управление">
                         <StackPanel>
-                            <TextBlock Text="Календарь"/>
-                            <Calendar/>
-                            <xctk:TimePicker/>
+                            <TextBlock Text="Календарь" />
+                            <Calendar />
+                            <xctk:TimePicker />
                             <StackPanel>
                                 <Button Margin="0 3 0 0">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Image Source="..\Resources/icons8-planner-50.png" Width="20"/>
-                                        <TextBlock Margin="5 0 0 0" Text="Отправить запланировано"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="..\Resources/icons8-planner-50.png" Width="20" />
+                                        <TextBlock Margin="5 0 0 0" Text="Отправить запланировано" />
                                     </StackPanel>
                                 </Button>
-                                <Button Margin="0 5 0 0" Click="Button_Click">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Image Source="..\Resources/icons8-send-50.png" Width="20"/>
-                                        <TextBlock Margin="5 0 0 0" Text="Отправить сразу"/>
+                                <Button Margin="0 5 0 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="..\Resources/icons8-send-50.png" Width="20" />
+                                        <TextBlock Margin="5 0 0 0" Text="Отправить сразу" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -140,30 +134,30 @@
                             <ListBoxItem HorizontalContentAlignment="Stretch">
                                 <GroupBox Header="Задание 1">
                                     <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитель"/>
-                                        <TextBlock Text="Список получателей"/>
+                                        <TextBlock Text="Время" />
+                                        <TextBlock Text="Сервер" />
+                                        <TextBlock Text="Отправитель" />
+                                        <TextBlock Text="Список получателей" />
                                     </StackPanel>
                                 </GroupBox>
                             </ListBoxItem>
                             <ListBoxItem HorizontalContentAlignment="Stretch">
                                 <GroupBox Header="Задание 2">
                                     <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитель"/>
-                                        <TextBlock Text="Список получателей"/>
+                                        <TextBlock Text="Время" />
+                                        <TextBlock Text="Сервер" />
+                                        <TextBlock Text="Отправитель" />
+                                        <TextBlock Text="Список получателей" />
                                     </StackPanel>
                                 </GroupBox>
                             </ListBoxItem>
                             <ListBoxItem HorizontalContentAlignment="Stretch">
                                 <GroupBox Header="Задание 3">
                                     <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитель"/>
-                                        <TextBlock Text="Список получателей"/>
+                                        <TextBlock Text="Время" />
+                                        <TextBlock Text="Сервер" />
+                                        <TextBlock Text="Отправитель" />
+                                        <TextBlock Text="Список получателей" />
                                     </StackPanel>
                                 </GroupBox>
                             </ListBoxItem>
@@ -171,28 +165,26 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
-            <TabItem Name="MailEditor" Header="Редактор писем">
-                <TabItem.DataContext>
-                    <viewModels:MailEditorVM />
-                </TabItem.DataContext>
+            <TabItem Name="MailEditor" Header="Редактор писем"
+                     DataContext="{Binding MailEditorViewModel, Source={StaticResource Locator}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="150" MaxWidth="300" Width="Auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="150" MaxWidth="300" Width="Auto" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Список писем">
                         <DockPanel>
                             <StackPanel DockPanel.Dock="Bottom">
                                 <Button Margin="0 5 0 0">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Image Source="..\Resources/icons8-new-message-50.png" Width="20"/>
-                                        <TextBlock Margin="5 0 0 0" Text="Добавить"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="..\Resources/icons8-new-message-50.png" Width="20" />
+                                        <TextBlock Margin="5 0 0 0" Text="Добавить" />
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="0 5 0 0">
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Image Source="..\Resources/icons8-deleted-message-50.png" Width="20"/>
-                                        <TextBlock Margin="5 0 0 0" Text="Удалить"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="..\Resources/icons8-deleted-message-50.png" Width="20" />
+                                        <TextBlock Margin="5 0 0 0" Text="Удалить" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -207,7 +199,7 @@
                     <GroupBox Header="Выбранное письмо" Grid.Column="1">
                         <DockPanel>
                             <GroupBox DockPanel.Dock="Top" Header="Тема письма">
-                                <TextBox Text="Текст заголовка письма" Name="MailSubject"/>
+                                <TextBox Text="Текст заголовка письма" Name="MailSubject" />
                             </GroupBox>
                             <GroupBox Header="Текст письма">
                                 <TextBox TextWrapping="Wrap" AcceptsReturn="True" Name="MailBody">Текст тела письма</TextBox>
@@ -216,10 +208,8 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Name="Statistics" Header="Статистика">
-                <TabItem.DataContext>
-                    <viewModels:StatisticsVM />
-                </TabItem.DataContext>
+            <TabItem Name="Statistics" Header="Статистика"
+                     DataContext="{Binding StatisticsViewModel, Source={StaticResource Locator}}">
                 <Grid>
                     <TextBlock>To Do...</TextBlock>
                 </Grid>

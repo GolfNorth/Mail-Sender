@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MailSender.Library.Entities
 {
     /// <summary>
-    /// Электронное письмо
+    ///     Электронное письмо
     /// </summary>
     public class Email
     {

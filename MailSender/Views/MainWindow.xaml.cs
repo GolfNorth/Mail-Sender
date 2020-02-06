@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Media;
 using MailSender.Library.Entities;
 using MailSender.Library.Service;
+using MailSender.Library.Services;
 
 namespace MailSender
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -17,6 +17,7 @@ namespace MailSender
             InitializeComponent();
         }
 
+        /*
         private void Button_Click(object s, RoutedEventArgs e)
         {
             var recipient = RecipientsList.SelectedItem as Recipient;
@@ -27,18 +28,18 @@ namespace MailSender
 
             try
             {
-                var mail_sender = new Library.Services.EmailSend(server.Host, server.Port, server.Login,
+                var mail_sender = new EmailSend(server.Host, server.Port, server.Login,
                     server.Password.Decode(3), server.EnableSsl);
 
                 mail_sender.SendMail(sender.Address, recipient.Address, MailSubject.Text, MailBody.Text);
 
                 Debug.WriteLine("Sended");
-
             }
             catch (Exception error)
             {
                 Debug.WriteLine(error.Message);
             }
         }
+        */
     }
 }
