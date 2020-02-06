@@ -11,7 +11,7 @@
             <MenuItem Header="Файл"></MenuItem>
             <MenuItem Header="Помощь"></MenuItem>
         </Menu>
-        <TabControl DockPanel.Dock="Top">
+        <TabControl>
             <TabItem Header="Формирование группы рассылки">
                 <DockPanel>
                     <ToolBar DockPanel.Dock="Top">
@@ -22,8 +22,7 @@
                         <Button Click="Button_Click">Отправить</Button>
                     </ToolBar>
                     <TextBox DockPanel.Dock="Top" Name="MessageSubject">Заголовок сообщения</TextBox>
-                    <TextBox DockPanel.Dock="Top" Name="MessageBody">Текст сообщение</TextBox>
-
+                    <TextBox Name="MessageBody">Текст сообщение</TextBox>
                 </DockPanel>
             </TabItem>
             <TabItem Header="Планировщик">
@@ -36,6 +35,5 @@
                 <Grid/>
             </TabItem>
         </TabControl>
-
     </DockPanel>
 </Window>

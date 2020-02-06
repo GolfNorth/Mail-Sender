@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using MailSender.Library.Services;
 
 namespace WpfTestMailSender
 {
@@ -21,11 +22,11 @@ namespace WpfTestMailSender
             var userName = UserNameEdit.Text;
             var userPassword = PasswordEdit.SecurePassword;
 
-            var emailService = new EmailSendServiceClass(SMTPServer.Host, SMTPServer.Port, userName, userPassword);
+            var emailService = new EmailSend(SMTPServer.Host, SMTPServer.Port, userName, userPassword, false);
 
             try
             {
-                emailService.Send(SMTPServer.From, SMTPServer.To, messageSubject, messageBody);
+                emailService.SendMail(SMTPServer.From, SMTPServer.To, messageSubject, messageBody);
 
                 var sew = new SendEndWindow("Работа завершена", this);
 

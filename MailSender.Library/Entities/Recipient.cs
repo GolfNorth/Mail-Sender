@@ -1,0 +1,12 @@
+﻿namespace MailSender.Library.Entities
+{
+    /// <summary>
+    ///     Получатель
+    /// </summary>
+    public class Recipient
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+    }
+}

@@ -11,20 +11,38 @@
     <None Remove="icons8-alarm-clock-50.png" />
     <None Remove="icons8-minus-50.png" />
     <None Remove="icons8-pencil-drawing-50.png" />
+    <None Remove="Resources\icons8-deleted-message-50.png" />
+    <None Remove="Resources\icons8-group-message-50.png" />
     <None Remove="Resources\icons8-minus-50.png" />
+    <None Remove="Resources\icons8-new-message-50.png" />
     <None Remove="Resources\icons8-pencil-drawing-50.png" />
+    <None Remove="Resources\icons8-planner-50.png" />
+    <None Remove="Resources\icons8-send-50.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="3.8.0" />
+    <PackageReference Include="Prism.Core" Version="7.2.0.1422" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MailSender.Library\MailSender.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resources\icons8-alarm-clock-50.png" />
     <Resource Include="Resources\icons8-add-50.png" />
+    <Resource Include="Resources\icons8-deleted-message-50.png" />
+    <Resource Include="Resources\icons8-group-message-50.png" />
     <Resource Include="Resources\icons8-minus-50.png" />
+    <Resource Include="Resources\icons8-new-message-50.png" />
     <Resource Include="Resources\icons8-pencil-drawing-50.png" />
+    <Resource Include="Resources\icons8-planner-50.png" />
+    <Resource Include="Resources\icons8-send-50.png" />
   </ItemGroup>
 
 </Project>
