@@ -12,14 +12,20 @@ namespace MailSender.ViewModels
 {
     public class DistributionGroupViewModel : BindableBase
     {
-        private readonly IRecipientsManager _recipientsManager;
-        private ObservableCollection<Recipient> _recipients;
-        private Recipient _selectedRecipient;
-        private ObservableCollection<Sender> _senders;
-        private ObservableCollection<Server> _servers;
+        private readonly IRecipientsManager _recipientsManager;         // Менеджер получателей
+
+        private ObservableCollection<Recipient> _filteredRecipients;    // Коллекция отфильтрованных получателей
+        private string _filterText;                                     // Текст фильтра
+        private ObservableCollection<Recipient> _recipients;            // Коллекция получателей
+        private Recipient _selectedRecipient;                           // Выбранный получатель
+        private ObservableCollection<Sender> _senders;                  // Коллекция отправителей
+        private ObservableCollection<Server> _servers;                  // Коллекция серверов
 
         public DistributionGroupViewModel(IRecipientsManager recipientsManager)
         {
+            FilteredRecipients = new ObservableCollection<Recipient>();
+            FilterText = string.Empty;
+
             Servers = new ObservableCollection<Server>(DevData.Servers);
             Senders = new ObservableCollection<Sender>(DevData.Senders);
 
@@ -37,6 +43,7 @@ namespace MailSender.ViewModels
             LoadRecipientsDataCommand = new DelegateCommand(() =>
             {
                 Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                FilterRecipients();
             });
 
             RecipientEditCommand = new DelegateCommand(() =>
@@ -79,6 +86,22 @@ namespace MailSender.ViewModels
             set => SetProperty(ref _selectedRecipient, value);
         }
 
+        public string FilterText
+        {
+            get => _filterText;
+            set
+            {
+                SetProperty(ref _filterText, value);
+                FilterRecipients();
+            }
+        }
+
+        public ObservableCollection<Recipient> FilteredRecipients
+        {
+            get => _filteredRecipients;
+            set => SetProperty(ref _filteredRecipients, value);
+        }
+
         /// <summary>
         ///     Сменяет вкладку на "Планировщик"
         /// </summary>
@@ -98,5 +121,20 @@ namespace MailSender.ViewModels
         ///     Открывает окно редактирование получателя
         /// </summary>
         public DelegateCommand<Recipient> SaveRecipientChangesCommand { get; }
+
+        /// <summary>
+        ///     Фильтрация списка получателей
+        /// </summary>
+        private void FilterRecipients()
+        {
+            if (Recipients == null)
+                return;
+
+            _filteredRecipients.Clear();
+
+            foreach (var item in Recipients)
+                if (item.Name.Contains(FilterText))
+                    _filteredRecipients.Add(item);
+        }
     }
 }
