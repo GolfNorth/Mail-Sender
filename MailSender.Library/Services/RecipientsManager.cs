@@ -1,0 +1,41 @@
+﻿using System.Collections.Generic;
+using MailSender.Library.Entities;
+using MailSender.Library.Services.Interfaces;
+
+namespace MailSender.Library.Services
+{
+    public class RecipientsManager : IRecipientsManager
+    {
+        private readonly IRecipientsStore _store;
+
+        public RecipientsManager(IRecipientsStore store)
+        {
+            _store = store;
+        }
+
+
+        public IEnumerable<Recipient> GetAll()
+        {
+            return _store.Get();
+        }
+
+        public void Add(Recipient newRecipient)
+        {
+        }
+
+        public void Edit(Recipient recipient)
+        {
+            _store.Edit(recipient.Id, recipient);
+        }
+
+        public void Delete(Recipient recipient)
+        {
+            _store.Delete(recipient.Id);
+        }
+
+        public void SaveChanges()
+        {
+            _store.SaveChanges();
+        }
+    }
+}

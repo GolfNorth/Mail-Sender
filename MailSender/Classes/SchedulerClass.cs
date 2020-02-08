@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MailSender
+﻿namespace MailSender
 {
-    class SchedulerClass
+    internal class SchedulerClass
     {
     }
 }
