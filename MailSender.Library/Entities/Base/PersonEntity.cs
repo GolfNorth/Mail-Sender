@@ -8,6 +8,6 @@
         /// <summary>
         ///     Электронный адресс сущности
         /// </summary>
-        public string Address { get; set; }
+        public virtual string Address { get; set; }
     }
 }
