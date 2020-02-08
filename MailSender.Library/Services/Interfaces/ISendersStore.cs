@@ -2,7 +2,7 @@
 
 namespace MailSender.Library.Services.Interfaces
 {
-    public interface IRecipientsStore : IEntityStore<Recipient>
+    public interface ISendersStore : IEntityStore<Sender>
     {
     }
 }

@@ -28,7 +28,7 @@ namespace MailSender.Library.Services
             _store.Edit(recipient.Id, recipient);
         }
 
-        public void Delete(Recipient recipient)
+        public void Remove(Recipient recipient)
         {
             _store.Delete(recipient.Id);
         }

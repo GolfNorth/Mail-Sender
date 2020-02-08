@@ -11,7 +11,7 @@ namespace MailSender.Library.Services.Interfaces
 
         void Edit(Recipient recipient);
 
-        void Delete(Recipient recipient);
+        void Remove(Recipient recipient);
 
         void SaveChanges();
     }

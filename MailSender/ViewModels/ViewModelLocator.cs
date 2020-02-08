@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using MailSender.Library.Services;
+using MailSender.Library.Services.InMemory;
 using MailSender.Library.Services.Interfaces;
 using Prism.Unity;
 using Unity;

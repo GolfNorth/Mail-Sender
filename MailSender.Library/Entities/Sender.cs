@@ -1,14 +1,11 @@
-﻿namespace MailSender.Library.Entities
+﻿using MailSender.Library.Entities.Base;
+
+namespace MailSender.Library.Entities
 {
     /// <summary>
     ///     Отправитель
     /// </summary>
-    public class Sender
+    public class Sender : PersonEntity
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Address { get; set; }
     }
 }
