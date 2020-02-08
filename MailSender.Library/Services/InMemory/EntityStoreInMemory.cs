@@ -40,12 +40,13 @@ namespace MailSender.Library.Services.InMemory
         public int Create(T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
-
             if (_items.Contains(item)) return item.Id;
+
             item.Id = _items.Count == 0
                 ? 1
                 : _items.Max(r => r.Id) + 1;
             _items.Add(item);
+
             return item.Id;
         }
 
@@ -54,8 +55,10 @@ namespace MailSender.Library.Services.InMemory
         public T Remove(int id)
         {
             var item = GetById(id);
+
             if (item != null)
                 _items.Remove(item);
+
             return item;
         }
 

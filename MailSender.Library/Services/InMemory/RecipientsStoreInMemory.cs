@@ -13,6 +13,7 @@ namespace MailSender.Library.Services.InMemory
         public override void Edit(int id, Recipient recipient)
         {
             var dbRecipient = GetById(id);
+
             if (dbRecipient is null) return;
 
             // Притворяемся, что мы работаем не с объектами в памяти, а с объектам в БД
