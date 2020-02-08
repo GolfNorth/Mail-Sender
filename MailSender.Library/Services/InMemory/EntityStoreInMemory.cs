@@ -7,11 +7,22 @@ using MailSender.Library.Services.Interfaces;
 
 namespace MailSender.Library.Services.InMemory
 {
-    public abstract class DataStoreInMemory<T> : IEntityStore<T> where T : BaseEntity
+    /// <summary>
+    ///     Абстрактный класс хранилища коллекции данных в памяти
+    /// </summary>
+    /// <typeparam name="T">Тип хранимого объекта</typeparam>
+    public abstract class EntityStoreInMemory<T> : IEntityStore<T> where T : BaseEntity
     {
+        /// <summary>
+        ///     Коллекция данных
+        /// </summary>
         private readonly List<T> _items;
 
-        protected DataStoreInMemory(List<T> Items = null)
+        /// <summary>
+        ///     Конструктор хранилища коллекции данных в памяти
+        /// </summary>
+        /// <param name="Items">Коллекция данных</param>
+        protected EntityStoreInMemory(List<T> Items = null)
         {
             _items = Items ?? new List<T>();
         }
@@ -38,7 +49,7 @@ namespace MailSender.Library.Services.InMemory
             return item.Id;
         }
 
-        public abstract void Edit(int id, T item);
+        public abstract void Edit(int id, T sender);
 
         public T Remove(int id)
         {

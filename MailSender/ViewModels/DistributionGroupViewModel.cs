@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommonServiceLocator;
 using MailSender.Enums;
-using MailSender.Library.Data;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
 using MailSender.Views;
@@ -12,24 +11,29 @@ namespace MailSender.ViewModels
 {
     public class DistributionGroupViewModel : BindableBase
     {
-        private readonly IRecipientsManager _recipientsManager;         // Менеджер получателей
+        private readonly IEntityManager<Recipient> _recipientsManager; // Менеджер получателей
+        private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
+        private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
 
-        private ObservableCollection<Recipient> _filteredRecipients;    // Коллекция отфильтрованных получателей
-        private string _filterText;                                     // Текст фильтра
-        private ObservableCollection<Recipient> _recipients;            // Коллекция получателей
-        private Recipient _selectedRecipient;                           // Выбранный получатель
-        private ObservableCollection<Sender> _senders;                  // Коллекция отправителей
-        private ObservableCollection<Server> _servers;                  // Коллекция серверов
+        private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
+        private string _filterText; // Текст фильтра
+        private ObservableCollection<Recipient> _recipients; // Коллекция получателей
+        private Recipient _selectedRecipient; // Выбранный получатель
+        private ObservableCollection<Sender> _senders; // Коллекция отправителей
+        private ObservableCollection<Server> _servers; // Коллекция серверов
 
-        public DistributionGroupViewModel(IRecipientsManager recipientsManager)
+        public DistributionGroupViewModel(IEntityManager<Recipient> recipientsManager,
+            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager)
         {
             FilteredRecipients = new ObservableCollection<Recipient>();
             FilterText = string.Empty;
 
-            Servers = new ObservableCollection<Server>(DevData.Servers);
-            Senders = new ObservableCollection<Sender>(DevData.Senders);
-
             _recipientsManager = recipientsManager;
+            _serversManager = serversManager;
+            _sendersManager = sendersManager;
+
+            Servers = new ObservableCollection<Server>(_serversManager.GetAll());
+            Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
 
             #region Реализация команд
 
@@ -62,30 +66,45 @@ namespace MailSender.ViewModels
             #endregion
         }
 
+        /// <summary>
+        ///     Коллекция получателей
+        /// </summary>
         public ObservableCollection<Recipient> Recipients
         {
             get => _recipients;
             private set => SetProperty(ref _recipients, value);
         }
 
+        /// <summary>
+        ///     Коллекция серверов
+        /// </summary>
         public ObservableCollection<Server> Servers
         {
             get => _servers;
             set => SetProperty(ref _servers, value);
         }
 
+        /// <summary>
+        ///     Коллекция отправителей
+        /// </summary>
         public ObservableCollection<Sender> Senders
         {
             get => _senders;
             set => SetProperty(ref _senders, value);
         }
 
+        /// <summary>
+        ///     Выбранный получатель
+        /// </summary>
         public Recipient SelectedRecipient
         {
             get => _selectedRecipient;
             set => SetProperty(ref _selectedRecipient, value);
         }
 
+        /// <summary>
+        ///     Текст фильтра получателей
+        /// </summary>
         public string FilterText
         {
             get => _filterText;
@@ -96,6 +115,9 @@ namespace MailSender.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Коллекция отфильтрованных получателей
+        /// </summary>
         public ObservableCollection<Recipient> FilteredRecipients
         {
             get => _filteredRecipients;

@@ -32,8 +32,8 @@ namespace MailSender.Library.Services.Interfaces
         ///     Отредактировать объект в хранилище
         /// </summary>
         /// <param name="id">Идентификатор объекта, который надо отредактировать</param>
-        /// <param name="item">Модель данных, которые надо передать в редактируемый объект</param>
-        void Edit(int id, T item);
+        /// <param name="sender">Модель данных, которые надо передать в редактируемый объект</param>
+        void Edit(int id, T sender);
 
         /// <summary>
         ///     Удалить объект из хранилища по идентификатору

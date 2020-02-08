@@ -5,34 +5,34 @@ using MailSender.Library.Services.Interfaces;
 
 namespace MailSender.Library.Services
 {
-    public class RecipientsManager : IEntityManager<Recipient>
+    public class ServersManager : IEntityManager<Server>
     {
-        private readonly IEntityStore<Recipient> _store;
+        private readonly IEntityStore<Server> _store;
 
-        public RecipientsManager(IEntityStore<Recipient> store)
+        public ServersManager(IEntityStore<Server> store)
         {
             _store = store;
         }
 
 
-        public IEnumerable<Recipient> GetAll()
+        public IEnumerable<Server> GetAll()
         {
             return _store.GetAll();
         }
 
-        public void Add(Recipient newRecipient)
+        public void Add(Server newServer)
         {
             throw new NotImplementedException();
         }
 
-        public void Edit(Recipient recipient)
+        public void Edit(Server server)
         {
-            _store.Edit(recipient.Id, recipient);
+            _store.Edit(server.Id, server);
         }
 
-        public void Remove(Recipient recipient)
+        public void Remove(Server server)
         {
-            _store.Remove(recipient.Id);
+            _store.Remove(server.Id);
         }
 
         public void SaveChanges()
