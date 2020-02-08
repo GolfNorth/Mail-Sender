@@ -1,4 +1,5 @@
 ﻿using CommonServiceLocator;
+using MailSender.Library.Entities;
 using MailSender.Library.Services;
 using MailSender.Library.Services.InMemory;
 using MailSender.Library.Services.Interfaces;
@@ -23,7 +24,8 @@ namespace MailSender.ViewModels
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
 
             container.RegisterType<IRecipientsManager, RecipientsManager>();
-            container.RegisterType<IRecipientsStore, RecipientsStoreInMemory>();
+            //container.RegisterType<IRecipientsStore, RecipientsStoreInMemory>();
+            container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();
         }
 
         public MainWindowViewModel MainWindowViewModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();

@@ -4,7 +4,7 @@ using MailSender.Library.Services.Interfaces;
 
 namespace MailSender.Library.Services.InMemory
 {
-    public class RecipientsStoreInMemory : DataStoreInMemory<Recipient>, IRecipientsStore
+    public class RecipientsStoreInMemory : DataStoreInMemory<Recipient>, IEntityStore<Recipient> //IRecipientsStore //IEntityStore<Recipient>
     {
         public RecipientsStoreInMemory() : base(DevData.Recipients)
         {

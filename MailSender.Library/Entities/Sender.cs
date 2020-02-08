@@ -3,7 +3,7 @@
 namespace MailSender.Library.Entities
 {
     /// <summary>
-    ///     Отправитель
+    ///     Сущность отправителя списка рассылки
     /// </summary>
     public class Sender : PersonEntity
     {

@@ -9,32 +9,32 @@ namespace MailSender.Library.Services.InMemory
 {
     public abstract class DataStoreInMemory<T> : IEntityStore<T> where T : BaseEntity
     {
-        private readonly List<T> _Items;
+        private readonly List<T> _items;
 
         protected DataStoreInMemory(List<T> Items = null)
         {
-            _Items = Items ?? new List<T>();
+            _items = Items ?? new List<T>();
         }
 
         public IEnumerable<T> GetAll()
         {
-            return _Items;
+            return _items;
         }
 
         public T GetById(int id)
         {
-            return _Items.FirstOrDefault(item => item.Id == id);
+            return _items.FirstOrDefault(item => item.Id == id);
         }
 
         public int Create(T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
 
-            if (_Items.Contains(item)) return item.Id;
-            item.Id = _Items.Count == 0
+            if (_items.Contains(item)) return item.Id;
+            item.Id = _items.Count == 0
                 ? 1
-                : _Items.Max(r => r.Id) + 1;
-            _Items.Add(item);
+                : _items.Max(r => r.Id) + 1;
+            _items.Add(item);
             return item.Id;
         }
 
@@ -44,7 +44,7 @@ namespace MailSender.Library.Services.InMemory
         {
             var item = GetById(id);
             if (item != null)
-                _Items.Remove(item);
+                _items.Remove(item);
             return item;
         }
 

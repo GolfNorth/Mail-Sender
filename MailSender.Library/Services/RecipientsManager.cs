@@ -16,7 +16,7 @@ namespace MailSender.Library.Services
 
         public IEnumerable<Recipient> GetAll()
         {
-            return _store.Get();
+            return _store.GetAll();
         }
 
         public void Add(Recipient newRecipient)
@@ -30,7 +30,7 @@ namespace MailSender.Library.Services
 
         public void Remove(Recipient recipient)
         {
-            _store.Delete(recipient.Id);
+            _store.Remove(recipient.Id);
         }
 
         public void SaveChanges()
