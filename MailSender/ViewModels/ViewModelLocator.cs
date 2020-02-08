@@ -23,6 +23,8 @@ namespace MailSender.ViewModels
             container.RegisterType<SchedulerViewModel>(TypeLifetime.Singleton);
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
 
+            container.RegisterType<IWindowsService, WindowsService>(TypeLifetime.Singleton);
+
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
             container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();
 
@@ -34,10 +36,7 @@ namespace MailSender.ViewModels
         }
 
         public MainWindowViewModel MainWindowViewModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
-
-        public DistributionGroupViewModel DistributionGroupViewModel =>
-            ServiceLocator.Current.GetInstance<DistributionGroupViewModel>();
-
+        public DistributionGroupViewModel DistributionGroupViewModel => ServiceLocator.Current.GetInstance<DistributionGroupViewModel>();
         public MailEditorViewModel MailEditorViewModel => ServiceLocator.Current.GetInstance<MailEditorViewModel>();
         public SchedulerViewModel SchedulerViewModel => ServiceLocator.Current.GetInstance<SchedulerViewModel>();
         public StatisticsViewModel StatisticsViewModel => ServiceLocator.Current.GetInstance<StatisticsViewModel>();

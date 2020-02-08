@@ -15,6 +15,8 @@ namespace MailSender.ViewModels
         private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
         private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
 
+        private readonly IWindowsService _windowsService; // Сервис открытия окон
+
         private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
         private string _filterText; // Текст фильтра
         private ObservableCollection<Recipient> _recipients; // Коллекция получателей
@@ -23,7 +25,7 @@ namespace MailSender.ViewModels
         private ObservableCollection<Server> _servers; // Коллекция серверов
 
         public DistributionGroupViewModel(IEntityManager<Recipient> recipientsManager,
-            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager)
+            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager, IWindowsService windowsService)
         {
             FilteredRecipients = new ObservableCollection<Recipient>();
             FilterText = string.Empty;
@@ -31,6 +33,8 @@ namespace MailSender.ViewModels
             _recipientsManager = recipientsManager;
             _serversManager = serversManager;
             _sendersManager = sendersManager;
+
+            _windowsService = windowsService;
 
             Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
@@ -52,9 +56,7 @@ namespace MailSender.ViewModels
 
             RecipientEditCommand = new DelegateCommand(() =>
             {
-                var editWindow = new RecipientEditorWindow();
-
-                editWindow.ShowDialog();
+                _windowsService.ShowDialog("RecipientEditorWindow");
             }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
 
             SaveRecipientChangesCommand = new DelegateCommand<Recipient>(recipient =>
