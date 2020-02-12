@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using MailSender.Library.Entities.Base;
 
 namespace MailSender.Library.Entities
 {
     /// <summary>
-    ///     Электронное письмо
+    ///     Класс сущности электронного письма
     /// </summary>
-    public class Email
+    public class Email : BaseEntity
     {
-        public Sender From { get; set; }
-
-        public List<Recipient> To { get; set; }
-
+        /// <summary>
+        ///     Заголовок электронного письма
+        /// </summary>
         public string Subject { get; set; }
 
+        /// <summary>
+        ///     Тело электронного письма
+        /// </summary>
         public string Body { get; set; }
     }
 }
