@@ -38,7 +38,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
-                        Command="{Binding RecipientEditCommand}" />
+                        Command="{Binding RecipientEditorCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>

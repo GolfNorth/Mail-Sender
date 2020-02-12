@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         DataContext="{Binding DistributionGroupViewModel, Source={StaticResource Locator}}"
         Title="{Binding SelectedRecipient.Name}" Height="Auto" Width="256" SizeToContent="Height"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid Margin="5,2" Validation.Error="OnDataValidationError">
         <Grid.Resources>
             <Style TargetType="TextBox">

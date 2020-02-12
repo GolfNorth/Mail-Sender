@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommonServiceLocator;
 using MailSender.Enums;
+using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
 using MailSender.Views;
@@ -15,7 +16,7 @@ namespace MailSender.ViewModels
         private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
         private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
 
-        private readonly IWindowsService _windowsService; // Сервис открытия окон
+        private readonly IEntityEditor<Recipient> _recipientEditor; // Сервис открытия окон
 
         private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
         private string _filterText; // Текст фильтра
@@ -25,7 +26,7 @@ namespace MailSender.ViewModels
         private ObservableCollection<Server> _servers; // Коллекция серверов
 
         public DistributionGroupViewModel(IEntityManager<Recipient> recipientsManager,
-            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager, IWindowsService windowsService)
+            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager, IEntityEditor<Recipient> recipientEditor)
         {
             FilteredRecipients = new ObservableCollection<Recipient>();
             FilterText = string.Empty;
@@ -34,7 +35,7 @@ namespace MailSender.ViewModels
             _serversManager = serversManager;
             _sendersManager = sendersManager;
 
-            _windowsService = windowsService;
+            _recipientEditor = recipientEditor;
 
             Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
@@ -54,10 +55,10 @@ namespace MailSender.ViewModels
                 FilterRecipients();
             });
 
-            RecipientEditCommand = new DelegateCommand(() =>
+            RecipientEditorCommand = new DelegateCommand<Recipient>(recipient =>
             {
-                _windowsService.ShowDialog("RecipientEditorWindow");
-            }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
+                _recipientEditor.Edit(recipient);
+            }, recipient => recipient != null).ObservesProperty(() => SelectedRecipient);
 
             SaveRecipientChangesCommand = new DelegateCommand<Recipient>(recipient =>
             {
@@ -139,7 +140,7 @@ namespace MailSender.ViewModels
         /// <summary>
         ///     Открывает окно редактирование получателя
         /// </summary>
-        public DelegateCommand RecipientEditCommand { get; }
+        public DelegateCommand<Recipient> RecipientEditorCommand { get; }
 
         /// <summary>
         ///     Открывает окно редактирование получателя
