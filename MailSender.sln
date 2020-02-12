@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTestMailSender", "Test\W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailSender.Library", "MailSender.Library\MailSender.Library.csproj", "{FC2EB9FC-1814-499C-B242-930DB016F278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailSender.Library.Tests", "Tests\MailSender.Library.Tests\MailSender.Library.Tests.csproj", "{9A6449F5-3673-42E8-9C1E-9D21CB50E32F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailSender.Library.Tests", "Tests\MailSender.Library.Tests\MailSender.Library.Tests.csproj", "{9A6449F5-3673-42E8-9C1E-9D21CB50E32F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleHomeWork", "Tests\ConsoleHomeWork\ConsoleHomeWork.csproj", "{7F4AB8EA-7B41-4B2C-BA1A-6BFE47767953}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{9A6449F5-3673-42E8-9C1E-9D21CB50E32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A6449F5-3673-42E8-9C1E-9D21CB50E32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A6449F5-3673-42E8-9C1E-9D21CB50E32F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F4AB8EA-7B41-4B2C-BA1A-6BFE47767953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F4AB8EA-7B41-4B2C-BA1A-6BFE47767953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F4AB8EA-7B41-4B2C-BA1A-6BFE47767953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F4AB8EA-7B41-4B2C-BA1A-6BFE47767953}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{305CF52A-EC85-49ED-825D-DAA1F78036FF} = {3F331B4C-DE4C-46ED-9575-7EF439D3B299}
 		{9A6449F5-3673-42E8-9C1E-9D21CB50E32F} = {3F331B4C-DE4C-46ED-9575-7EF439D3B299}
+		{7F4AB8EA-7B41-4B2C-BA1A-6BFE47767953} = {3F331B4C-DE4C-46ED-9575-7EF439D3B299}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD24FA5C-C5E3-478D-BAAD-999BD56FFA60}
