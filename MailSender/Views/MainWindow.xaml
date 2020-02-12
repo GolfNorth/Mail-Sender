@@ -24,7 +24,7 @@
                     <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
                         <ToolBar Band="0" BandIndex="0">
                             <Label Width="140">Выбрать отправителя:</Label>
-                            <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}" SelectedIndex="0">
+                            <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}" SelectedItem="{Binding SelectedSender}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Sender">
                                         <StackPanel Orientation="Horizontal">
@@ -55,7 +55,7 @@
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
                             <Label Width="140">Выбрать SMTP-сервер:</Label>
-                            <ComboBox Name="ServersList" Width="200" ItemsSource="{Binding Servers}" SelectedIndex="0">
+                            <ComboBox Name="ServersList" Width="200" ItemsSource="{Binding Servers}" SelectedItem="{Binding SelectedServer}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Server">
                                         <StackPanel Orientation="Horizontal">
@@ -84,10 +84,10 @@
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="1">
                             <Label Width="150">Список адресатов</Label>
-                            <Button>
+                            <Button Command="{Binding AddRecipientCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-add-48.png" Width="20" />
                             </Button>
-                            <Button Command="{Binding RecipientEditorCommand}">
+                            <Button Command="{Binding EditRecipientCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
                             <Button>

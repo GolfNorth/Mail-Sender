@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommonServiceLocator;
 using MailSender.Enums;
 using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
-using MailSender.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -15,15 +15,21 @@ namespace MailSender.ViewModels
         private readonly IEntityManager<Recipient> _recipientsManager; // Менеджер получателей
         private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
         private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
-
         private readonly IEntityEditor<Recipient> _recipientEditor; // Сервис открытия окон
 
-        private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
         private string _filterText; // Текст фильтра
+        private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
         private ObservableCollection<Recipient> _recipients; // Коллекция получателей
-        private Recipient _selectedRecipient; // Выбранный получатель
         private ObservableCollection<Sender> _senders; // Коллекция отправителей
         private ObservableCollection<Server> _servers; // Коллекция серверов
+
+        private Recipient _selectedRecipient; // Выбранный получатель
+        private Server _selectedServer; // Выбранный сервер
+        private Sender _selectedSender; // Выбранный отпарвитель
+
+        private Recipient _editableRecipient; // Редактируемый получатель
+        private Server _editableServer; // Редактируемый сервер
+        private Sender _editableSender; // Редактируемый отправитель
 
         public DistributionGroupViewModel(IEntityManager<Recipient> recipientsManager,
             IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager, IEntityEditor<Recipient> recipientEditor)
@@ -49,22 +55,55 @@ namespace MailSender.ViewModels
                 mainWindowViewModel.SelectedTabIndex = (int) MainWindowTabItems.Scheduler;
             });
 
+            // Загрузка списка получателей
             LoadRecipientsDataCommand = new DelegateCommand(() =>
             {
                 Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
                 FilterRecipients();
             });
 
-            RecipientEditorCommand = new DelegateCommand<Recipient>(recipient =>
+            // Добавление получателя
+            AddRecipientCommand = new DelegateCommand(() =>
             {
-                _recipientEditor.Edit(recipient);
-            }, recipient => recipient != null).ObservesProperty(() => SelectedRecipient);
+                EditableRecipient = new Recipient();
 
-            SaveRecipientChangesCommand = new DelegateCommand<Recipient>(recipient =>
+                _recipientEditor.Edit();
+            }, () => Recipients != null).ObservesProperty(() => Recipients);
+
+            // Редактирование получателя
+            EditRecipientCommand = new DelegateCommand(() =>
             {
-                _recipientsManager.Edit(recipient);
+                EditableRecipient = new Recipient
+                {
+                    Id = SelectedRecipient.Id,
+                    Name = SelectedRecipient.Name,
+                    Address = SelectedRecipient.Address
+                };
+
+                _recipientEditor.Edit();
+            }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
+
+            // Сохранение изменений получателя
+            SaveRecipientChangesCommand = new DelegateCommand(() =>
+            {
+                Debug.WriteLine(_recipients.Count);
+                if (EditableRecipient.Id != 0)
+                {
+                    _recipientsManager.Edit(EditableRecipient);
+                    SelectedRecipient.Name = EditableRecipient.Name;
+                    SelectedRecipient.Address = EditableRecipient.Address;
+                }
+                else
+                {
+                    _recipientsManager.Add(EditableRecipient);
+                    SelectedRecipient = EditableRecipient;
+                }
+
                 _recipientsManager.SaveChanges();
-            }, recipient => recipient != null).ObservesProperty(() => SelectedRecipient);
+
+                Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                FilterRecipients();
+            }, () => EditableRecipient != null).ObservesProperty(() => EditableRecipient);
 
             #endregion
         }
@@ -106,6 +145,51 @@ namespace MailSender.ViewModels
         }
 
         /// <summary>
+        ///     Выбранный сервер
+        /// </summary>
+        public Server SelectedServer
+        {
+            get => _selectedServer;
+            set => SetProperty(ref _selectedServer, value);
+        }
+
+        /// <summary>
+        ///     Выбранный отправитель
+        /// </summary>
+        public Sender SelectedSender
+        {
+            get => _selectedSender;
+            set => SetProperty(ref _selectedSender, value);
+        }
+
+        /// <summary>
+        ///     Редактируемый получатель
+        /// </summary>
+        public Recipient EditableRecipient
+        {
+            get => _editableRecipient;
+            set => SetProperty(ref _editableRecipient, value);
+        }
+
+        /// <summary>
+        ///     Редактируемый сервер
+        /// </summary>
+        public Server EditableServer
+        {
+            get => _editableServer;
+            set => SetProperty(ref _editableServer, value);
+        }
+
+        /// <summary>
+        ///     Редактируемый отправитель
+        /// </summary>
+        public Sender EditableSender
+        {
+            get => _editableSender;
+            set => SetProperty(ref _editableSender, value);
+        }
+
+        /// <summary>
         ///     Текст фильтра получателей
         /// </summary>
         public string FilterText
@@ -138,14 +222,19 @@ namespace MailSender.ViewModels
         public DelegateCommand LoadRecipientsDataCommand { get; }
 
         /// <summary>
-        ///     Открывает окно редактирование получателя
+        ///     Команда добавления получателя
         /// </summary>
-        public DelegateCommand<Recipient> RecipientEditorCommand { get; }
+        public DelegateCommand AddRecipientCommand { get; }
+
+        /// <summary>
+        ///     Команда реактирования получателя
+        /// </summary>
+        public DelegateCommand EditRecipientCommand { get; }
 
         /// <summary>
         ///     Открывает окно редактирование получателя
         /// </summary>
-        public DelegateCommand<Recipient> SaveRecipientChangesCommand { get; }
+        public DelegateCommand SaveRecipientChangesCommand { get; }
 
         /// <summary>
         ///     Фильтрация списка получателей

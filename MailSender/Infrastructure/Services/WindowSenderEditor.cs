@@ -3,7 +3,7 @@ using MailSender.Library.Entities;
 
 namespace MailSender.Infrastructure.Services
 {
-    public class WindowRecipientEditor : WindowEntityEditor<Recipient>, IEntityEditor<Recipient>
+    public class WindowSenderEditor : WindowEntityEditor<Sender>, IEntityEditor<Sender>
     {
     }
 }

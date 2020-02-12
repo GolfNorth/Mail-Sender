@@ -26,6 +26,8 @@ namespace MailSender.ViewModels
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
+            container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
+            container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
             container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();

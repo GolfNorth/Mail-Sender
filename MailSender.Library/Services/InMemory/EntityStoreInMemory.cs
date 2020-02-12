@@ -37,7 +37,7 @@ namespace MailSender.Library.Services.InMemory
             return _items.FirstOrDefault(item => item.Id == id);
         }
 
-        public int Create(T item)
+        public int Add(T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
             if (_items.Contains(item)) return item.Id;
