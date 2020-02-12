@@ -12,7 +12,7 @@ namespace ConsoleHomeWork
     public class Task01 : ITask
     {
         private Random _random;
-        private int poolCounter;
+        private int _poolCounter;
         private static readonly object __SyncRoot = new object();
 
         public string Title { get; set; } = "Написать приложение, считающее в раздельных потоках факториал числа N и сумму чисел до N";
@@ -20,7 +20,7 @@ namespace ConsoleHomeWork
         public void Run(string[] args)
         {
             _random = new Random();
-            poolCounter = 0;
+            _poolCounter = 0;
 
             //var max = int.MaxValue;
             var max = FindMaxValue();
@@ -43,14 +43,14 @@ namespace ConsoleHomeWork
 
                 if (number == 0) break;
 
-                poolCounter += 2;
+                _poolCounter += 2;
 
                 // number объявляется каждый раз внутри цикла, то нет смысла создавать копию
                 ThreadPool.QueueUserWorkItem(o => Factorial(number));
                 ThreadPool.QueueUserWorkItem(o => CalcAmount(number));
             }
 
-            while (poolCounter > 0)
+            while (_poolCounter > 0)
                 Thread.Sleep(10);
         }
 
@@ -69,7 +69,7 @@ namespace ConsoleHomeWork
             lock (__SyncRoot)
                 Console.WriteLine($"Факториал числа {n} равен {sum}");
 
-            poolCounter--;
+            _poolCounter--;
         }
 
         public void CalcAmount(int n)
@@ -87,7 +87,7 @@ namespace ConsoleHomeWork
             lock (__SyncRoot)
                 Console.WriteLine($"Сумма чисел до {n} равна {sum}");
 
-            poolCounter--;
+            _poolCounter--;
         }
 
         /// <summary>
