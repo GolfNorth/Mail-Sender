@@ -17,6 +17,7 @@ namespace WpfTestMailSender
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            /*
             var messageSubject = MessageSubject.Text;
             var messageBody = MessageBody.Text;
             var userName = UserNameEdit.Text;
@@ -38,6 +39,7 @@ namespace WpfTestMailSender
 
                 sew.ShowDialog();
             }
+            */
         }
     }
 }

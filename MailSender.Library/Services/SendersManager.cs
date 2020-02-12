@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
 

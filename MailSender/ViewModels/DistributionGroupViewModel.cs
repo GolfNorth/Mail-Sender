@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using CommonServiceLocator;
 using MailSender.Enums;
 using MailSender.Infrastructure.Services.Interfaces;
@@ -16,6 +15,8 @@ namespace MailSender.ViewModels
         private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
         private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
         private readonly IEntityEditor<Recipient> _recipientEditor; // Сервис открытия окон
+        private readonly IEntityEditor<Server> _serverEditor; // Сервис открытия окон
+        private readonly IEntityEditor<Sender> _senderEditor; // Сервис открытия окон
 
         private string _filterText; // Текст фильтра
         private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
@@ -32,7 +33,7 @@ namespace MailSender.ViewModels
         private Sender _editableSender; // Редактируемый отправитель
 
         public DistributionGroupViewModel(IEntityManager<Recipient> recipientsManager,
-            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager, IEntityEditor<Recipient> recipientEditor)
+            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager, IEntityEditor<Recipient> recipientEditor, IEntityEditor<Server> serverEditor, IEntityEditor<Sender> senderEditor)
         {
             FilteredRecipients = new ObservableCollection<Recipient>();
             FilterText = string.Empty;
@@ -42,12 +43,15 @@ namespace MailSender.ViewModels
             _sendersManager = sendersManager;
 
             _recipientEditor = recipientEditor;
+            _senderEditor = senderEditor;
+            _serverEditor = serverEditor;
 
             Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
 
             #region Реализация команд
 
+            // Переключение на вкладку планировщика
             SwitchToScheduler = new DelegateCommand(() =>
             {
                 var mainWindowViewModel = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
@@ -86,7 +90,6 @@ namespace MailSender.ViewModels
             // Сохранение изменений получателя
             SaveRecipientChangesCommand = new DelegateCommand(() =>
             {
-                Debug.WriteLine(_recipients.Count);
                 if (EditableRecipient.Id != 0)
                 {
                     _recipientsManager.Edit(EditableRecipient);
@@ -104,6 +107,96 @@ namespace MailSender.ViewModels
                 Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
                 FilterRecipients();
             }, () => EditableRecipient != null).ObservesProperty(() => EditableRecipient);
+
+            // Добавление отправителя
+            AddSenderCommand = new DelegateCommand(() =>
+            {
+                EditableSender = new Sender();
+
+                _senderEditor.Edit();
+            }, () => Senders != null).ObservesProperty(() => Senders);
+
+            // Редактирование отправителя
+            EditSenderCommand = new DelegateCommand(() =>
+            {
+                EditableSender = new Sender()
+                {
+                    Id = SelectedSender.Id,
+                    Name = SelectedSender.Name,
+                    Address = SelectedSender.Address
+                };
+
+                _senderEditor.Edit();
+            }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
+
+            // Сохранение изменений отправителя
+            SaveSenderChangesCommand = new DelegateCommand(() =>
+            {
+                if (EditableSender.Id != 0)
+                {
+                    _sendersManager.Edit(EditableSender);
+                    SelectedSender.Name = EditableSender.Name;
+                    SelectedSender.Address = EditableSender.Address;
+                }
+                else
+                {
+                    _sendersManager.Add(EditableSender);
+                    SelectedSender = EditableSender;
+                }
+
+                _sendersManager.SaveChanges();
+
+                Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
+            }, () => EditableSender != null).ObservesProperty(() => EditableSender);
+
+            // Добавление сервера
+            AddServerCommand = new DelegateCommand(() =>
+            {
+                EditableServer = new Server();
+
+                _serverEditor.Edit();
+            }, () => Servers != null).ObservesProperty(() => Servers);
+
+            // Редактирование сервера
+            EditServerCommand = new DelegateCommand(() =>
+            {
+                EditableServer = new Server()
+                {
+                    Id = SelectedServer.Id,
+                    Name = SelectedServer.Name,
+                    Host = SelectedServer.Host,
+                    Port = SelectedServer.Port,
+                    EnableSsl = SelectedServer.EnableSsl,
+                    Login = SelectedServer.Login,
+                    Password = SelectedServer.Password
+                };
+
+                _serverEditor.Edit();
+            }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
+
+            // Сохранение изменений сервера
+            SaveServerChangesCommand = new DelegateCommand(() =>
+            {
+                if (EditableServer.Id != 0)
+                {
+                    _serversManager.Edit(EditableServer);
+                    SelectedServer.Name = EditableServer.Name;
+                    SelectedServer.Host = EditableServer.Host;
+                    SelectedServer.Port = EditableServer.Port;
+                    SelectedServer.EnableSsl = EditableServer.EnableSsl;
+                    SelectedServer.Login = EditableServer.Login;
+                    SelectedServer.Password = EditableServer.Password;
+                }
+                else
+                {
+                    _serversManager.Add(EditableServer);
+                    SelectedSender = EditableSender;
+                }
+
+                _serversManager.SaveChanges();
+
+                Servers = new ObservableCollection<Server>(_serversManager.GetAll());
+            }, () => EditableServer != null).ObservesProperty(() => EditableServer);
 
             #endregion
         }
@@ -232,9 +325,39 @@ namespace MailSender.ViewModels
         public DelegateCommand EditRecipientCommand { get; }
 
         /// <summary>
-        ///     Открывает окно редактирование получателя
+        ///     Команда добавления отпарвителя
+        /// </summary>
+        public DelegateCommand AddSenderCommand { get; }
+
+        /// <summary>
+        ///     Команда реактирования отпарвителя
+        /// </summary>
+        public DelegateCommand EditSenderCommand { get; }
+
+        /// <summary>
+        ///     Команда добавления сервера
+        /// </summary>
+        public DelegateCommand AddServerCommand { get; }
+
+        /// <summary>
+        ///     Команда реактирования сервера
+        /// </summary>
+        public DelegateCommand EditServerCommand { get; }
+
+        /// <summary>
+        ///     Сохранить изменения объекта получателя
         /// </summary>
         public DelegateCommand SaveRecipientChangesCommand { get; }
+
+        /// <summary>
+        ///     Сохранить изменения объекта сервера
+        /// </summary>
+        public DelegateCommand SaveServerChangesCommand { get; }
+
+        /// <summary>
+        ///     Сохранить изменения объекта отправителя
+        /// </summary>
+        public DelegateCommand SaveSenderChangesCommand { get; }
 
         /// <summary>
         ///     Фильтрация списка получателей
