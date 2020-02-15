@@ -7,7 +7,7 @@ using System.Threading;
  * b. сумму целых чисел до N.
  */
 
-namespace ConsoleHomeWork
+namespace ConsoleHomeWork.Lesson_5
 {
     public class Task01 : ITask
     {

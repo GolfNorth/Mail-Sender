@@ -13,15 +13,14 @@ namespace ConsoleHomeWork
         /// <returns></returns>
         public static int ReadInt(string message, int min, int max)
         {
+            int result;
+
             do
             {
                 Console.Write(message);
+            } while (!int.TryParse(Console.ReadLine(), out result) || result <= min || result >= max);
 
-                if (!int.TryParse(Console.ReadLine(), out var number)) continue;
-
-                if (number >= min && number <= max)
-                    return number;
-            } while (true);
+            return result;
         }
     }
 }
