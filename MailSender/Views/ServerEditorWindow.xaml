@@ -1,4 +1,4 @@
-﻿<Window x:Class="MailSender.Views.RecipientEditorWindow"
+﻿<Window x:Class="MailSender.Views.ServerEditorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MailSender.Views"
         mc:Ignorable="d"
         DataContext="{Binding DistributionGroupViewModel, Source={StaticResource Locator}}"
-        Title="{Binding EditableRecipient.Name}" Height="Auto" Width="256" SizeToContent="Height"
+        Title="{Binding EditableServer.Name}" Height="Auto" Width="256" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid Margin="5,2" Validation.Error="OnDataValidationError">
         <Grid.Resources>
@@ -31,18 +31,29 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <!--<RowDefinition />-->
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0" Text="#" />
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Имя" />
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Адрес" />
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Хост" />
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Порт" />
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="SSL" />
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="Логин" />
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="Пароль" />
 
-        <TextBox Grid.Column="1" Grid.Row="0" IsReadOnly="True" Text="{Binding EditableRecipient.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding EditableRecipient.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding EditableRecipient.Address, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" IsReadOnly="True" Text="{Binding EditableServer.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding EditableServer.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding EditableServer.Host, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding EditableServer.Port, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding EditableServer.EnableSsl, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding EditableServer.Login, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding EditableServer.Password, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
 
-        <Button Grid.Column="1" Grid.Row="3"
-                Command="{Binding SaveRecipientChangesCommand}">
+        <Button Grid.Column="1" Grid.Row="7"
+                Command="{Binding SaveServerChangesCommand}">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/MailSender;component/Resources/icons8-save-48.png" Width="20" />
                 <TextBlock Margin="5,0,0,0" Text="Сохранить" />

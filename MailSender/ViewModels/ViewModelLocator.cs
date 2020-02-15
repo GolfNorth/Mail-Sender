@@ -1,4 +1,6 @@
 ﻿using CommonServiceLocator;
+using MailSender.Infrastructure.Services;
+using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Library.Services;
 using MailSender.Library.Services.InMemory;
@@ -23,7 +25,9 @@ namespace MailSender.ViewModels
             container.RegisterType<SchedulerViewModel>(TypeLifetime.Singleton);
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
 
-            container.RegisterType<IWindowsService, WindowsService>(TypeLifetime.Singleton);
+            container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
+            container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
+            container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
             container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();

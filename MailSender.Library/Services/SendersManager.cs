@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
 
@@ -21,7 +20,7 @@ namespace MailSender.Library.Services
 
         public void Add(Sender newSender)
         {
-            throw new NotImplementedException();
+            _store.Add(newSender);
         }
 
         public void Edit(Sender sender)

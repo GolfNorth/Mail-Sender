@@ -13,7 +13,7 @@ namespace MailSender.Library.Tests.Services
         {
             var store = new RecipientsStoreInMemory();
 
-            Assert.ThrowsException<ArgumentNullException>(() => store.Create(null));
+            Assert.ThrowsException<ArgumentNullException>(() => store.Add(null));
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace MailSender.Library.Tests.Services
         {
             var store = new RecipientsStoreInMemory();
 
-            Assert.IsTrue(store.Create(new Recipient()) > 0);
+            Assert.IsTrue(store.Add(new Recipient()) > 0);
         }
     }
 }

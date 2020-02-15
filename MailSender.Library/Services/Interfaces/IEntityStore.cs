@@ -26,7 +26,7 @@ namespace MailSender.Library.Services.Interfaces
         /// </summary>
         /// <param name="item">Создаваемый (добавляемый в хранилище) объект</param>
         /// <returns>Идентификатор, присвоенный хранилищем объекту</returns>
-        int Create(T item);
+        int Add(T item);
 
         /// <summary>
         ///     Отредактировать объект в хранилище

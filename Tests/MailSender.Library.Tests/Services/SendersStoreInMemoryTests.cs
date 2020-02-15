@@ -12,7 +12,7 @@ namespace MailSender.Library.Tests.Services
         {
             var store = new SendersStoreInMemory();
 
-            Assert.ThrowsException<ArgumentNullException>(() => store.Create(null));
+            Assert.ThrowsException<ArgumentNullException>(() => store.Add(null));
         }
     }
 }
