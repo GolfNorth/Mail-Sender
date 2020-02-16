@@ -47,6 +47,7 @@ namespace MailSender.Library.Services
         public void SaveChanges()
         {
             _store.SaveChanges();
+            _editor.Close();
         }
     }
 }

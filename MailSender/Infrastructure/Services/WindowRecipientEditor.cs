@@ -7,16 +7,23 @@ namespace MailSender.Infrastructure.Services
 {
     public class WindowRecipientEditor : IEntityEditor<Recipient>
     {
+        private Window _editor;
+
         public void Edit(ref Recipient recipient)
         {
             var currentMainWindow = (MainWindow)Application.Current.MainWindow;
-            var editor = new RecipientEditorWindow
+            _editor = new RecipientEditorWindow
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Owner = currentMainWindow
             };
 
-            editor.ShowDialog();
+            _editor.ShowDialog();
+        }
+
+        public void Close()
+        {
+            _editor.Close();
         }
     }
 }
