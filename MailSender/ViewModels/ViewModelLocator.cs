@@ -25,18 +25,17 @@ namespace MailSender.ViewModels
             container.RegisterType<SchedulerViewModel>(TypeLifetime.Singleton);
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
 
-            container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
-            container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
-            container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
-
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
             container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();
+            container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityManager<Server>, ServersManager>();
             container.RegisterType<IEntityStore<Server>, ServersStoreInMemory>();
+            container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityManager<Sender>, SendersManager>();
             container.RegisterType<IEntityStore<Sender>, SendersStoreInMemory>();
+            container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
         }
 
         public MainWindowViewModel MainWindowViewModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();

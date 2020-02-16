@@ -47,4 +47,8 @@
     <Resource Include="Resources\icons8-sync-48.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Services\Interfaces\" />
+  </ItemGroup>
+
 </Project>

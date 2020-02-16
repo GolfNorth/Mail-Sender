@@ -14,9 +14,6 @@ namespace MailSender.ViewModels
         private readonly IEntityManager<Recipient> _recipientsManager; // Менеджер получателей
         private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
         private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
-        private readonly IEntityEditor<Recipient> _recipientEditor; // Сервис открытия окон
-        private readonly IEntityEditor<Server> _serverEditor; // Сервис открытия окон
-        private readonly IEntityEditor<Sender> _senderEditor; // Сервис открытия окон
 
         private string _filterText; // Текст фильтра
         private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
@@ -41,10 +38,6 @@ namespace MailSender.ViewModels
             _recipientsManager = recipientsManager;
             _serversManager = serversManager;
             _sendersManager = sendersManager;
-
-            _recipientEditor = recipientEditor;
-            _senderEditor = senderEditor;
-            _serverEditor = serverEditor;
 
             Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
@@ -71,7 +64,7 @@ namespace MailSender.ViewModels
             {
                 EditableRecipient = new Recipient();
 
-                _recipientEditor.Edit();
+                _recipientsManager.Edit();
             }, () => Recipients != null).ObservesProperty(() => Recipients);
 
             // Редактирование получателя
@@ -84,7 +77,7 @@ namespace MailSender.ViewModels
                     Address = SelectedRecipient.Address
                 };
 
-                _recipientEditor.Edit();
+                _recipientsManager.Edit();
             }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
 
             // Сохранение изменений получателя

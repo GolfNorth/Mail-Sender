@@ -41,6 +41,7 @@
         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding EditableSender.Address, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
 
         <Button Grid.Column="1" Grid.Row="3"
+                CommandParameter="{Binding EditableSender}"
                 Command="{Binding SaveSenderChangesCommand}">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/MailSender;component/Resources/icons8-save-48.png" Width="20" />

@@ -7,7 +7,7 @@ namespace MailSender.Infrastructure.Services
 {
     public class WindowRecipientEditor : IEntityEditor<Recipient>
     {
-        public void Edit()
+        public void Edit(ref Recipient recipient)
         {
             var currentMainWindow = (MainWindow)Application.Current.MainWindow;
             var editor = new RecipientEditorWindow

@@ -7,7 +7,7 @@ namespace MailSender.Infrastructure.Services
 {
     public class WindowServerEditor : IEntityEditor<Server>
     {
-        public void Edit()
+        public void Edit(ref Server server)
         {
             var currentMainWindow = (MainWindow)Application.Current.MainWindow;
             var editor = new ServerEditorWindow()
