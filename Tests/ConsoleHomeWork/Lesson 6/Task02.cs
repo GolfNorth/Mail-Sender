@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,17 @@ namespace ConsoleHomeWork.Lesson_6
 
         public void Run(string[] args)
         {
+            /*
+            var random = new Random();
+
+            for (var i = 0; i < 100; i++)
+            {
+                using var sw = new StreamWriter($"data_{i}.dat");
+                sw.WriteLine($"{random.Next(1,3)} {random.Next(1, 11)} {random.Next(1, 11)}");
+                sw.Close();
+            }
+            */
+
             var files = Directory.GetFiles("Data", "*.dat");
 
             if (File.Exists(ResultFile))
@@ -25,6 +37,10 @@ namespace ConsoleHomeWork.Lesson_6
             Parallel.ForEach(files, CalcResult);
         }
 
+        /// <summary>
+        ///     Открывает файл, вычисляет результат и записывает в файл result.dat
+        /// </summary>
+        /// <param name="file">Файл с данными</param>
         private void CalcResult(string file)
         {
             using var sr = new StreamReader(file);
@@ -47,6 +63,8 @@ namespace ConsoleHomeWork.Lesson_6
             sw.Close();
 
             _waitHandler.Set();
+
+            Console.WriteLine($"Файл {file} обработан");
         }
     }
 }
