@@ -10,8 +10,8 @@ namespace ConsoleHomeWork.Lesson_6
     public class Task01 : ITask
     {
         private Random _random;
-        private const int MatrixSize = 100;
-        private const int MatrixMaxValue = 100;
+        private const int MatrixSize = 100;     // Размер матрицы
+        private const int MatrixMaxValue = 100; // Максимальное значение элемента матрицы
 
         public string Title { get; set; } = "Напишите приложение, производящее параллельное умножение матриц.";
 
@@ -27,7 +27,14 @@ namespace ConsoleHomeWork.Lesson_6
 
             var resultMatrix = Task.Run(() => MultiplyMatrices(matrix1, matrix2));
 
-            PrintMatrix(resultMatrix.Result);
+            try
+            {
+                PrintMatrix(resultMatrix.Result);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine($"Ошибка выполнения перемножения матриц: {e.Message}");
+            }
         }
 
         /// <summary>
@@ -73,7 +80,7 @@ namespace ConsoleHomeWork.Lesson_6
         /// <returns></returns>
         private async Task<int[,]> MultiplyMatrices(int[,] matrix1, int[,] matrix2)
         {
-            if (matrix1.Rank != 2 || matrix1.Rank != matrix2.Rank || matrix1.Length != matrix2.Length)
+            if (matrix1.Length != matrix2.Length)
                 throw new ArgumentException();
 
             for (var i = 0; i < matrix1.GetLength(0); i++)

@@ -18,7 +18,7 @@ namespace ConsoleHomeWork
             do
             {
                 Console.Write(message);
-            } while (!int.TryParse(Console.ReadLine(), out result) || result <= min || result >= max);
+            } while (!int.TryParse(Console.ReadLine(), out result) || (result <= min && result >= max));
 
             return result;
         }
