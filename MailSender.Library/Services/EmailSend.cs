@@ -59,7 +59,7 @@ namespace MailSender.Library.Services
         /// <param name="sender">Объект отправителя</param>
         /// <param name="recipient">Объект получателя</param>
         /// <param name="email">Объект электронного письма</param>
-        public async Task SendAsync(Sender sender, Recipient recipient, Email email)
+        public async Task SendMailAsync(Sender sender, Recipient recipient, Email email)
         {
             using (var message = new MailMessage(sender.Address, recipient.Address, email.Subject, email.Body))
             {
@@ -80,12 +80,12 @@ namespace MailSender.Library.Services
         /// <param name="sender">Объект отправителя</param>
         /// <param name="recipients">Коллекция объектов получателя</param>
         /// <param name="email">Объект электронного письма</param>
-        public async Task SendMailAsync(Sender sender, IEnumerable<Recipient> recipients, Email email, CancellationToken Cancel = default)
+        public async Task SendMailAsync(Sender sender, EmailList recipients, Email email, CancellationToken Cancel = default)
         {
-            foreach (var recipient in recipients)
+            foreach (var recipient in recipients.Recipients)
             {
                 Cancel.ThrowIfCancellationRequested();
-                await SendAsync(sender, recipient, email).ConfigureAwait(false);
+                await SendMailAsync(sender, recipient, email).ConfigureAwait(false);
             }
         }
     }
