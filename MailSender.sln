@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailSender", "MailSender\Ma
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F331B4C-DE4C-46ED-9575-7EF439D3B299}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTestMailSender", "Test\WpfTestMailSender\WpfTestMailSender.csproj", "{305CF52A-EC85-49ED-825D-DAA1F78036FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTestMailSender", "Tests\WpfTestMailSender\WpfTestMailSender.csproj", "{305CF52A-EC85-49ED-825D-DAA1F78036FF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailSender.Library", "MailSender.Library\MailSender.Library.csproj", "{FC2EB9FC-1814-499C-B242-930DB016F278}"
 EndProject
