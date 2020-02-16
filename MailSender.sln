@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailSender", "MailSender\MailSender.csproj", "{54D0A457-67A5-4E54-8930-51E97C14916C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3F331B4C-DE4C-46ED-9575-7EF439D3B299}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F331B4C-DE4C-46ED-9575-7EF439D3B299}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTestMailSender", "Test\WpfTestMailSender\WpfTestMailSender.csproj", "{305CF52A-EC85-49ED-825D-DAA1F78036FF}"
 EndProject
