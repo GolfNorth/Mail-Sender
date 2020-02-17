@@ -11,7 +11,6 @@ namespace ConsoleHomeWork.Lesson_6
 {
     public class Task02 : ITask
     {
-        private const string ResultFile = "result.dat";
         private readonly AutoResetEvent _waitHandler = new AutoResetEvent(true);
 
         public string Title { get; set; } = "Написать многопоточное приложение, выполняющее вышеуказанные действия над числами и сохраняющее результат в файл result.dat.";
@@ -29,19 +28,24 @@ namespace ConsoleHomeWork.Lesson_6
             }
             */
 
-            var files = Directory.GetFiles("Data", "*.dat");
+            const string path = "Data";
+            const string resultFile = "result.dat";
+            var files = Directory.GetFiles(path, "*.dat");
 
-            if (File.Exists(ResultFile))
-                File.Delete(ResultFile);
+            if (File.Exists(resultFile))
+                File.Delete(resultFile);
 
-            Parallel.ForEach(files, CalcResult);
+            using var sw = new StreamWriter(resultFile, true);
+            Parallel.ForEach(files, (file) => CalcResult (file, sw));
+            sw.Close();
         }
 
         /// <summary>
         ///     Открывает файл, вычисляет результат и записывает в файл result.dat
         /// </summary>
         /// <param name="file">Файл с данными</param>
-        private void CalcResult(string file)
+        /// <param name="sw">Экземпляр потока записи</param>
+        private void CalcResult(string file, StreamWriter sw)
         {
             using var sr = new StreamReader(file);
             var operators = sr.ReadLine()?.Split();
@@ -58,9 +62,7 @@ namespace ConsoleHomeWork.Lesson_6
 
             _waitHandler.WaitOne();
 
-            using var sw = new StreamWriter(ResultFile, true);
             sw.WriteLine(resultString);
-            sw.Close();
 
             _waitHandler.Set();
 
