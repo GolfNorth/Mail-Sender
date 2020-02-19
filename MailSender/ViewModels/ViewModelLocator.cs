@@ -46,9 +46,7 @@ namespace MailSender.ViewModels
             container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
 
             container.RegisterType<MailSenderDB>();
-            container.RegisterType<DbContextOptions<MailSenderDB>>(new InjectionConstructor(
-                new DbContextOptionsBuilder<MailSenderDB>()
-                    .UseSqlite(App.Configuration.GetConnectionString("DefaultConnection")).Options));
+            container.RegisterInstance<DbContextOptions>(new DbContextOptionsBuilder<MailSenderDB>().UseSqlite(App.Configuration.GetConnectionString("DefaultConnection")).Options);
         }
 
         public MainWindowViewModel MainWindowViewModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
