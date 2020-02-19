@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 /*
@@ -19,17 +20,19 @@ namespace ConsoleHomeWork.Lesson_6
         {
             _random = new Random();
 
-            var matrixGenerator1 = Task.Run(() => GenerateMatrix(MatrixSize, MatrixSize, MatrixMaxValue));
-            var matrixGenerator2 = Task.Run(() => GenerateMatrix(MatrixSize, MatrixSize, MatrixMaxValue));
+            var matrixGenerators = new List<Task<int[,]>>
+            {
+                Task.Run(() => GenerateMatrix(MatrixSize, MatrixSize, MatrixMaxValue)),
+                Task.Run(() => GenerateMatrix(MatrixSize, MatrixSize, MatrixMaxValue))
+            };
 
-            var matrix1 = matrixGenerator1.Result;
-            var matrix2 = matrixGenerator2.Result;
 
-            var resultMatrix = Task.Run(() => MultiplyMatrices(matrix1, matrix2));
+            var multiplyMatrices = Task.WhenAll(matrixGenerators)
+                .ContinueWith(task => MultiplyMatrices(task.Result[0], task.Result[1]).Result);
 
             try
             {
-                PrintMatrix(resultMatrix.Result);
+                PrintMatrix(multiplyMatrices.Result);
             }
             catch (ArgumentException e)
             {
@@ -48,9 +51,15 @@ namespace ConsoleHomeWork.Lesson_6
         {
             var matrix = new int[m, n];
 
-            for (var i = 0; i < m; i++)
-                for (var j = 0; j < n; j++)
+            for (var k = 0; k < m; k++)
+            {
+                var i = k;
+
+                Parallel.For(0, n, j =>
+                {
                     matrix[i, j] = _random.Next(max);
+                });
+            }
 
             return matrix;
         }
@@ -64,9 +73,7 @@ namespace ConsoleHomeWork.Lesson_6
             for (var i = 0; i < matrix.GetLength(0); i++)
             {
                 for (var j = 0; j < matrix.GetLength(1); j++)
-                {
                     Console.Write($"{matrix[i,j]} ");
-                }
 
                 Console.WriteLine();
             }
@@ -83,11 +90,19 @@ namespace ConsoleHomeWork.Lesson_6
             if (matrix1.Length != matrix2.Length)
                 throw new ArgumentException();
 
-            for (var i = 0; i < matrix1.GetLength(0); i++)
-                for (var j = 0; j < matrix1.GetLength(1); j++)
-                    matrix1[i, j] *= matrix2[i, j];
+            var result = new int[matrix1.GetLength(0), matrix1.GetLength(1)];
 
-            return matrix1;
+            for (var k = 0; k < matrix1.GetLength(0); k++)
+            {
+                var i = k;
+
+                Parallel.For(0, matrix1.GetLength(1), j =>
+                {
+                    result[i, j] = matrix1[i, j] * matrix2[i, j];
+                });
+            }
+
+            return result;
         }
     }
 }
