@@ -95,7 +95,7 @@ namespace MailSender.ViewModels
                     SelectedRecipient = EditableRecipient;
                 }
 
-                _recipientsManager.SaveChanges();
+                //_recipientsManager.SaveChanges();
 
                 Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
                 FilterRecipients();
@@ -137,7 +137,7 @@ namespace MailSender.ViewModels
                     SelectedSender = EditableSender;
                 }
 
-                _sendersManager.SaveChanges();
+                //_sendersManager.SaveChanges();
 
                 Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
             }, () => EditableSender != null).ObservesProperty(() => EditableSender);
@@ -186,7 +186,7 @@ namespace MailSender.ViewModels
                     SelectedSender = EditableSender;
                 }
 
-                _serversManager.SaveChanges();
+                //_serversManager.SaveChanges();
 
                 Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             }, () => EditableServer != null).ObservesProperty(() => EditableServer);
