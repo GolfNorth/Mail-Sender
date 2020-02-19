@@ -45,7 +45,7 @@ namespace ConsoleHomeWork.Lesson_6
         /// </summary>
         /// <param name="file">Файл с данными</param>
         /// <param name="sw">Экземпляр потока записи</param>
-        private void CalcResult(string file, StreamWriter sw)
+        private async void CalcResult(string file, StreamWriter sw)
         {
             using var sr = new StreamReader(file);
             var operators = sr.ReadLine()?.Split();
@@ -62,7 +62,7 @@ namespace ConsoleHomeWork.Lesson_6
 
             _waitHandler.WaitOne();
 
-            sw.WriteLine(resultString);
+            await sw.WriteLineAsync(resultString);
 
             _waitHandler.Set();
 
