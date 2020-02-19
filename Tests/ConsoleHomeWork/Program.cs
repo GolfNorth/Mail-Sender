@@ -1,4 +1,6 @@
-﻿namespace ConsoleHomeWork
+﻿using ConsoleHomeWork.Lesson_6;
+
+namespace ConsoleHomeWork
 {
     internal class Program
     {
@@ -6,8 +8,8 @@
         {
             var menu = new Menu(args);
             menu.Add(new Task01());
-            //menu.Add(new Task02());
-            menu.Print("Акчулпанов В.Г.\nУрок №5. Домашнее задание\n");
+            menu.Add(new Task02());
+            menu.Print("Акчулпанов В.Г.\nУрок №6. Домашнее задание\n");
         }
     }
 }

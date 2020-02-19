@@ -21,10 +21,10 @@ namespace MailSender.Library.Services.InMemory
         /// <summary>
         ///     Конструктор хранилища коллекции данных в памяти
         /// </summary>
-        /// <param name="Items">Коллекция данных</param>
-        protected EntityStoreInMemory(List<T> Items = null)
+        /// <param name="items">Коллекция данных</param>
+        protected EntityStoreInMemory(List<T> items = null)
         {
-            _items = Items ?? new List<T>();
+            _items = items ?? new List<T>();
         }
 
         public IEnumerable<T> GetAll()

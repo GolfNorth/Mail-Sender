@@ -1,42 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
 
 namespace MailSender.Library.Services
 {
-    public class ServersManager : IEntityManager<Server>
+    public class ServersManager : EntityManager<Server>
     {
-        private readonly IEntityStore<Server> _store;
-
-        public ServersManager(IEntityStore<Server> store)
+        public ServersManager(IEntityStore<Server> store, IEntityEditor<Server> editor) : base(store, editor)
         {
-            _store = store;
-        }
-
-
-        public IEnumerable<Server> GetAll()
-        {
-            return _store.GetAll();
-        }
-
-        public void Add(Server newServer)
-        {
-            _store.Add(newServer);
-        }
-
-        public void Edit(Server server)
-        {
-            _store.Edit(server.Id, server);
-        }
-
-        public void Remove(Server server)
-        {
-            _store.Remove(server.Id);
-        }
-
-        public void SaveChanges()
-        {
-            _store.SaveChanges();
         }
     }
 }

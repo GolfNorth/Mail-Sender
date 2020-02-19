@@ -5,7 +5,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\icons8-group-message.ico</ApplicationIcon>
-    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +45,10 @@
     <Resource Include="Resources\icons8-save-48.png" />
     <Resource Include="Resources\icons8-send-48.png" />
     <Resource Include="Resources\icons8-sync-48.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\Services\Interfaces\" />
   </ItemGroup>
 
 </Project>

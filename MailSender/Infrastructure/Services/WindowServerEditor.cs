@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Threading;
+using System.Windows;
 using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Views;
@@ -7,16 +9,23 @@ namespace MailSender.Infrastructure.Services
 {
     public class WindowServerEditor : IEntityEditor<Server>
     {
-        public void Edit()
+        private Window _editor;
+
+        public void Edit(ref Server server)
         {
             var currentMainWindow = (MainWindow)Application.Current.MainWindow;
-            var editor = new ServerEditorWindow()
+            _editor = new ServerEditorWindow()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Owner = currentMainWindow
             };
 
-            editor.ShowDialog();
+            _editor.ShowDialog();
+        }
+
+        public void Close()
+        {
+            _editor.Close();
         }
     }
 }

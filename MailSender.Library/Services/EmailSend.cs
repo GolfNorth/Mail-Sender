@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
+using System.Threading.Tasks;
 using MailSender.Library.Entities;
 
 namespace MailSender.Library.Services
@@ -53,15 +54,39 @@ namespace MailSender.Library.Services
         }
 
         /// <summary>
-        ///     Отправить сообщения в пуле потоков
+        ///     Асинхронный метод оправки сообщений
+        /// </summary>
+        /// <param name="sender">Объект отправителя</param>
+        /// <param name="recipient">Объект получателя</param>
+        /// <param name="email">Объект электронного письма</param>
+        public async Task SendMailAsync(Sender sender, Recipient recipient, Email email)
+        {
+            using (var message = new MailMessage(sender.Address, recipient.Address, email.Subject, email.Body))
+            {
+                using (var client = new SmtpClient(_server.Host, _server.Port)
+                {
+                    EnableSsl = _server.EnableSsl,
+                    Credentials = new NetworkCredential(_server.Login, _server.Password)
+                })
+                {
+                    await client.SendMailAsync(message).ConfigureAwait(false);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Асинхронный метод отправки сообщений
         /// </summary>
         /// <param name="sender">Объект отправителя</param>
         /// <param name="recipients">Коллекция объектов получателя</param>
         /// <param name="email">Объект электронного письма</param>
-        public void SendMailThreadPool(Sender sender, IEnumerable<Recipient> recipients, Email email)
+        public async Task SendMailAsync(Sender sender, EmailList recipients, Email email, CancellationToken Cancel = default)
         {
-            foreach (var recipient in recipients)
-                ThreadPool.QueueUserWorkItem(_ => SendMail(sender, recipient, email));
+            foreach (var recipient in recipients.Recipients)
+            {
+                Cancel.ThrowIfCancellationRequested();
+                await SendMailAsync(sender, recipient, email).ConfigureAwait(false);
+            }
         }
     }
 }

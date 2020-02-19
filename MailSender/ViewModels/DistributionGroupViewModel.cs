@@ -14,9 +14,6 @@ namespace MailSender.ViewModels
         private readonly IEntityManager<Recipient> _recipientsManager; // Менеджер получателей
         private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
         private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
-        private readonly IEntityEditor<Recipient> _recipientEditor; // Сервис открытия окон
-        private readonly IEntityEditor<Server> _serverEditor; // Сервис открытия окон
-        private readonly IEntityEditor<Sender> _senderEditor; // Сервис открытия окон
 
         private string _filterText; // Текст фильтра
         private ObservableCollection<Recipient> _filteredRecipients; // Коллекция отфильтрованных получателей
@@ -33,7 +30,7 @@ namespace MailSender.ViewModels
         private Sender _editableSender; // Редактируемый отправитель
 
         public DistributionGroupViewModel(IEntityManager<Recipient> recipientsManager,
-            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager, IEntityEditor<Recipient> recipientEditor, IEntityEditor<Server> serverEditor, IEntityEditor<Sender> senderEditor)
+            IEntityManager<Server> serversManager, IEntityManager<Sender> sendersManager)
         {
             FilteredRecipients = new ObservableCollection<Recipient>();
             FilterText = string.Empty;
@@ -41,10 +38,6 @@ namespace MailSender.ViewModels
             _recipientsManager = recipientsManager;
             _serversManager = serversManager;
             _sendersManager = sendersManager;
-
-            _recipientEditor = recipientEditor;
-            _senderEditor = senderEditor;
-            _serverEditor = serverEditor;
 
             Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
@@ -71,7 +64,7 @@ namespace MailSender.ViewModels
             {
                 EditableRecipient = new Recipient();
 
-                _recipientEditor.Edit();
+                _recipientsManager.Edit(EditableRecipient);
             }, () => Recipients != null).ObservesProperty(() => Recipients);
 
             // Редактирование получателя
@@ -84,7 +77,7 @@ namespace MailSender.ViewModels
                     Address = SelectedRecipient.Address
                 };
 
-                _recipientEditor.Edit();
+                _recipientsManager.Edit(EditableRecipient);
             }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
 
             // Сохранение изменений получателя
@@ -92,7 +85,7 @@ namespace MailSender.ViewModels
             {
                 if (EditableRecipient.Id != 0)
                 {
-                    _recipientsManager.Edit(EditableRecipient);
+                    //_recipientsManager.Edit(EditableRecipient);
                     SelectedRecipient.Name = EditableRecipient.Name;
                     SelectedRecipient.Address = EditableRecipient.Address;
                 }
@@ -113,7 +106,7 @@ namespace MailSender.ViewModels
             {
                 EditableSender = new Sender();
 
-                _senderEditor.Edit();
+                _sendersManager.Edit(EditableSender);
             }, () => Senders != null).ObservesProperty(() => Senders);
 
             // Редактирование отправителя
@@ -126,7 +119,7 @@ namespace MailSender.ViewModels
                     Address = SelectedSender.Address
                 };
 
-                _senderEditor.Edit();
+                _sendersManager.Edit(EditableSender);
             }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
 
             // Сохранение изменений отправителя
@@ -134,7 +127,7 @@ namespace MailSender.ViewModels
             {
                 if (EditableSender.Id != 0)
                 {
-                    _sendersManager.Edit(EditableSender);
+                    //_sendersManager.Edit(EditableSender);
                     SelectedSender.Name = EditableSender.Name;
                     SelectedSender.Address = EditableSender.Address;
                 }
@@ -154,7 +147,7 @@ namespace MailSender.ViewModels
             {
                 EditableServer = new Server();
 
-                _serverEditor.Edit();
+                _serversManager.Edit(EditableServer);
             }, () => Servers != null).ObservesProperty(() => Servers);
 
             // Редактирование сервера
@@ -171,7 +164,7 @@ namespace MailSender.ViewModels
                     Password = SelectedServer.Password
                 };
 
-                _serverEditor.Edit();
+                _serversManager.Edit(EditableServer);
             }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
 
             // Сохранение изменений сервера
@@ -179,7 +172,7 @@ namespace MailSender.ViewModels
             {
                 if (EditableServer.Id != 0)
                 {
-                    _serversManager.Edit(EditableServer);
+                    //_serversManager.Edit(EditableServer);
                     SelectedServer.Name = EditableServer.Name;
                     SelectedServer.Host = EditableServer.Host;
                     SelectedServer.Port = EditableServer.Port;

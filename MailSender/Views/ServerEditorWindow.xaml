@@ -35,6 +35,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0" Text="#" />
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Имя" />
@@ -53,17 +54,18 @@
         <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding EditableServer.Password, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
 
         <Button Grid.Column="1" Grid.Row="7"
+                CommandParameter="{Binding EditableServer}"
                 Command="{Binding SaveServerChangesCommand}">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/MailSender;component/Resources/icons8-save-48.png" Width="20" />
                 <TextBlock Margin="5,0,0,0" Text="Сохранить" />
             </StackPanel>
         </Button>
-        <!--<Button Grid.Column="1" Grid.Row="4"
-                Command="{Binding AddRecipientChangesCommand}">
+        <!--<Button Grid.Column="1" Grid.Row="8"
+                Command="{Binding RemoveServerChangesCommand}">
             <StackPanel Orientation="Horizontal">
-                <Image Source="/MailSender;component/Resources/icons8-add-48.png" Width="20" />
-                <TextBlock Margin="5 0 0 0" Text="Создать" />
+                <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
+                <TextBlock Margin="5 0 0 0" Text="Удалить" />
             </StackPanel>
         </Button>-->
     </Grid>
