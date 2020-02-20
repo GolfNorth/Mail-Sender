@@ -17,6 +17,16 @@ namespace MailSender.Infrastructure.Behaviors
         }
 
         /// <summary>
+        ///     Открепление от кнопки
+        /// </summary>
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+
+            AssociatedObject.Click -= AssociatedObject_Click;
+        }
+
+        /// <summary>
         ///     Обработка события клика кнопки
         /// </summary>
         /// <param name="sender"></param>
