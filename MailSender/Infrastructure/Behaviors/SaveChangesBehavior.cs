@@ -45,12 +45,7 @@ namespace MailSender.Infrastructure.Behaviors
         /// <returns>Экземпляр окна</returns>
         private static Window GetWindow(DependencyObject sender)
         {
-            Window window = null;
-
-            if (sender is Window)
-                window = (Window)sender;
-
-            return window ?? Window.GetWindow(sender);
+            return sender is Window window ? window : Window.GetWindow(sender);
         }
     }
 }
