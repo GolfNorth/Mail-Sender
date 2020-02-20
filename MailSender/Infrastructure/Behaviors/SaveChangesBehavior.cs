@@ -31,7 +31,7 @@ namespace MailSender.Infrastructure.Behaviors
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AssociatedObject_Click(object sender, RoutedEventArgs e)
+        private static void AssociatedObject_Click(object sender, RoutedEventArgs e)
         {
             var window = GetWindow(sender as DependencyObject);
             window.DialogResult = true;
