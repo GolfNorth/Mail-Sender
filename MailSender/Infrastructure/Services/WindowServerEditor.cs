@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using System;
 using System.Windows;
 using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
@@ -9,23 +8,36 @@ namespace MailSender.Infrastructure.Services
 {
     public class WindowServerEditor : IEntityEditor<Server>
     {
-        private Window _editor;
-
-        public void Edit(ref Server server)
+        public bool Edit(ref Server server)
         {
             var currentMainWindow = (MainWindow)Application.Current.MainWindow;
-            _editor = new ServerEditorWindow()
+
+            var editor = new ServerEditorWindow()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Owner = currentMainWindow
             };
 
-            _editor.ShowDialog();
-        }
+            if (server.Id == 0)
+                editor.IdRow.Height = new GridLength(0);
 
-        public void Close()
-        {
-            _editor.Close();
+            if (editor.ShowDialog() != true) return false;
+
+            try
+            {
+                server.Name = editor.NameEditor.Text;
+                server.Host = editor.HostEditor.Text;
+                server.Port = int.Parse(editor.PortEditor.Text);
+                server.EnableSsl = bool.Parse(editor.EnableSslEditor.Text);
+                server.Login = editor.LoginEditor.Text;
+                server.Password = editor.PasswordEditor.Text;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

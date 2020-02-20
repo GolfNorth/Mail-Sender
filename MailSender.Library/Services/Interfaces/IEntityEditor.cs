@@ -9,11 +9,6 @@
         /// <summary>
         ///     Функция запуска редактирования объекта
         /// </summary>
-        void Edit(ref T item);
-
-        /// <summary>
-        ///     Закрыть редактор сущности
-        /// </summary>
-        void Close();
+        bool Edit(ref T item);
     }
 }

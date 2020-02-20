@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MailSender.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:MailSender.Infrastructure.Behaviors"
         mc:Ignorable="d"
         DataContext="{Binding DistributionGroupViewModel, Source={StaticResource Locator}}"
         Title="{Binding EditableServer.Name}" Height="Auto" Width="256" SizeToContent="Height"
@@ -27,7 +29,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" Name="IdRow" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -45,28 +47,22 @@
         <TextBlock Grid.Column="0" Grid.Row="5" Text="Логин" />
         <TextBlock Grid.Column="0" Grid.Row="6" Text="Пароль" />
 
-        <TextBox Grid.Column="1" Grid.Row="0" IsReadOnly="True" Text="{Binding EditableServer.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding EditableServer.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding EditableServer.Host, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding EditableServer.Port, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding EditableServer.EnableSsl, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding EditableServer.Login, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding EditableServer.Password, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Name="IdEditor" IsReadOnly="True" Text="{Binding EditableServer.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Name="NameEditor" Text="{Binding EditableServer.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Name="HostEditor" Text="{Binding EditableServer.Host, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Name="PortEditor" Text="{Binding EditableServer.Port, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Name="EnableSslEditor" Text="{Binding EditableServer.EnableSsl, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Name="LoginEditor" Text="{Binding EditableServer.Login, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Name="PasswordEditor" Text="{Binding EditableServer.Password, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
 
-        <Button Grid.Column="1" Grid.Row="7"
-                CommandParameter="{Binding EditableServer}"
-                Command="{Binding SaveServerChangesCommand}">
+        <Button Grid.Column="1" Grid.Row="7">
+            <i:Interaction.Behaviors>
+                <behaviors:SaveChangesBehavior/>
+            </i:Interaction.Behaviors>
             <StackPanel Orientation="Horizontal">
                 <Image Source="/MailSender;component/Resources/icons8-save-48.png" Width="20" />
                 <TextBlock Margin="5,0,0,0" Text="Сохранить" />
             </StackPanel>
         </Button>
-        <!--<Button Grid.Column="1" Grid.Row="8"
-                Command="{Binding RemoveServerChangesCommand}">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
-                <TextBlock Margin="5 0 0 0" Text="Удалить" />
-            </StackPanel>
-        </Button>-->
     </Grid>
 </Window>
