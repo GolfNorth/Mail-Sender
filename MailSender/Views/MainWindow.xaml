@@ -8,6 +8,7 @@
         xmlns:entities="clr-namespace:MailSender.Library.Entities;assembly=MailSender.Library"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:views="clr-namespace:MailSender.Views"
+        xmlns:behaviors="clr-namespace:MailSender.Infrastructure.Behaviors"
         mc:Ignorable="d"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Icon="/MailSender;component/Resources/icons8-group-message-48.png"
@@ -207,7 +208,7 @@
             <TabItem Name="Statistics" Header="Статистика"
                      DataContext="{Binding StatisticsViewModel, Source={StaticResource Locator}}">
                 <Grid>
-                    <TextBlock>To Do...</TextBlock>
+                    <Button Command="{Binding ExportRecipientsToExcel}">Экспортировать получателей в Excel файл</Button>
                 </Grid>
             </TabItem>
         </TabControl>

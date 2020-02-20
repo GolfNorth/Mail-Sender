@@ -52,12 +52,5 @@
                 <TextBlock Margin="5,0,0,0" Text="Сохранить" />
             </StackPanel>
         </Button>
-        <!--<Button Grid.Column="1" Grid.Row="4"
-                Command="{Binding RemoveRecipientChangesCommand}">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
-                <TextBlock Margin="5 0 0 0" Text="Удалить" />
-            </StackPanel>
-        </Button>-->
     </Grid>
 </Window>

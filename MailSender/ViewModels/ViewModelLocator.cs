@@ -31,19 +31,21 @@ namespace MailSender.ViewModels
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
-            container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();
-            //container.RegisterType<IEntityStore<Recipient>, RecipientsStoreEntityFramework>();
+            //container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();
+            container.RegisterType<IEntityStore<Recipient>, RecipientsStoreEntityFramework>();
             container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityManager<Server>, ServersManager>();
-            container.RegisterType<IEntityStore<Server>, ServersStoreInMemory>();
-            //container.RegisterType<IEntityStore<Server>, ServersStoreEntityFramework>();
+            //container.RegisterType<IEntityStore<Server>, ServersStoreInMemory>();
+            container.RegisterType<IEntityStore<Server>, ServersStoreEntityFramework>();
             container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
 
             container.RegisterType<IEntityManager<Sender>, SendersManager>();
-            container.RegisterType<IEntityStore<Sender>, SendersStoreInMemory>();
-            //container.RegisterType<IEntityStore<Sender>, SendersStoreEntityFramework>();
+            //container.RegisterType<IEntityStore<Sender>, SendersStoreInMemory>();
+            container.RegisterType<IEntityStore<Sender>, SendersStoreEntityFramework>();
             container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
+
+            container.RegisterType<ISaveReport<Recipient>, OpenXMLSaveReport>();
 
             container.RegisterType<MailSenderDB>();
             container.RegisterInstance<DbContextOptions>(new DbContextOptionsBuilder<MailSenderDB>().UseSqlite(App.Configuration.GetConnectionString("DefaultConnection")).Options);
