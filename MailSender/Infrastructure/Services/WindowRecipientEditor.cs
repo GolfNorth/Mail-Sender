@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Views;
@@ -23,15 +22,8 @@ namespace MailSender.Infrastructure.Services
 
             if (editor.ShowDialog() != true) return false;
 
-            try
-            {
-                recipient.Name = editor.NameEditor.Text;
-                recipient.Address = editor.AddressEditor.Text;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            recipient.Name = editor.NameEditor.Text;
+            recipient.Address = editor.AddressEditor.Text;
 
             return true;
         }

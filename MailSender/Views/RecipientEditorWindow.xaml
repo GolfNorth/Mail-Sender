@@ -39,9 +39,9 @@
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Имя" />
         <TextBlock Grid.Column="0" Grid.Row="2" Text="Адрес" />
 
-        <TextBox Grid.Column="1" Grid.Row="0" Name="IdEditor" IsReadOnly="True" Text="{Binding EditableRecipient.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Name="NameEditor" Text="{Binding EditableRecipient.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Name="AddressEditor" Text="{Binding EditableRecipient.Address, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Name="IdEditor" IsReadOnly="True" Text="{Binding EditableRecipient.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Name="NameEditor" Text="{Binding EditableRecipient.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Name="AddressEditor" Text="{Binding EditableRecipient.Address, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"/>
 
         <Button Grid.Column="1" Grid.Row="3" Name="Test">
             <i:Interaction.Behaviors>

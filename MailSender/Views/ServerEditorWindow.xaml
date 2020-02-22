@@ -47,13 +47,13 @@
         <TextBlock Grid.Column="0" Grid.Row="5" Text="Логин" />
         <TextBlock Grid.Column="0" Grid.Row="6" Text="Пароль" />
 
-        <TextBox Grid.Column="1" Grid.Row="0" Name="IdEditor" IsReadOnly="True" Text="{Binding EditableServer.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Name="NameEditor" Text="{Binding EditableServer.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Name="HostEditor" Text="{Binding EditableServer.Host, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Name="PortEditor" Text="{Binding EditableServer.Port, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="4" Name="EnableSslEditor" Text="{Binding EditableServer.EnableSsl, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="5" Name="LoginEditor" Text="{Binding EditableServer.Login, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="6" Name="PasswordEditor" Text="{Binding EditableServer.Password, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Name="IdEditor" IsReadOnly="True" Text="{Binding EditableServer.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Name="NameEditor" Text="{Binding EditableServer.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Name="HostEditor" Text="{Binding EditableServer.Host, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Name="PortEditor" Text="{Binding EditableServer.Port, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"/>
+        <CheckBox Grid.Column="1" Grid.Row="4" Name="EnableSslEditor" IsChecked="{Binding EditableServer.EnableSsl}" />
+        <TextBox Grid.Column="1" Grid.Row="5" Name="LoginEditor" Text="{Binding EditableServer.Login}"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Name="PasswordEditor" Text="{Binding EditableServer.Password}"/>
 
         <Button Grid.Column="1" Grid.Row="7">
             <i:Interaction.Behaviors>

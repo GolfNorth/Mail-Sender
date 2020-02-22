@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using MailSender.Library.Entities.Base;
@@ -8,35 +8,54 @@ namespace MailSender.Library.Entities
     /// <summary>
     ///     Сущность получателя списка рассылки
     /// </summary>
-    public class Recipient : PersonEntity
+    public class Recipient : PersonEntity, IDataErrorInfo
     {
-        [Required]
-        [MinLength(2)]
-        [MaxLength(50)]
-        public override string Name
-        {
-            get => base.Name;
-            set
-            {
-                if (value is null) throw new ArgumentException("Пустая ссылка на имя", nameof(value));
-                if (value.Length <= 2) throw new ArgumentException("Имя должно быть содержать два или более символов", nameof(value));
-                if (value.Length > 20) throw new ArgumentException("Имя должно быть содержать не более 20 символов", nameof(value));
-
-                base.Name = value;
-            }
-        }
+        private const int MinNameLength = 2;
+        private const int MaxNameLength = 50;
 
         [Required]
-        public override string Address
+        [MinLength(MinNameLength)]
+        [MaxLength(MaxNameLength)]
+        public override string Name { get; set; }
+
+        [Required] public override string Address { get; set; }
+
+        public string Error => null;
+
+        public string this[string columnName]
         {
-            get => base.Address;
-            set
+            get
             {
-                var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                string result = null;
 
-                if (!regex.IsMatch(value)) throw new ArgumentException("Неправильный формат EMail", nameof(value));
+                switch (columnName)
+                {
+                    case nameof(Name):
+                        if (Name is null)
+                        {
+                            result = "Введите имя";
+                            break;
+                        }
 
-                base.Address = value;
+                        if (Name.Length <= 2) result = $"Имя должно быть содержать {MinNameLength} или более символов";
+                        if (Name.Length >= 20) result = $"Имя должно быть содержать не более {MaxNameLength} символов";
+
+                        break;
+                    case nameof(Address):
+                        if (Address is null)
+                        {
+                            result = "Введите Email";
+                            break;
+                        }
+
+                        var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+
+                        if (!regex.IsMatch(Address)) result = "Неправильный формат EMail";
+
+                        break;
+                }
+
+                return result;
             }
         }
     }

@@ -28,7 +28,7 @@ namespace MailSender.Infrastructure.Services
                 server.Name = editor.NameEditor.Text;
                 server.Host = editor.HostEditor.Text;
                 server.Port = int.Parse(editor.PortEditor.Text);
-                server.EnableSsl = bool.Parse(editor.EnableSslEditor.Text);
+                server.EnableSsl = editor.EnableSslEditor.IsChecked ?? false;
                 server.Login = editor.LoginEditor.Text;
                 server.Password = editor.PasswordEditor.Text;
             }
