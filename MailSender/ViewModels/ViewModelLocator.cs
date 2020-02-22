@@ -22,32 +22,52 @@ namespace MailSender.ViewModels
 
             ServiceLocator.SetLocatorProvider(() => new UnityServiceLocatorAdapter(container));
 
+            #region ViewModels
             container.RegisterType<MainWindowViewModel>(TypeLifetime.Singleton);
-
             container.RegisterType<DistributionGroupViewModel>(TypeLifetime.Singleton);
             container.RegisterType<MailEditorViewModel>(TypeLifetime.Singleton);
             container.RegisterType<SchedulerViewModel>(TypeLifetime.Singleton);
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
+            #endregion
 
+            #region Managers
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
-            //container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();
-            container.RegisterType<IEntityStore<Recipient>, RecipientsStoreEntityFramework>();
-            container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
-
             container.RegisterType<IEntityManager<Server>, ServersManager>();
-            //container.RegisterType<IEntityStore<Server>, ServersStoreInMemory>();
-            container.RegisterType<IEntityStore<Server>, ServersStoreEntityFramework>();
-            container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
-
             container.RegisterType<IEntityManager<Sender>, SendersManager>();
+            #endregion
+
+            #region StoreInMemory
+            //container.RegisterType<IEntityStore<Recipient>, RecipientsStoreInMemory>();
+            //container.RegisterType<IEntityStore<Server>, ServersStoreInMemory>();
             //container.RegisterType<IEntityStore<Sender>, SendersStoreInMemory>();
+            #endregion
+
+            #region StoreEntityFramework
+            container.RegisterType<IEntityStore<Recipient>, RecipientsStoreEntityFramework>();
+            container.RegisterType<IEntityStore<Server>, ServersStoreEntityFramework>();
             container.RegisterType<IEntityStore<Sender>, SendersStoreEntityFramework>();
+            #endregion
+
+            #region Editors
+            container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
+            container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
             container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
+            #endregion
 
+            #region Others
             container.RegisterType<ISaveReport<Recipient>, OpenXMLSaveReport>();
+            container.RegisterType<IEmailSenderService, EmailSenderService>();
+            #endregion
 
+
+            #region DB
             container.RegisterType<MailSenderDB>();
+            container.RegisterType<MailSenderDBInitializer>();
             container.RegisterInstance<DbContextOptions>(new DbContextOptionsBuilder<MailSenderDB>().UseSqlite(App.Configuration.GetConnectionString("DefaultConnection")).Options);
+
+            var dbInitializer = ServiceLocator.Current.GetInstance<MailSenderDBInitializer>();
+            dbInitializer.InitializeAsync().Wait();
+            #endregion
         }
 
         public MainWindowViewModel MainWindowViewModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
