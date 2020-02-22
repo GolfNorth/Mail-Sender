@@ -64,6 +64,7 @@ namespace MailSender.ViewModels
                 EditableRecipient = new Recipient();
 
                 _recipientsManager.Add(EditableRecipient);
+                _recipientsManager.SaveChanges();
 
                 Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
                 FilterRecipients();
@@ -80,6 +81,7 @@ namespace MailSender.ViewModels
                 };
 
                 _recipientsManager.Edit(EditableRecipient);
+                _recipientsManager.SaveChanges();
 
                 Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
                 FilterRecipients();
@@ -91,6 +93,7 @@ namespace MailSender.ViewModels
                 EditableSender = new Sender();
 
                 _sendersManager.Add(EditableSender);
+                _sendersManager.SaveChanges();
 
                 Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
             }, () => Senders != null).ObservesProperty(() => Senders);
@@ -106,6 +109,7 @@ namespace MailSender.ViewModels
                 };
 
                 _sendersManager.Edit(EditableSender);
+                _sendersManager.SaveChanges();
 
                 Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
             }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
@@ -116,6 +120,7 @@ namespace MailSender.ViewModels
                 EditableServer = new Server();
 
                 _serversManager.Add(EditableServer);
+                _serversManager.SaveChanges();
 
                 Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             }, () => Servers != null).ObservesProperty(() => Servers);
@@ -135,6 +140,7 @@ namespace MailSender.ViewModels
                 };
 
                 _serversManager.Edit(EditableServer);
+                _serversManager.SaveChanges();
 
                 Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
