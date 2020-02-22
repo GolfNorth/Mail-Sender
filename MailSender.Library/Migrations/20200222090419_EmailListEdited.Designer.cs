@@ -3,14 +3,16 @@ using System;
 using MailSender.Library.Data.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MailSender.Library.Migrations
 {
     [DbContext(typeof(MailSenderDB))]
-    partial class MailSenderDBModelSnapshot : ModelSnapshot
+    [Migration("20200222090419_EmailListEdited")]
+    partial class EmailListEdited
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
