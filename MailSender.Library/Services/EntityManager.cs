@@ -30,13 +30,13 @@ namespace MailSender.Library.Services
 
         public int Add(T newItem)
         {
-            return _store.Add(newItem);
+            return _editor.Edit(ref newItem) ? _store.Add(newItem) : 0;
         }
 
         public void Edit(T item)
         {
-            _editor.Edit(ref item);
-            _store.Edit(item.Id, item);
+            if (_editor.Edit(ref item))
+                _store.Edit(item.Id, item);
         }
 
         public void Remove(T item)
@@ -47,7 +47,6 @@ namespace MailSender.Library.Services
         public void SaveChanges()
         {
             _store.SaveChanges();
-            _editor.Close();
         }
     }
 }

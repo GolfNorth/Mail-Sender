@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Views;
@@ -7,23 +8,32 @@ namespace MailSender.Infrastructure.Services
 {
     public class WindowSenderEditor : IEntityEditor<Sender>
     {
-        private Window _editor;
-
-        public void Edit(ref Sender sender)
+        public bool Edit(ref Sender sender)
         {
             var currentMainWindow = (MainWindow)Application.Current.MainWindow;
-            _editor = new SenderEditorWindow()
+
+            var editor = new SenderEditorWindow()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Owner = currentMainWindow
             };
 
-            _editor.ShowDialog();
-        }
+            if (sender.Id == 0)
+                editor.IdRow.Height = new GridLength(0);
 
-        public void Close()
-        {
-            _editor.Close();
+            if (editor.ShowDialog() != true) return false;
+
+            try
+            {
+                sender.Name = editor.NameEditor.Text;
+                sender.Address = editor.AddressEditor.Text;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

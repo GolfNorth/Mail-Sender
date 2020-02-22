@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommonServiceLocator;
 using MailSender.Enums;
-using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
 using Prism.Commands;
@@ -64,7 +63,10 @@ namespace MailSender.ViewModels
             {
                 EditableRecipient = new Recipient();
 
-                _recipientsManager.Edit(EditableRecipient);
+                _recipientsManager.Add(EditableRecipient);
+
+                Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                FilterRecipients();
             }, () => Recipients != null).ObservesProperty(() => Recipients);
 
             // Редактирование получателя
@@ -78,35 +80,19 @@ namespace MailSender.ViewModels
                 };
 
                 _recipientsManager.Edit(EditableRecipient);
-            }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
-
-            // Сохранение изменений получателя
-            SaveRecipientChangesCommand = new DelegateCommand(() =>
-            {
-                if (EditableRecipient.Id != 0)
-                {
-                    //_recipientsManager.Edit(EditableRecipient);
-                    SelectedRecipient.Name = EditableRecipient.Name;
-                    SelectedRecipient.Address = EditableRecipient.Address;
-                }
-                else
-                {
-                    _recipientsManager.Add(EditableRecipient);
-                    SelectedRecipient = EditableRecipient;
-                }
-
-                _recipientsManager.SaveChanges();
 
                 Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
                 FilterRecipients();
-            }, () => EditableRecipient != null).ObservesProperty(() => EditableRecipient);
+            }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
 
             // Добавление отправителя
             AddSenderCommand = new DelegateCommand(() =>
             {
                 EditableSender = new Sender();
 
-                _sendersManager.Edit(EditableSender);
+                _sendersManager.Add(EditableSender);
+
+                Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
             }, () => Senders != null).ObservesProperty(() => Senders);
 
             // Редактирование отправителя
@@ -120,34 +106,18 @@ namespace MailSender.ViewModels
                 };
 
                 _sendersManager.Edit(EditableSender);
-            }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
-
-            // Сохранение изменений отправителя
-            SaveSenderChangesCommand = new DelegateCommand(() =>
-            {
-                if (EditableSender.Id != 0)
-                {
-                    //_sendersManager.Edit(EditableSender);
-                    SelectedSender.Name = EditableSender.Name;
-                    SelectedSender.Address = EditableSender.Address;
-                }
-                else
-                {
-                    _sendersManager.Add(EditableSender);
-                    SelectedSender = EditableSender;
-                }
-
-                _sendersManager.SaveChanges();
 
                 Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
-            }, () => EditableSender != null).ObservesProperty(() => EditableSender);
+            }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
 
             // Добавление сервера
             AddServerCommand = new DelegateCommand(() =>
             {
                 EditableServer = new Server();
 
-                _serversManager.Edit(EditableServer);
+                _serversManager.Add(EditableServer);
+
+                Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             }, () => Servers != null).ObservesProperty(() => Servers);
 
             // Редактирование сервера
@@ -165,31 +135,9 @@ namespace MailSender.ViewModels
                 };
 
                 _serversManager.Edit(EditableServer);
-            }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
-
-            // Сохранение изменений сервера
-            SaveServerChangesCommand = new DelegateCommand(() =>
-            {
-                if (EditableServer.Id != 0)
-                {
-                    //_serversManager.Edit(EditableServer);
-                    SelectedServer.Name = EditableServer.Name;
-                    SelectedServer.Host = EditableServer.Host;
-                    SelectedServer.Port = EditableServer.Port;
-                    SelectedServer.EnableSsl = EditableServer.EnableSsl;
-                    SelectedServer.Login = EditableServer.Login;
-                    SelectedServer.Password = EditableServer.Password;
-                }
-                else
-                {
-                    _serversManager.Add(EditableServer);
-                    SelectedSender = EditableSender;
-                }
-
-                _serversManager.SaveChanges();
 
                 Servers = new ObservableCollection<Server>(_serversManager.GetAll());
-            }, () => EditableServer != null).ObservesProperty(() => EditableServer);
+            }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
 
             #endregion
         }
@@ -336,21 +284,6 @@ namespace MailSender.ViewModels
         ///     Команда реактирования сервера
         /// </summary>
         public DelegateCommand EditServerCommand { get; }
-
-        /// <summary>
-        ///     Сохранить изменения объекта получателя
-        /// </summary>
-        public DelegateCommand SaveRecipientChangesCommand { get; }
-
-        /// <summary>
-        ///     Сохранить изменения объекта сервера
-        /// </summary>
-        public DelegateCommand SaveServerChangesCommand { get; }
-
-        /// <summary>
-        ///     Сохранить изменения объекта отправителя
-        /// </summary>
-        public DelegateCommand SaveSenderChangesCommand { get; }
 
         /// <summary>
         ///     Фильтрация списка получателей
