@@ -10,7 +10,7 @@ namespace MailSender.Library.Services
 {
     public class EMailSchedulerTPL
     {
-        private readonly Dictionary<Server, EmailSend> _emailSendServices;  // Словарь сервисов отправки электронной почты
+        private readonly Dictionary<Server, EmailSender> _emailSendServices;  // Словарь сервисов отправки электронной почты
         private readonly IEntityStore<SchedulerTask> _schedulerTasksStore;  // Хранилище заданий
         private volatile CancellationTokenSource _processTaskCancellation;  // Токен отмены выполнения заданий
 
@@ -21,7 +21,7 @@ namespace MailSender.Library.Services
         public EMailSchedulerTPL(IEntityStore<SchedulerTask> schedulerTasksStore)
         {
             _schedulerTasksStore = schedulerTasksStore;
-            _emailSendServices = new Dictionary<Server, EmailSend>();
+            _emailSendServices = new Dictionary<Server, EmailSender>();
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace MailSender.Library.Services
             cancel.ThrowIfCancellationRequested();
 
             if (!_emailSendServices.ContainsKey(schedulerTask.Server))
-                _emailSendServices.Add(schedulerTask.Server, new EmailSend(schedulerTask.Server));
+                _emailSendServices.Add(schedulerTask.Server, new EmailSender(schedulerTask.Server));
 
             await _emailSendServices[schedulerTask.Server].SendMailAsync(schedulerTask.Sender, schedulerTask.Recipients, schedulerTask.Email, cancel);
         }

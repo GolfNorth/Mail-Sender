@@ -23,7 +23,7 @@ namespace MailSender.Views
 
             try
             {
-                var mail_sender = new EmailSend(server.Host, server.Port, server.Login,
+                var mail_sender = new EmailSender(server.Host, server.Port, server.Login,
                     server.Password.Decode(3), server.EnableSsl);
 
                 mail_sender.SendMail(sender.Address, recipient.Address, MailSubject.Text, MailBody.Text);

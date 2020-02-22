@@ -7,7 +7,7 @@ using MailSender.Library.Entities;
 
 namespace MailSender.Library.Services
 {
-    public class EmailSend
+    public class EmailSender
     {
         private readonly Server _server; // Объект почтового сервера
 
@@ -15,7 +15,7 @@ namespace MailSender.Library.Services
         ///     Инициализация класса отправки электронной почты
         /// </summary>
         /// <param name="server">Объект почтового сервера</param>
-        public EmailSend(Server server)
+        public EmailSender(Server server)
         {
             _server = server;
         }
