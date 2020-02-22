@@ -14,4 +14,6 @@ namespace MailSender
             .AddJsonFile("appsettings.json")
             .Build();
     }
+
+
 }

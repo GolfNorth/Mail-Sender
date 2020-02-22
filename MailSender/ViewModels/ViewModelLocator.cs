@@ -57,4 +57,6 @@ namespace MailSender.ViewModels
         public SchedulerViewModel SchedulerViewModel => ServiceLocator.Current.GetInstance<SchedulerViewModel>();
         public StatisticsViewModel StatisticsViewModel => ServiceLocator.Current.GetInstance<StatisticsViewModel>();
     }
+
+    
 }
