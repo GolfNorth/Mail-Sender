@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Prism.Unity;
 using Unity;
-using Unity.Injection;
 
 namespace MailSender.ViewModels
 {
