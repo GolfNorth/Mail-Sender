@@ -42,7 +42,6 @@ namespace MailSender.ViewModels
             Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
 
             #region Реализация команд
-
             // Переключение на вкладку планировщика
             SwitchToScheduler = new DelegateCommand(() =>
             {
@@ -87,6 +86,16 @@ namespace MailSender.ViewModels
                 FilterRecipients();
             }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
 
+            // Удаление получателя
+            RemoveRecipientCommand = new DelegateCommand(() =>
+            {
+                _recipientsManager.Remove(SelectedRecipient);
+                _recipientsManager.SaveChanges();
+
+                Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                FilterRecipients();
+            }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
+
             // Добавление отправителя
             AddSenderCommand = new DelegateCommand(() =>
             {
@@ -109,6 +118,15 @@ namespace MailSender.ViewModels
                 };
 
                 _sendersManager.Edit(EditableSender);
+                _sendersManager.SaveChanges();
+
+                Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
+            }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
+
+            // Удаление отправителя
+            RemoveSenderCommand = new DelegateCommand(() =>
+            {
+                _sendersManager.Remove(SelectedSender);
                 _sendersManager.SaveChanges();
 
                 Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
@@ -145,9 +163,18 @@ namespace MailSender.ViewModels
                 Servers = new ObservableCollection<Server>(_serversManager.GetAll());
             }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
 
+            // Удаление сервера
+            RemoveServerCommand = new DelegateCommand(() =>
+            {
+                _serversManager.Remove(SelectedServer);
+                _serversManager.SaveChanges();
+
+                Servers = new ObservableCollection<Server>(_serversManager.GetAll());
+            }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
             #endregion
         }
 
+        #region Коллекции сущностей
         /// <summary>
         ///     Коллекция получателей
         /// </summary>
@@ -176,6 +203,17 @@ namespace MailSender.ViewModels
         }
 
         /// <summary>
+        ///     Коллекция отфильтрованных получателей
+        /// </summary>
+        public ObservableCollection<Recipient> FilteredRecipients
+        {
+            get => _filteredRecipients;
+            set => SetProperty(ref _filteredRecipients, value);
+        }
+        #endregion
+
+        #region Выбранные сущности
+        /// <summary>
         ///     Выбранный получатель
         /// </summary>
         public Recipient SelectedRecipient
@@ -201,7 +239,9 @@ namespace MailSender.ViewModels
             get => _selectedSender;
             set => SetProperty(ref _selectedSender, value);
         }
+        #endregion
 
+        #region Редактируемые сущности
         /// <summary>
         ///     Редактируемый получатель
         /// </summary>
@@ -228,29 +268,9 @@ namespace MailSender.ViewModels
             get => _editableSender;
             set => SetProperty(ref _editableSender, value);
         }
+        #endregion
 
-        /// <summary>
-        ///     Текст фильтра получателей
-        /// </summary>
-        public string FilterText
-        {
-            get => _filterText;
-            set
-            {
-                SetProperty(ref _filterText, value);
-                FilterRecipients();
-            }
-        }
-
-        /// <summary>
-        ///     Коллекция отфильтрованных получателей
-        /// </summary>
-        public ObservableCollection<Recipient> FilteredRecipients
-        {
-            get => _filteredRecipients;
-            set => SetProperty(ref _filteredRecipients, value);
-        }
-
+        #region Объявление команд
         /// <summary>
         ///     Сменяет вкладку на "Планировщик"
         /// </summary>
@@ -272,6 +292,11 @@ namespace MailSender.ViewModels
         public DelegateCommand EditRecipientCommand { get; }
 
         /// <summary>
+        ///     Команда удаления получателя
+        /// </summary>
+        public DelegateCommand RemoveRecipientCommand { get; }
+
+        /// <summary>
         ///     Команда добавления отпарвителя
         /// </summary>
         public DelegateCommand AddSenderCommand { get; }
@@ -282,6 +307,11 @@ namespace MailSender.ViewModels
         public DelegateCommand EditSenderCommand { get; }
 
         /// <summary>
+        ///     Команда удаления отпарвителя
+        /// </summary>
+        public DelegateCommand RemoveSenderCommand { get; }
+
+        /// <summary>
         ///     Команда добавления сервера
         /// </summary>
         public DelegateCommand AddServerCommand { get; }
@@ -290,6 +320,25 @@ namespace MailSender.ViewModels
         ///     Команда реактирования сервера
         /// </summary>
         public DelegateCommand EditServerCommand { get; }
+
+        /// <summary>
+        ///     Команда удаления сервера
+        /// </summary>
+        public DelegateCommand RemoveServerCommand { get; }
+        #endregion
+
+        /// <summary>
+        ///     Текст фильтра получателей
+        /// </summary>
+        public string FilterText
+        {
+            get => _filterText;
+            set
+            {
+                SetProperty(ref _filterText, value);
+                FilterRecipients();
+            }
+        }
 
         /// <summary>
         ///     Фильтрация списка получателей

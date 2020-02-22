@@ -42,7 +42,7 @@
                             <Button Command="{Binding EditSenderCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
-                            <Button>
+                            <Button Command="{Binding RemoveSenderCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
@@ -79,7 +79,7 @@
                             <Button Command="{Binding EditServerCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
-                            <Button>
+                            <Button Command="{Binding RemoveServerCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
@@ -91,7 +91,7 @@
                             <Button Command="{Binding EditRecipientCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
-                            <Button>
+                            <Button Command="{Binding RemoveRecipientCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
