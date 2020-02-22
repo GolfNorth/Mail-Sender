@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MailSender.Library.Entities.Base;
 
 namespace MailSender.Library.Entities
@@ -11,6 +12,7 @@ namespace MailSender.Library.Entities
         /// <summary>
         ///     Коллекция получателей в списке рассылки
         /// </summary>
+        [Required]
         public ICollection<Recipient> Recipients { get; set; } = new List<Recipient>();
     }
 }

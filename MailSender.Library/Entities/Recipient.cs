@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using MailSender.Library.Entities.Base;
 
@@ -9,6 +10,9 @@ namespace MailSender.Library.Entities
     /// </summary>
     public class Recipient : PersonEntity
     {
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public override string Name
         {
             get => base.Name;
@@ -22,6 +26,7 @@ namespace MailSender.Library.Entities
             }
         }
 
+        [Required]
         public override string Address
         {
             get => base.Address;
