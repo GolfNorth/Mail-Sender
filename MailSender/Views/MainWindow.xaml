@@ -132,17 +132,46 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания">
-                        <ListBox>
-                            <ListBoxItem HorizontalContentAlignment="Stretch">
-                                <GroupBox Header="Задание 1">
-                                    <StackPanel>
-                                        <TextBlock Text="Время" />
-                                        <TextBlock Text="Сервер" />
-                                        <TextBlock Text="Отправитель" />
-                                        <TextBlock Text="Список получателей" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
+                        <ListBox Name="SchedulerTasksLists" ItemsSource="{Binding SchedulerTasks}" SelectedItem="{Binding SelectedSchedulerTask}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="entities:SchedulerTask" >
+                                    <GroupBox Header="Задание 1" HorizontalContentAlignment="Stretch">
+                                        <StackPanel>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Время: {0}">
+                                                        <Binding Path="Time" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Сервер: {0} ({1}:{2})">
+                                                        <Binding Path="Server.Name" />
+                                                        <Binding Path="Server.Host" />
+                                                        <Binding Path="Server.Port" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Отправитель: {0} ({1})">
+                                                        <Binding Path="Sender.Name" />
+                                                        <Binding Path="Sender.Address" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Список получателей: {0}">
+                                                        <Binding Path="Server.Name" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
                     </GroupBox>
                 </DockPanel>

@@ -19,24 +19,24 @@ namespace MailSender.Library.Entities
         ///     Отправитель почты в задании
         /// </summary>
         [Required]
-        public Sender Sender { get; set; }
+        public virtual Sender Sender { get; set; }
 
         /// <summary>
         ///     Список получателей писем
         /// </summary>
         [Required]
-        public EmailList Recipients { get; set; }
+        public virtual EmailList Recipients { get; set; }
 
         /// <summary>
         ///     Сервер, через который надо выполнить отправку почты
         /// </summary>
         [Required]
-        public Server Server { get; set; }
+        public virtual Server Server { get; set; }
 
         /// <summary>
         ///     Письмо, которое требуется разослать
         /// </summary>
         [Required]
-        public Email Email { get; set; }
+        public virtual Email Email { get; set; }
     }
 }

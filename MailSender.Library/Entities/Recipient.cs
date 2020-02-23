@@ -13,12 +13,11 @@ namespace MailSender.Library.Entities
         private const int MinNameLength = 2;
         private const int MaxNameLength = 50;
 
-        [Required]
-        [MinLength(MinNameLength)]
-        [MaxLength(MaxNameLength)]
+        [Required, MinLength(MinNameLength), MaxLength(MaxNameLength)]
         public override string Name { get; set; }
 
-        [Required] public override string Address { get; set; }
+        [Required]
+        public override string Address { get; set; }
 
         public string Error => null;
 

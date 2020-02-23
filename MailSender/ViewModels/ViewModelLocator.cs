@@ -74,7 +74,7 @@ namespace MailSender.ViewModels
             #region DB
             container.RegisterType<MailSenderDB>();
             container.RegisterType<MailSenderDBInitializer>();
-            container.RegisterInstance<DbContextOptions>(new DbContextOptionsBuilder<MailSenderDB>().UseSqlite(App.Configuration.GetConnectionString("DefaultConnection")).Options);
+            container.RegisterInstance<DbContextOptions>(new DbContextOptionsBuilder<MailSenderDB>().UseLazyLoadingProxies().UseSqlite(App.Configuration.GetConnectionString("DefaultConnection")).Options);
 
             var dbInitializer = ServiceLocator.Current.GetInstance<MailSenderDBInitializer>();
             dbInitializer.InitializeAsync().Wait();

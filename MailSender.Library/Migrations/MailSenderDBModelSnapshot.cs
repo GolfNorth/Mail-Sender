@@ -26,6 +26,7 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Subject")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -54,13 +55,16 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("EmailListId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -75,16 +79,16 @@ namespace MailSender.Library.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("EmailId")
+                    b.Property<int>("EmailId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RecipientsId")
+                    b.Property<int>("RecipientsId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("SenderId")
+                    b.Property<int>("SenderId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ServerId")
+                    b.Property<int>("ServerId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Time")
@@ -110,10 +114,13 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -130,13 +137,16 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Host")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Login")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
@@ -160,19 +170,27 @@ namespace MailSender.Library.Migrations
                 {
                     b.HasOne("MailSender.Library.Entities.Email", "Email")
                         .WithMany()
-                        .HasForeignKey("EmailId");
+                        .HasForeignKey("EmailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MailSender.Library.Entities.EmailList", "Recipients")
                         .WithMany()
-                        .HasForeignKey("RecipientsId");
+                        .HasForeignKey("RecipientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MailSender.Library.Entities.Sender", "Sender")
                         .WithMany()
-                        .HasForeignKey("SenderId");
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MailSender.Library.Entities.Server", "Server")
                         .WithMany()
-                        .HasForeignKey("ServerId");
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

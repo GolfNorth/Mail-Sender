@@ -26,7 +26,7 @@ namespace MailSender.Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Subject = table.Column<string>(nullable: true),
+                    Subject = table.Column<string>(nullable: false),
                     Body = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -40,8 +40,8 @@ namespace MailSender.Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Address = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,8 +54,8 @@ namespace MailSender.Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Host = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Host = table.Column<string>(nullable: false),
                     Port = table.Column<int>(nullable: false),
                     EnableSsl = table.Column<bool>(nullable: false),
                     Login = table.Column<string>(nullable: true),
@@ -72,8 +72,8 @@ namespace MailSender.Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Address = table.Column<string>(nullable: false),
                     EmailListId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -94,10 +94,10 @@ namespace MailSender.Library.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Time = table.Column<DateTime>(nullable: false),
-                    SenderId = table.Column<int>(nullable: true),
-                    RecipientsId = table.Column<int>(nullable: true),
-                    ServerId = table.Column<int>(nullable: true),
-                    EmailId = table.Column<int>(nullable: true)
+                    SenderId = table.Column<int>(nullable: false),
+                    RecipientsId = table.Column<int>(nullable: false),
+                    ServerId = table.Column<int>(nullable: false),
+                    EmailId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,25 +107,25 @@ namespace MailSender.Library.Migrations
                         column: x => x.EmailId,
                         principalTable: "Emails",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SchedulerTasks_EmailLists_RecipientsId",
                         column: x => x.RecipientsId,
                         principalTable: "EmailLists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SchedulerTasks_Senders_SenderId",
                         column: x => x.SenderId,
                         principalTable: "Senders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SchedulerTasks_Servers_ServerId",
                         column: x => x.ServerId,
                         principalTable: "Servers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

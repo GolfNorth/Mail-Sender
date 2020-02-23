@@ -14,8 +14,7 @@ namespace MailSender.Library.Entities
         /// <summary>
         ///     Заголовок электронного письма
         /// </summary>
-        [Required]
-        [MinLength(MinSubjectLength)]
+        [Required, MinLength(MinSubjectLength)]
         public string Subject { get; set; }
 
         /// <summary>
