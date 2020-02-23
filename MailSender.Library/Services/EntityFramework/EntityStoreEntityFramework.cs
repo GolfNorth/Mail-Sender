@@ -20,6 +20,7 @@ namespace MailSender.Library.Services.EntityFramework
 
         public IEnumerable<T> GetAll()
         {
+            //_set.AsN
             return _set.AsEnumerable();
         }
 
@@ -30,6 +31,8 @@ namespace MailSender.Library.Services.EntityFramework
 
         public int Add(T item)
         {
+            if (item.Id > 0) return 0;
+
             _set.Add(item);
 
             return item.Id;

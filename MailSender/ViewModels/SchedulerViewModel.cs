@@ -39,7 +39,7 @@ namespace MailSender.ViewModels
             CreatNewSchedulerTaskCommand = new DelegateCommand(() =>
             {
                 if (!CanCreateNewTask) return;
-                ;
+                
                 var newSchedulerTask = CreatNewSchedulerTask(DateTime.Now);
 
                 schedulerTaskManager.Add(newSchedulerTask);
