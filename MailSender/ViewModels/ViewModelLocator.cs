@@ -25,7 +25,7 @@ namespace MailSender.ViewModels
             #region ViewModels
             container.RegisterType<MainWindowViewModel>(TypeLifetime.Singleton);
             container.RegisterType<DistributionGroupViewModel>(TypeLifetime.Singleton);
-            container.RegisterType<MailEditorViewModel>(TypeLifetime.Singleton);
+            container.RegisterType<EmailEditorViewModel>(TypeLifetime.Singleton);
             container.RegisterType<SchedulerViewModel>(TypeLifetime.Singleton);
             container.RegisterType<StatisticsViewModel>(TypeLifetime.Singleton);
             #endregion
@@ -79,7 +79,7 @@ namespace MailSender.ViewModels
 
         public MainWindowViewModel MainWindowViewModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
         public DistributionGroupViewModel DistributionGroupViewModel => ServiceLocator.Current.GetInstance<DistributionGroupViewModel>();
-        public MailEditorViewModel MailEditorViewModel => ServiceLocator.Current.GetInstance<MailEditorViewModel>();
+        public EmailEditorViewModel EmailEditorViewModel => ServiceLocator.Current.GetInstance<EmailEditorViewModel>();
         public SchedulerViewModel SchedulerViewModel => ServiceLocator.Current.GetInstance<SchedulerViewModel>();
         public StatisticsViewModel StatisticsViewModel => ServiceLocator.Current.GetInstance<StatisticsViewModel>();
     }

@@ -2,7 +2,7 @@
 
 namespace MailSender.ViewModels
 {
-    public class MailEditorViewModel : BindableBase
+    public class EmailEditorViewModel : BindableBase
     {
     }
 }

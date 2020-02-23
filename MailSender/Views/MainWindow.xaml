@@ -168,7 +168,7 @@
                 </DockPanel>
             </TabItem>
             <TabItem Name="MailEditor" Header="Редактор писем"
-                     DataContext="{Binding MailEditorViewModel, Source={StaticResource Locator}}">
+                     DataContext="{Binding EmailEditorViewModel, Source={StaticResource Locator}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="150" MaxWidth="300" Width="Auto" />
