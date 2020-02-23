@@ -132,10 +132,19 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания">
-                        <ListBox Name="SchedulerTasksLists" ItemsSource="{Binding SchedulerTasks}" SelectedItem="{Binding SelectedSchedulerTask}">
+                        <ListBox Name="SchedulerTasksLists" ItemsSource="{Binding SchedulerTasks}" SelectedItem="{Binding SelectedSchedulerTask}" SelectedIndex="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="entities:SchedulerTask" >
-                                    <GroupBox Header="Задание 1" HorizontalContentAlignment="Stretch">
+                                    <GroupBox>
+                                        <GroupBox.Header>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Задание {0}">
+                                                        <Binding Path="Id" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </GroupBox.Header>
                                         <StackPanel>
                                             <TextBlock>
                                                 <TextBlock.Text>
