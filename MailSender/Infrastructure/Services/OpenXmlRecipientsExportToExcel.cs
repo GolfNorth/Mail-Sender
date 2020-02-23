@@ -8,9 +8,9 @@ using Microsoft.Win32;
 
 namespace MailSender.Infrastructure.Services
 {
-    public class OpenXMLSaveReport : ISaveReport<Recipient>
+    public class OpenXmlRecipientsExportToExcel : IEntityExportToExcel<Recipient>
     {
-        public void SaveReport(IEnumerable<Recipient> recipients)
+        public void ExportToExcel(IEnumerable<Recipient> recipients)
         {
             var saveFileDialog = new SaveFileDialog
             {

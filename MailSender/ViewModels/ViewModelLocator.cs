@@ -55,7 +55,7 @@ namespace MailSender.ViewModels
             #endregion
 
             #region Others
-            container.RegisterType<ISaveReport<Recipient>, OpenXMLSaveReport>();
+            container.RegisterType<IEntityExportToExcel<Recipient>, OpenXmlRecipientsExportToExcel>();
             container.RegisterType<IEmailSenderService, EmailSenderService>();
             #endregion
 
