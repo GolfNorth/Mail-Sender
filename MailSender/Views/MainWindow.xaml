@@ -143,26 +143,6 @@
                                     </StackPanel>
                                 </GroupBox>
                             </ListBoxItem>
-                            <ListBoxItem HorizontalContentAlignment="Stretch">
-                                <GroupBox Header="Задание 2">
-                                    <StackPanel>
-                                        <TextBlock Text="Время" />
-                                        <TextBlock Text="Сервер" />
-                                        <TextBlock Text="Отправитель" />
-                                        <TextBlock Text="Список получателей" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem HorizontalContentAlignment="Stretch">
-                                <GroupBox Header="Задание 3">
-                                    <StackPanel>
-                                        <TextBlock Text="Время" />
-                                        <TextBlock Text="Сервер" />
-                                        <TextBlock Text="Отправитель" />
-                                        <TextBlock Text="Список получателей" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
                         </ListBox>
                     </GroupBox>
                 </DockPanel>

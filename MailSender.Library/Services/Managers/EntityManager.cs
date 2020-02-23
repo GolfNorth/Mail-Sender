@@ -3,7 +3,7 @@ using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities.Base;
 using MailSender.Library.Services.Interfaces;
 
-namespace MailSender.Library.Services
+namespace MailSender.Library.Services.Managers
 {
     public abstract class EntityManager<T> : IEntityManager<T> where T : BaseEntity
     {

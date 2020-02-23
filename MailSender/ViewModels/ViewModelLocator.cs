@@ -7,6 +7,7 @@ using MailSender.Library.Services;
 using MailSender.Library.Services.EntityFramework;
 using MailSender.Library.Services.InMemory;
 using MailSender.Library.Services.Interfaces;
+using MailSender.Library.Services.Managers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Prism.Unity;
@@ -35,6 +36,7 @@ namespace MailSender.ViewModels
             container.RegisterType<IEntityManager<Server>, ServersManager>();
             container.RegisterType<IEntityManager<Sender>, SendersManager>();
             container.RegisterType<IEntityManager<Email>, EmailsManager>();
+            container.RegisterType<IEntityManager<SchedulerTask>, SchedulerTaskManager>();
             #endregion
 
             #region StoreInMemory
@@ -48,6 +50,7 @@ namespace MailSender.ViewModels
             container.RegisterType<IEntityStore<Server>, ServersStoreEntityFramework>();
             container.RegisterType<IEntityStore<Sender>, SendersStoreEntityFramework>();
             container.RegisterType<IEntityStore<Email>, EmailsStoreEntityFramework>();
+            container.RegisterType<IEntityStore<SchedulerTask>, SchedulerTasksStoreEntityFramework>();
             #endregion
 
             #region Editors

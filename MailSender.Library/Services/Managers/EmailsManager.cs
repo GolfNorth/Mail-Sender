@@ -2,7 +2,7 @@
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
 
-namespace MailSender.Library.Services
+namespace MailSender.Library.Services.Managers
 {
     public class EmailsManager : EntityManager<Email>
     {

@@ -23,7 +23,6 @@
         </Button>
         <DataGrid ItemsSource="{Binding FilteredRecipients}" SelectedItem="{Binding SelectedRecipient}"
                   AutoGenerateColumns="False"
-                  SelectionMode="Single"
                   IsReadOnly="True"
                   HorizontalGridLinesBrush="Gray"
                   VerticalGridLinesBrush="Gray"
