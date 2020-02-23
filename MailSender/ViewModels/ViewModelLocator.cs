@@ -54,12 +54,17 @@ namespace MailSender.ViewModels
             container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
             #endregion
 
-            #region Others
-            container.RegisterType<IEntityExportToExcel<Recipient>, OpenXmlRecipientsExportToExcel>();
-            container.RegisterType<IEmailSenderService, EmailSenderService>();
+            #region Exporters
+            container.RegisterType<IEntityExport<Recipient>, OpenXmlRecipientsExport>();
+            container.RegisterType<IEntityExport<Sender>, OpenXmlSendersExport>();
+            container.RegisterType<IEntityExport<Server>, OpenXmlServersExport>();
+            container.RegisterType<IEntityExport<Email>, OpenXmlEmailsExport>();
             #endregion
 
-
+            #region Others
+            container.RegisterType<IEmailSenderService, EmailSenderService>();
+            #endregion
+            
             #region DB
             container.RegisterType<MailSenderDB>();
             container.RegisterType<MailSenderDBInitializer>();

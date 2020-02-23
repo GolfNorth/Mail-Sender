@@ -15,8 +15,13 @@
         Title="Рассыльщик" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Файл" />
-            <MenuItem Header="Помощь" />
+            <MenuItem Header="Экспорт">
+                <MenuItem Header="Экспорт получателей" Command="{Binding ExportRecipients}" />
+                <MenuItem Header="Экспорт отправителей" Command="{Binding ExportSenders}" />
+                <MenuItem Header="Экспорт серверов" Command="{Binding ExportServers}" />
+                <MenuItem Header="Экспорт сообщений" Command="{Binding ExportEmails}" />
+            </MenuItem>
+            <MenuItem Header="О программе" />
         </Menu>
         <TabControl Name="TabControl" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem Name="DistributionGroup" Header="Формирование группы рассылки"
@@ -25,7 +30,8 @@
                     <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
                         <ToolBar Band="0" BandIndex="0">
                             <Label Width="140">Выбрать отправителя:</Label>
-                            <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}" SelectedItem="{Binding SelectedSender}" SelectedIndex="0">
+                            <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}"
+                                      SelectedItem="{Binding SelectedSender}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Sender">
                                         <StackPanel Orientation="Horizontal">
@@ -56,7 +62,8 @@
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
                             <Label Width="140">Выбрать SMTP-сервер:</Label>
-                            <ComboBox Name="ServersList" Width="200" ItemsSource="{Binding Servers}" SelectedItem="{Binding SelectedServer}" SelectedIndex="0">
+                            <ComboBox Name="ServersList" Width="200" ItemsSource="{Binding Servers}"
+                                      SelectedItem="{Binding SelectedServer}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Server">
                                         <StackPanel Orientation="Horizontal">
@@ -208,7 +215,6 @@
             <TabItem Name="Statistics" Header="Статистика"
                      DataContext="{Binding StatisticsViewModel, Source={StaticResource Locator}}">
                 <Grid>
-                    <Button Command="{Binding ExportRecipientsToExcel}">Экспортировать получателей в Excel файл</Button>
                 </Grid>
             </TabItem>
         </TabControl>

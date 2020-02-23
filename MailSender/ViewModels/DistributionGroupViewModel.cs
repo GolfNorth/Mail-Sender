@@ -9,10 +9,10 @@ namespace MailSender.ViewModels
 {
     public class DistributionGroupViewModel : BindableBase
     {
-        private readonly MainWindowViewModel _mainWindowViewModel; // ViewModel главного окна
-        private readonly IEntityManager<Recipient> _recipientsManager; // Менеджер получателей
-        private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
-        private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
+        //private readonly MainWindowViewModel _mainWindowViewModel; // ViewModel главного окна
+        //private readonly IEntityManager<Recipient> _recipientsManager; // Менеджер получателей
+        //private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
+        //private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
 
         private Recipient _editableRecipient; // Редактируемый получатель
         private Sender _editableSender; // Редактируемый отправитель
@@ -33,27 +33,27 @@ namespace MailSender.ViewModels
             FilteredRecipients = new ObservableCollection<Recipient>();
             FilterText = string.Empty;
 
-            _mainWindowViewModel = mainWindowViewModel;
+            //_mainWindowViewModel = mainWindowViewModel;
 
-            _recipientsManager = recipientsManager;
-            _serversManager = serversManager;
-            _sendersManager = sendersManager;
+            //_recipientsManager = recipientsManager;
+            //_serversManager = serversManager;
+            //_sendersManager = sendersManager;
 
-            Servers = new ObservableCollection<Server>(_serversManager.GetAll());
-            Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
+            Servers = new ObservableCollection<Server>(serversManager.GetAll());
+            Senders = new ObservableCollection<Sender>(sendersManager.GetAll());
 
             #region Реализация команд
 
             // Переключение на вкладку планировщика
             SwitchToScheduler = new DelegateCommand(() =>
             {
-                _mainWindowViewModel.SelectedTabIndex = (int) MainWindowTabItems.Scheduler;
+                mainWindowViewModel.SelectedTabIndex = (int) MainWindowTabItems.Scheduler;
             });
 
             // Загрузка списка получателей
             LoadRecipientsDataCommand = new DelegateCommand(() =>
             {
-                Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                Recipients = new ObservableCollection<Recipient>(recipientsManager.GetAll());
                 FilterRecipients();
             });
 
@@ -62,10 +62,10 @@ namespace MailSender.ViewModels
             {
                 EditableRecipient = new Recipient();
 
-                _recipientsManager.Add(EditableRecipient);
-                _recipientsManager.SaveChanges();
+                recipientsManager.Add(EditableRecipient);
+                recipientsManager.SaveChanges();
 
-                Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                Recipients = new ObservableCollection<Recipient>(recipientsManager.GetAll());
                 FilterRecipients();
             }, () => Recipients != null).ObservesProperty(() => Recipients);
 
@@ -79,20 +79,20 @@ namespace MailSender.ViewModels
                     Address = SelectedRecipient.Address
                 };
 
-                _recipientsManager.Edit(EditableRecipient);
-                _recipientsManager.SaveChanges();
+                recipientsManager.Edit(EditableRecipient);
+                recipientsManager.SaveChanges();
 
-                Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                Recipients = new ObservableCollection<Recipient>(recipientsManager.GetAll());
                 FilterRecipients();
             }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
 
             // Удаление получателя
             RemoveRecipientCommand = new DelegateCommand(() =>
             {
-                _recipientsManager.Remove(SelectedRecipient);
-                _recipientsManager.SaveChanges();
+                recipientsManager.Remove(SelectedRecipient);
+                recipientsManager.SaveChanges();
 
-                Recipients = new ObservableCollection<Recipient>(_recipientsManager.GetAll());
+                Recipients = new ObservableCollection<Recipient>(recipientsManager.GetAll());
                 FilterRecipients();
             }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
 
@@ -101,10 +101,10 @@ namespace MailSender.ViewModels
             {
                 EditableSender = new Sender();
 
-                _sendersManager.Add(EditableSender);
-                _sendersManager.SaveChanges();
+                sendersManager.Add(EditableSender);
+                sendersManager.SaveChanges();
 
-                Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
+                Senders = new ObservableCollection<Sender>(sendersManager.GetAll());
             }, () => Senders != null).ObservesProperty(() => Senders);
 
             // Редактирование отправителя
@@ -117,19 +117,19 @@ namespace MailSender.ViewModels
                     Address = SelectedSender.Address
                 };
 
-                _sendersManager.Edit(EditableSender);
-                _sendersManager.SaveChanges();
+                sendersManager.Edit(EditableSender);
+                sendersManager.SaveChanges();
 
-                Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
+                Senders = new ObservableCollection<Sender>(sendersManager.GetAll());
             }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
 
             // Удаление отправителя
             RemoveSenderCommand = new DelegateCommand(() =>
             {
-                _sendersManager.Remove(SelectedSender);
-                _sendersManager.SaveChanges();
+                sendersManager.Remove(SelectedSender);
+                sendersManager.SaveChanges();
 
-                Senders = new ObservableCollection<Sender>(_sendersManager.GetAll());
+                Senders = new ObservableCollection<Sender>(sendersManager.GetAll());
             }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
 
             // Добавление сервера
@@ -137,10 +137,10 @@ namespace MailSender.ViewModels
             {
                 EditableServer = new Server();
 
-                _serversManager.Add(EditableServer);
-                _serversManager.SaveChanges();
+                serversManager.Add(EditableServer);
+                serversManager.SaveChanges();
 
-                Servers = new ObservableCollection<Server>(_serversManager.GetAll());
+                Servers = new ObservableCollection<Server>(serversManager.GetAll());
             }, () => Servers != null).ObservesProperty(() => Servers);
 
             // Редактирование сервера
@@ -157,19 +157,19 @@ namespace MailSender.ViewModels
                     Password = SelectedServer.Password
                 };
 
-                _serversManager.Edit(EditableServer);
-                _serversManager.SaveChanges();
+                serversManager.Edit(EditableServer);
+                serversManager.SaveChanges();
 
-                Servers = new ObservableCollection<Server>(_serversManager.GetAll());
+                Servers = new ObservableCollection<Server>(serversManager.GetAll());
             }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
 
             // Удаление сервера
             RemoveServerCommand = new DelegateCommand(() =>
             {
-                _serversManager.Remove(SelectedServer);
-                _serversManager.SaveChanges();
+                serversManager.Remove(SelectedServer);
+                serversManager.SaveChanges();
 
-                Servers = new ObservableCollection<Server>(_serversManager.GetAll());
+                Servers = new ObservableCollection<Server>(serversManager.GetAll());
             }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);
 
             #endregion

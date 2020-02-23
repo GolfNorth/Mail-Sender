@@ -8,20 +8,8 @@ namespace MailSender.ViewModels
 {
     public class StatisticsViewModel : BindableBase
     {
-        public StatisticsViewModel(IEntityManager<Recipient> recipientsManager, IEntityExportToExcel<Recipient> recipientsImporter)
+        public StatisticsViewModel()
         {
-            // Загрузка списка получателей
-            ExportRecipientsToExcel = new DelegateCommand(() =>
-            {
-                var recipients = recipientsManager.GetAll();
-
-                recipientsImporter.ExportToExcel(recipients);
-            });
         }
-
-        /// <summary>
-        ///     Загружает список получателей сообщений
-        /// </summary>
-        public DelegateCommand ExportRecipientsToExcel { get; }
     }
 }
