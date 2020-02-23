@@ -53,7 +53,7 @@
                             </Button>
                         </ToolBar>
                         <ToolBar Band="0" BandIndex="1">
-                            <Button HorizontalAlignment="Right" Command="{Binding SwitchToScheduler}">
+                            <Button HorizontalAlignment="Right" Command="{Binding SwitchToSchedulerCommand}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Width="202">Перейти в планировщик</TextBlock>
                                     <Image Source="..\Resources\icons8-alarm-clock-48.png" Width="20" />
@@ -112,17 +112,17 @@
                     <GroupBox Header="Управление">
                         <StackPanel>
                             <TextBlock Text="Календарь" />
-                            <Calendar />
-                            <xctk:TimePicker />
+                            <Calendar SelectedDate="{Binding SelectedDate}" />
+                            <xctk:TimePicker Value="{Binding SelectedDate}" DefaultValue="0:00" />
                             <StackPanel>
-                                <Button Margin="0 3 0 0">
+                                <Button Margin="0 3 0 0" Command="{Binding CreatNewDelayedSchedulerTaskCommand}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/MailSender;component/Resources/icons8-planner-48.png"
                                                Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Отправить запланировано" />
                                     </StackPanel>
                                 </Button>
-                                <Button Margin="0 5 0 0">
+                                <Button Margin="0 5 0 0" Command="{Binding CreatNewSchedulerTaskCommand}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/MailSender;component/Resources/icons8-send-48.png" Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Отправить сразу" />

@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using MailSender.Enums;
 using MailSender.Library.Entities;
 using MailSender.Library.Services.Interfaces;
@@ -16,6 +19,7 @@ namespace MailSender.ViewModels
         private string _filterText; // Текст фильтра
         private ObservableCollection<Recipient> _recipients; // Коллекция получателей
         private Recipient _selectedRecipient; // Выбранный получатель
+        private IEnumerable<Recipient> _selectedRecipients; // Выбранный получатель
         private Sender _selectedSender; // Выбранный отпарвитель
         private Server _selectedServer; // Выбранный сервер
         private ObservableCollection<Sender> _senders; // Коллекция отправителей
@@ -34,7 +38,7 @@ namespace MailSender.ViewModels
             #region Реализация команд
 
             // Переключение на вкладку планировщика
-            SwitchToScheduler = new DelegateCommand(() =>
+            SwitchToSchedulerCommand = new DelegateCommand(() =>
             {
                 mainWindowViewModel.SelectedTabIndex = (int) MainWindowTabItems.Scheduler;
             });
@@ -44,6 +48,14 @@ namespace MailSender.ViewModels
             {
                 Recipients = new ObservableCollection<Recipient>(recipientsManager.GetAll());
                 FilterRecipients();
+            });
+
+            // Удаление получателя
+            SelectedRecipientsChangedCommand = new DelegateCommand<object>(o =>
+            {
+                var items = (IList) o;
+
+                SelectedRecipients = items.Cast<Recipient>();
             });
 
             // Добавление получателя
@@ -78,7 +90,9 @@ namespace MailSender.ViewModels
             // Удаление получателя
             RemoveRecipientCommand = new DelegateCommand(() =>
             {
-                recipientsManager.Remove(SelectedRecipient);
+                foreach (var recipient in SelectedRecipients)
+                    recipientsManager.Remove(recipient);
+
                 recipientsManager.SaveChanges();
 
                 Recipients = new ObservableCollection<Recipient>(recipientsManager.GetAll());
@@ -244,6 +258,15 @@ namespace MailSender.ViewModels
         }
 
         /// <summary>
+        ///     Выбранный получатель
+        /// </summary>
+        public IEnumerable<Recipient> SelectedRecipients
+        {
+            get => _selectedRecipients;
+            set => SetProperty(ref _selectedRecipients, value);
+        }
+
+        /// <summary>
         ///     Выбранный сервер
         /// </summary>
         public Server SelectedServer
@@ -299,7 +322,12 @@ namespace MailSender.ViewModels
         /// <summary>
         ///     Сменяет вкладку на "Планировщик"
         /// </summary>
-        public DelegateCommand SwitchToScheduler { get; }
+        public DelegateCommand SwitchToSchedulerCommand { get; }
+
+        /// <summary>
+        ///     Изменение выбранных получателей
+        /// </summary>
+        public DelegateCommand<object> SelectedRecipientsChangedCommand { get; }
 
         /// <summary>
         ///     Загружает список получателей сообщений

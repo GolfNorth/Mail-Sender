@@ -21,7 +21,8 @@
                 <TextBlock Margin="5 0 0 0" Text="Обновить" />
             </StackPanel>
         </Button>
-        <DataGrid ItemsSource="{Binding FilteredRecipients}" SelectedItem="{Binding SelectedRecipient}"
+        <DataGrid ItemsSource="{Binding FilteredRecipients}" Name="RecipientsGrid"
+                  SelectedItem="{Binding SelectedRecipient}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   HorizontalGridLinesBrush="Gray"
@@ -38,6 +39,11 @@
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
                         Command="{Binding EditRecipientCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction
+                        Command="{Binding SelectedRecipientsChangedCommand}"
+                        CommandParameter="{Binding ElementName=RecipientsGrid, Path=SelectedItems}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>

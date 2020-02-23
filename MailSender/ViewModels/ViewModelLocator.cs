@@ -69,6 +69,7 @@ namespace MailSender.ViewModels
 
             #region Others
             container.RegisterType<IEmailSenderService, EmailSenderService>();
+            container.RegisterType<EMailSchedulerTPL>();
             #endregion
             
             #region DB

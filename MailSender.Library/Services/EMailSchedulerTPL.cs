@@ -10,18 +10,20 @@ namespace MailSender.Library.Services
 {
     public class EMailSchedulerTPL
     {
-        private readonly Dictionary<Server, EmailSender> _emailSendServices;  // Словарь сервисов отправки электронной почты
+        private readonly Dictionary<Server, IEmailSender> _emailSendServices;  // Словарь сервисов отправки электронной почты
         private readonly IEntityStore<SchedulerTask> _schedulerTasksStore;  // Хранилище заданий
+        private readonly IEmailSenderService _emailSenderService; // Сервис отправки сообщений
         private volatile CancellationTokenSource _processTaskCancellation;  // Токен отмены выполнения заданий
 
         /// <summary>
         ///     Инициализация класса выполнения заданий
         /// </summary>
         /// <param name="schedulerTasksStore">Хранилище заданий</param>
-        public EMailSchedulerTPL(IEntityStore<SchedulerTask> schedulerTasksStore)
+        public EMailSchedulerTPL(IEntityStore<SchedulerTask> schedulerTasksStore, IEmailSenderService emailSenderService)
         {
+            _emailSenderService = emailSenderService;
             _schedulerTasksStore = schedulerTasksStore;
-            _emailSendServices = new Dictionary<Server, EmailSender>();
+            _emailSendServices = new Dictionary<Server, IEmailSender>();
         }
 
         /// <summary>
@@ -81,7 +83,7 @@ namespace MailSender.Library.Services
             cancel.ThrowIfCancellationRequested();
 
             if (!_emailSendServices.ContainsKey(schedulerTask.Server))
-                _emailSendServices.Add(schedulerTask.Server, new EmailSender(schedulerTask.Server));
+                _emailSendServices.Add(schedulerTask.Server, _emailSenderService.GetSender(schedulerTask.Server));
 
             await _emailSendServices[schedulerTask.Server].SendMailAsync(schedulerTask.Sender, schedulerTask.Recipients, schedulerTask.Email, cancel);
         }
