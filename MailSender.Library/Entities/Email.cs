@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using MailSender.Library.Entities.Base;
 
 namespace MailSender.Library.Entities
@@ -6,7 +7,7 @@ namespace MailSender.Library.Entities
     /// <summary>
     ///     Класс сущности электронного письма
     /// </summary>
-    public class Email : BaseEntity
+    public class Email : BaseEntity, IDataErrorInfo
     {
         private const int MinSubjectLength = 2;
 
@@ -20,7 +21,6 @@ namespace MailSender.Library.Entities
         /// <summary>
         ///     Тело электронного письма
         /// </summary>
-        [Required]
         public string Body { get; set; }
 
         public string Error => null;

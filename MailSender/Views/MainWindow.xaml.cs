@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace MailSender.Views
 {
@@ -12,29 +13,14 @@ namespace MailSender.Views
             InitializeComponent();
         }
 
-        /*
-        private void Button_Click(object s, RoutedEventArgs e)
+        private void OnDataValidationError(object sender, ValidationErrorEventArgs e)
         {
-            var recipient = RecipientsList.SelectedItem as Recipient;
-            var sender = SendersList.SelectedItem as Sender;
-            var server = ServersList.SelectedItem as Server;
+            if (!(e.Source is Control control)) return;
 
-            if (recipient is null || server is null || sender is null) return;
-
-            try
-            {
-                var mail_sender = new EmailSender(server.Host, server.Port, server.Login,
-                    server.Password.Decode(3), server.EnableSsl);
-
-                mail_sender.SendMail(sender.Address, recipient.Address, MailSubject.Text, MailBody.Text);
-
-                Debug.WriteLine("Sended");
-            }
-            catch (Exception error)
-            {
-                Debug.WriteLine(error.Message);
-            }
+            if (e.Action == ValidationErrorEventAction.Added)
+                control.ToolTip = e.Error.ErrorContent.ToString();
+            else
+                control.ClearValue(ToolTipProperty);
         }
-        */
     }
 }

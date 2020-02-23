@@ -54,6 +54,7 @@ namespace MailSender.ViewModels
             container.RegisterType<IEntityEditor<Recipient>, WindowRecipientEditor>(TypeLifetime.Singleton);
             container.RegisterType<IEntityEditor<Sender>, WindowSenderEditor>(TypeLifetime.Singleton);
             container.RegisterType<IEntityEditor<Server>, WindowServerEditor>(TypeLifetime.Singleton);
+            container.RegisterType<IEntityEditor<Email>, TabItemEmailEditor>(TypeLifetime.Singleton);
             #endregion
 
             #region Exporters
