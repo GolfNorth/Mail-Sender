@@ -34,6 +34,7 @@ namespace MailSender.ViewModels
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
             container.RegisterType<IEntityManager<Server>, ServersManager>();
             container.RegisterType<IEntityManager<Sender>, SendersManager>();
+            container.RegisterType<IEntityManager<Email>, EmailsManager>();
             #endregion
 
             #region StoreInMemory
@@ -46,6 +47,7 @@ namespace MailSender.ViewModels
             container.RegisterType<IEntityStore<Recipient>, RecipientsStoreEntityFramework>();
             container.RegisterType<IEntityStore<Server>, ServersStoreEntityFramework>();
             container.RegisterType<IEntityStore<Sender>, SendersStoreEntityFramework>();
+            container.RegisterType<IEntityStore<Email>, EmailsStoreEntityFramework>();
             #endregion
 
             #region Editors

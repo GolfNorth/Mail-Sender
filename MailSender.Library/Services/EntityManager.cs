@@ -16,6 +16,10 @@ namespace MailSender.Library.Services
         /// </summary>
         private readonly IEntityEditor<T> _editor;
 
+        protected EntityManager(IEntityStore<T> store)
+        {
+            _store = store;
+        }
 
         protected EntityManager(IEntityStore<T> store, IEntityEditor<T> editor)
         {
@@ -30,12 +34,12 @@ namespace MailSender.Library.Services
 
         public int Add(T newItem)
         {
-            return _editor.Edit(ref newItem) ? _store.Add(newItem) : 0;
+            return (_editor is null || _editor.Edit(ref newItem)) ? _store.Add(newItem) : 0;
         }
 
         public void Edit(T item)
         {
-            if (_editor.Edit(ref item))
+            if (_editor is null || _editor.Edit(ref item))
                 _store.Edit(item.Id, item);
         }
 

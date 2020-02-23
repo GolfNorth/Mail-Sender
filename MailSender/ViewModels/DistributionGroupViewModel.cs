@@ -9,11 +9,6 @@ namespace MailSender.ViewModels
 {
     public class DistributionGroupViewModel : BindableBase
     {
-        //private readonly MainWindowViewModel _mainWindowViewModel; // ViewModel главного окна
-        //private readonly IEntityManager<Recipient> _recipientsManager; // Менеджер получателей
-        //private readonly IEntityManager<Sender> _sendersManager; // Менеджер отправителей
-        //private readonly IEntityManager<Server> _serversManager; // Менеджер серверов
-
         private Recipient _editableRecipient; // Редактируемый получатель
         private Sender _editableSender; // Редактируемый отправитель
         private Server _editableServer; // Редактируемый сервер
@@ -32,12 +27,6 @@ namespace MailSender.ViewModels
         {
             FilteredRecipients = new ObservableCollection<Recipient>();
             FilterText = string.Empty;
-
-            //_mainWindowViewModel = mainWindowViewModel;
-
-            //_recipientsManager = recipientsManager;
-            //_serversManager = serversManager;
-            //_sendersManager = sendersManager;
 
             Servers = new ObservableCollection<Server>(serversManager.GetAll());
             Senders = new ObservableCollection<Sender>(sendersManager.GetAll());

@@ -15,12 +15,25 @@ namespace MailSender.ViewModels
             IEntityManager<Server> serversManager, IEntityExport<Server> serversExporter,
             IEntityManager<Email> emailsManager, IEntityExport<Email> emailsExporter)
         {
-            // Загрузка списка получателей
+            // Экспорт получателей
             ExportRecipients = new DelegateCommand(() =>
             {
-                var recipients = recipientsManager.GetAll();
-
-                recipientsExporter.Export(recipients);
+                recipientsExporter.Export(recipientsManager.GetAll());
+            });
+            // Экспорт отправителей
+            ExportSenders = new DelegateCommand(() =>
+            {
+                sendersExporter.Export(sendersManager.GetAll());
+            });
+            // Экспорт серверов
+            ExportServers = new DelegateCommand(() =>
+            {
+                serversExporter.Export(serversManager.GetAll());
+            });
+            // Экспорт сообщений
+            ExportEmails = new DelegateCommand(() =>
+            {
+                emailsExporter.Export(emailsManager.GetAll());
             });
         }
 
@@ -39,13 +52,13 @@ namespace MailSender.ViewModels
         /// </summary>
         public DelegateCommand ExportRecipients { get; }
         /// <summary>
-        ///     Экспорт серверов
-        /// </summary>
-        public DelegateCommand ExportServers { get; }
-        /// <summary>
         ///     Экспорт отправителей
         /// </summary>
         public DelegateCommand ExportSenders { get; }
+        /// <summary>
+        ///     Экспорт серверов
+        /// </summary>
+        public DelegateCommand ExportServers { get; }
         /// <summary>
         ///     Экспорт сообщений
         /// </summary>
