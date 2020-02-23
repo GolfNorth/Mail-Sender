@@ -207,7 +207,7 @@
                             <GroupBox DockPanel.Dock="Top" Header="Тема письма">
                                 <TextBox Text="{Binding SelectedEmail.Subject, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}" Name="EmailSubject">
                                     <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="TextChanged">
+                                        <i:EventTrigger EventName="LostFocus">
                                             <i:InvokeCommandAction
                                                 Command="{Binding EditEmailCommand}" />
                                         </i:EventTrigger>
