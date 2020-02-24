@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MailSender.Library.Entities;
@@ -22,14 +23,18 @@ namespace MailSender.Library.Data.EntityFramework
             await SeedAsync(_db.Senders);
             await SeedAsync(_db.Recipients);
 
+            
             if (!await _db.EmailLists.AnyAsync())
             {
-                _db.EmailLists.Add(
-                    new EmailList
-                    {
-                        Name = "Mail list",
-                        Recipients = await _db.Recipients.OrderBy(r => r.Id).Take(5).ToArrayAsync()
-                    });
+                var newEmailList = new EmailList()
+                {
+                    Name = "Scheduler Task 1"
+                };
+                newEmailList.RecipientsList = await _db.Recipients.OrderBy(r => r.Id).Take(5)
+                    .Select(recipient => new EmailListRecipient {Recipient = recipient, EmailList = newEmailList})
+                    .ToArrayAsync();
+
+                _db.EmailLists.Add(newEmailList);
                 await _db.SaveChangesAsync();
             }
 

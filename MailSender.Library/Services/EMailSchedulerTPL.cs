@@ -37,7 +37,7 @@ namespace MailSender.Library.Services
             Interlocked.Exchange(ref _processTaskCancellation, cancellation)?.Cancel();
 
             var firstTask = _schedulerTasksStore.GetAll()
-                .Where(task => task.Time > DateTime.Now)
+                .Where(task => task.Time > DateTime.Now.AddMinutes(-1)) // Минус минута исключения для погрешности
                 .OrderBy(task => task.Time)
                 .FirstOrDefault();
 

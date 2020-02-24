@@ -35,6 +35,20 @@ namespace MailSender.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Recipients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Address = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Senders",
                 columns: table => new
                 {
@@ -67,24 +81,27 @@ namespace MailSender.Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recipients",
+                name: "EmailListRecipients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Address = table.Column<string>(nullable: false),
-                    EmailListId = table.Column<int>(nullable: true)
+                    EmailListId = table.Column<int>(nullable: false),
+                    RecipientId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipients", x => x.Id);
+                    table.PrimaryKey("PK_EmailListRecipients", x => new { x.EmailListId, x.RecipientId });
                     table.ForeignKey(
-                        name: "FK_Recipients_EmailLists_EmailListId",
+                        name: "FK_EmailListRecipients_EmailLists_EmailListId",
                         column: x => x.EmailListId,
                         principalTable: "EmailLists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmailListRecipients_Recipients_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "Recipients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,9 +146,9 @@ namespace MailSender.Library.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipients_EmailListId",
-                table: "Recipients",
-                column: "EmailListId");
+                name: "IX_EmailListRecipients_RecipientId",
+                table: "EmailListRecipients",
+                column: "RecipientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SchedulerTasks_EmailId",
@@ -157,10 +174,13 @@ namespace MailSender.Library.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Recipients");
+                name: "EmailListRecipients");
 
             migrationBuilder.DropTable(
                 name: "SchedulerTasks");
+
+            migrationBuilder.DropTable(
+                name: "Recipients");
 
             migrationBuilder.DropTable(
                 name: "Emails");

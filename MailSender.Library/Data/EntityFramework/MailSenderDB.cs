@@ -13,6 +13,7 @@ namespace MailSender.Library.Data.EntityFramework
 
         public DbSet<Email> Emails { get; set; }
         public DbSet<EmailList> EmailLists { get; set; }
+        public DbSet<EmailListRecipient> EmailListRecipients { get; set; }
         public DbSet<Recipient> Recipients { get; set; }
         public DbSet<SchedulerTask> SchedulerTasks { get; set; }
         public DbSet<Sender> Senders { get; set; }
@@ -31,6 +32,22 @@ namespace MailSender.Library.Data.EntityFramework
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             optionsBuilder.UseSqlite(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EmailListRecipient>()
+                .HasKey(elr => new { elr.EmailListId, elr.RecipientId });
+
+            modelBuilder.Entity<EmailListRecipient>()
+                .HasOne(elr => elr.Recipient)
+                .WithMany(r => r.EmailListsList)
+                .HasForeignKey(elr => elr.RecipientId);
+
+            modelBuilder.Entity<EmailListRecipient>()
+                .HasOne(elr => elr.EmailList)
+                .WithMany(el => el.RecipientsList)
+                .HasForeignKey(r => r.EmailListId);
         }
     }
 }

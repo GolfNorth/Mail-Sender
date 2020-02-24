@@ -125,9 +125,8 @@ namespace MailSender.ViewModels
         private SchedulerTask CreateNewSchedulerTask(DateTime dateTime)
         {
             var newEmailList = new EmailList();
-
-            foreach (var recipient in SelectedRecipients)
-                newEmailList.Recipients.Add(recipient);
+            newEmailList.RecipientsList = SelectedRecipients.Select(recipient =>
+                new EmailListRecipient {Recipient = recipient, EmailList = newEmailList});
 
             var newSchedulerTask = new SchedulerTask
             {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using MailSender.Library.Entities.Base;
@@ -18,6 +19,11 @@ namespace MailSender.Library.Entities
 
         [Required]
         public override string Address { get; set; }
+
+        /// <summary>
+        ///     Коллекция списков рассылки
+        /// </summary>
+        public virtual IEnumerable<EmailListRecipient> EmailListsList { get; set; }
 
         public string Error => null;
 

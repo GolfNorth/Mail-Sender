@@ -13,18 +13,18 @@ namespace MailSender.Library.Entities
         ///     Коллекция получателей в списке рассылки
         /// </summary>
         [Required]
-        public virtual ICollection<Recipient> Recipients { get; set; } = new List<Recipient>();
+        public virtual IEnumerable<EmailListRecipient> RecipientsList { get; set; }// = new List<Recipient>();
 
         public override string ToString()
         {
             var result = string.Empty;
 
-            foreach (var r in Recipients)
+            foreach (var r in RecipientsList)
             {
                 if (result != string.Empty)
                     result += ", ";
 
-                result += $"{r.Name} ({r.Address})";
+                result += $"{r.Recipient.Name} ({r.Recipient.Address})";
             }
 
             return result;

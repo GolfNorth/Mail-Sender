@@ -48,6 +48,21 @@ namespace MailSender.Library.Migrations
                     b.ToTable("EmailLists");
                 });
 
+            modelBuilder.Entity("MailSender.Library.Entities.EmailListRecipient", b =>
+                {
+                    b.Property<int>("EmailListId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("EmailListId", "RecipientId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.ToTable("EmailListRecipients");
+                });
+
             modelBuilder.Entity("MailSender.Library.Entities.Recipient", b =>
                 {
                     b.Property<int>("Id")
@@ -58,17 +73,12 @@ namespace MailSender.Library.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("EmailListId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmailListId");
 
                     b.ToTable("Recipients");
                 });
@@ -159,11 +169,19 @@ namespace MailSender.Library.Migrations
                     b.ToTable("Servers");
                 });
 
-            modelBuilder.Entity("MailSender.Library.Entities.Recipient", b =>
+            modelBuilder.Entity("MailSender.Library.Entities.EmailListRecipient", b =>
                 {
-                    b.HasOne("MailSender.Library.Entities.EmailList", null)
-                        .WithMany("Recipients")
-                        .HasForeignKey("EmailListId");
+                    b.HasOne("MailSender.Library.Entities.EmailList", "EmailList")
+                        .WithMany("RecipientsList")
+                        .HasForeignKey("EmailListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MailSender.Library.Entities.Recipient", "Recipient")
+                        .WithMany("EmailListsList")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MailSender.Library.Entities.SchedulerTask", b =>

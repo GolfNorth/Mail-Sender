@@ -59,10 +59,10 @@ namespace MailSender.Library.Services
 
         public async Task SendMailAsync(Sender sender, EmailList recipients, Email email, CancellationToken Cancel = default)
         {
-            foreach (var recipient in recipients.Recipients)
+            foreach (var emailListRecipient in recipients.RecipientsList)
             {
                 Cancel.ThrowIfCancellationRequested();
-                await SendMailAsync(sender, recipient, email).ConfigureAwait(false);
+                await SendMailAsync(sender, emailListRecipient.Recipient, email).ConfigureAwait(false);
             }
         }
     }
