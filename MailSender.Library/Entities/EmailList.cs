@@ -7,7 +7,7 @@ namespace MailSender.Library.Entities
     /// <summary>
     ///     Класс сущности списка рассылки
     /// </summary>
-    public class EmailList : BaseEntity
+    public class EmailList : NamedEntity
     {
         /// <summary>
         ///     Коллекция получателей в списке рассылки

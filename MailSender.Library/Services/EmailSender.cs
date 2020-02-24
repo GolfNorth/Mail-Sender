@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
@@ -60,7 +59,6 @@ namespace MailSender.Library.Services
 
         public async Task SendMailAsync(Sender sender, EmailList recipients, Email email, CancellationToken Cancel = default)
         {
-            Debug.WriteLine("Continue 5");
             foreach (var emailListRecipient in recipients.RecipientsList)
             {
                 Cancel.ThrowIfCancellationRequested();

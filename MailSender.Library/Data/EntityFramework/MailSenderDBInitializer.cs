@@ -25,7 +25,10 @@ namespace MailSender.Library.Data.EntityFramework
             
             if (!await _db.EmailLists.AnyAsync())
             {
-                var newEmailList = new EmailList();
+                var newEmailList = new EmailList()
+                {
+                    Name = "New list"
+                };
                 newEmailList.RecipientsList = await _db.Recipients.OrderBy(r => r.Id).Take(5)
                     .Select(recipient => new EmailListRecipient {Recipient = recipient, EmailList = newEmailList})
                     .ToArrayAsync();

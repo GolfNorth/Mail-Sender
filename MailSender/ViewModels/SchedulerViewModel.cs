@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using MailSender.Library.Entities;
 using MailSender.Library.Services;
 using MailSender.Library.Services.Interfaces;
@@ -29,6 +31,8 @@ namespace MailSender.ViewModels
 
             _distributionGroupViewModel.PropertyChanged += ViewModelsPropertyChanged;
             _emailEditorViewModel.PropertyChanged += ViewModelsPropertyChanged;
+
+            emailScheduler.TaskExecuted += (sender, args) => SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
 
             // Запуск заданий, если остались
             _ = emailScheduler.StartAsync();

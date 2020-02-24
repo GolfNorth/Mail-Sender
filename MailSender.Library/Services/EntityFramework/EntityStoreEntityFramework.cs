@@ -20,7 +20,6 @@ namespace MailSender.Library.Services.EntityFramework
 
         public IEnumerable<T> GetAll()
         {
-            //_set.AsN
             return _set.AsEnumerable();
         }
 

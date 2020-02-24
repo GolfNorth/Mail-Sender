@@ -34,7 +34,7 @@ namespace MailSender.ViewModels
             #region Managers
             container.RegisterType<IEntityManager<Recipient>, RecipientsManager>();
             container.RegisterType<IEntityManager<Server>, ServersManager>();
-            container.RegisterType<IEntityManager<Sender>, SendersManager>();
+            container.RegisterType<IEntityManager<Sender>, SendersManager>(); ;
             container.RegisterType<IEntityManager<Email>, EmailsManager>();
             container.RegisterType<IEntityManager<SchedulerTask>, SchedulerTaskManager>();
             #endregion

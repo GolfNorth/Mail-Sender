@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,19 +10,24 @@ namespace MailSender.Library.Services
 {
     public class EMailSchedulerTPL
     {
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event EventHandler TaskExecuted;
+
         private readonly Dictionary<Server, IEmailSender> _emailSendServices;  // Словарь сервисов отправки электронной почты
-        private readonly IEntityStore<SchedulerTask> _schedulerTasksStore;  // Хранилище заданий
+        private readonly IEntityManager<SchedulerTask> _schedulerTaskManager;  // Хранилище заданий
         private readonly IEmailSenderService _emailSenderService; // Сервис отправки сообщений
         private volatile CancellationTokenSource _processTaskCancellation;  // Токен отмены выполнения заданий
 
         /// <summary>
         ///     Инициализация класса выполнения заданий
         /// </summary>
-        /// <param name="schedulerTasksStore">Хранилище заданий</param>
-        public EMailSchedulerTPL(IEntityStore<SchedulerTask> schedulerTasksStore, IEmailSenderService emailSenderService)
+        /// <param name="schedulerTaskManager">Хранилище заданий</param>
+        public EMailSchedulerTPL(IEntityManager<SchedulerTask> schedulerTaskManager, IEmailSenderService emailSenderService)
         {
             _emailSenderService = emailSenderService;
-            _schedulerTasksStore = schedulerTasksStore;
+            _schedulerTaskManager = schedulerTaskManager;
             _emailSendServices = new Dictionary<Server, IEmailSender>();
         }
 
@@ -33,13 +37,11 @@ namespace MailSender.Library.Services
         /// <returns></returns>
         public async Task StartAsync()
         {
-            Debug.WriteLine("Started");
-
             var cancellation = new CancellationTokenSource();
 
             Interlocked.Exchange(ref _processTaskCancellation, cancellation)?.Cancel();
 
-            var firstTask = _schedulerTasksStore.GetAll()
+            var firstTask = _schedulerTaskManager.GetAll()
                 .Where(task => task.Time > DateTime.Now)
                 .OrderBy(task => task.Time)
                 .FirstOrDefault();
@@ -62,7 +64,11 @@ namespace MailSender.Library.Services
             await Task.Delay(delta, cancel).ConfigureAwait(false);
 
             await ExecuteTask(schedulerTask, cancel);
-            _schedulerTasksStore.Remove(schedulerTask.Id);
+
+            _schedulerTaskManager.Remove(schedulerTask);
+            _schedulerTaskManager.SaveChanges();
+
+            TaskExecuted?.Invoke(this, EventArgs.Empty);
 
             await StartAsync();
         }

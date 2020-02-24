@@ -21,7 +21,11 @@
                 <MenuItem Header="Экспорт серверов" Command="{Binding ExportServers}" />
                 <MenuItem Header="Экспорт сообщений" Command="{Binding ExportEmails}" />
             </MenuItem>
-            <MenuItem Header="О программе" />
+            <MenuItem Header="О программе">
+                <i:Interaction.Behaviors>
+                    <behaviors:OpenAboutBehavior/>
+                </i:Interaction.Behaviors>
+            </MenuItem>
         </Menu>
         <TabControl Name="TabControl" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem Name="DistributionGroup" Header="Формирование группы рассылки"
