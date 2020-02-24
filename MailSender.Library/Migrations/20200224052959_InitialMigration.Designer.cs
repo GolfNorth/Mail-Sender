@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MailSender.Library.Migrations
 {
     [DbContext(typeof(MailSenderDB))]
-    [Migration("20200224050829_InitialMigration")]
+    [Migration("20200224052959_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

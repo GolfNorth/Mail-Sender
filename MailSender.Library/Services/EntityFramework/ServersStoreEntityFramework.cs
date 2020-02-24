@@ -22,7 +22,7 @@ namespace MailSender.Library.Services.EntityFramework
             dbItem.EnableSsl = item.EnableSsl;
             dbItem.Password = item.Password;
             dbItem.Port = item.Port;
-            dbItem.Host = dbItem.Host;
+            dbItem.Host = item.Host;
             dbItem.Login = item.Login;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,12 +33,14 @@ namespace MailSender.Library.Services
         /// <returns></returns>
         public async Task StartAsync()
         {
+            Debug.WriteLine("Started");
+
             var cancellation = new CancellationTokenSource();
 
             Interlocked.Exchange(ref _processTaskCancellation, cancellation)?.Cancel();
 
             var firstTask = _schedulerTasksStore.GetAll()
-                .Where(task => task.Time > DateTime.Now.AddMinutes(-1)) // Минус минута исключения для погрешности
+                .Where(task => task.Time > DateTime.Now)
                 .OrderBy(task => task.Time)
                 .FirstOrDefault();
 

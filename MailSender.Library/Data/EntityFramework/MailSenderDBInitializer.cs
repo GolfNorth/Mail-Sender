@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MailSender.Library.Entities;
@@ -69,8 +68,18 @@ namespace MailSender.Library.Data.EntityFramework
         {
             if (await servers.AnyAsync()) return;
 
+            servers.Add(new Server
+            {
+                Name = "Localhost",
+                Host = "localhost",
+                Port = 25,
+                EnableSsl = false
+            });
+
+            /*
             for (var i = 0; i < 10; i++)
                 servers.Add(new Server { Name = $"Сервер {i}", Host = $"smtp.server{i}.ru", Login = "login", Password = "pass" });
+            */
             
             await _db.SaveChangesAsync();
         }

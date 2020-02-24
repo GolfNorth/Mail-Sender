@@ -30,6 +30,9 @@ namespace MailSender.ViewModels
             _distributionGroupViewModel.PropertyChanged += ViewModelsPropertyChanged;
             _emailEditorViewModel.PropertyChanged += ViewModelsPropertyChanged;
 
+            // Запуск заданий, если остались
+            _ = emailScheduler.StartAsync();
+
             SelectedDate = DateTime.Now;
 
             SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
@@ -37,10 +40,12 @@ namespace MailSender.ViewModels
             // Добавление задания
             CreatNewSchedulerTaskCommand = new DelegateCommand(() =>
             {
-                var newSchedulerTask = CreateNewSchedulerTask(DateTime.Now);
+                var newSchedulerTask = CreateNewSchedulerTask(DateTime.Now.AddSeconds(10));
 
                 schedulerTaskManager.Add(newSchedulerTask);
                 schedulerTaskManager.SaveChanges();
+
+                _ = emailScheduler.StartAsync();
 
                 SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
             }, () => CanCreateNewTask);
@@ -52,6 +57,8 @@ namespace MailSender.ViewModels
 
                 schedulerTaskManager.Add(newSchedulerTask);
                 schedulerTaskManager.SaveChanges();
+
+                _ = emailScheduler.StartAsync();
 
                 SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
             }, () => CanCreateNewTask);
@@ -124,9 +131,12 @@ namespace MailSender.ViewModels
         /// <returns></returns>
         private SchedulerTask CreateNewSchedulerTask(DateTime dateTime)
         {
-            var newEmailList = new EmailList();
+            var newEmailList = new EmailList()
+            {
+                Name = SelectedEmail.Subject
+            };
             newEmailList.RecipientsList = SelectedRecipients.Select(recipient =>
-                new EmailListRecipient {Recipient = recipient, EmailList = newEmailList});
+                new EmailListRecipient {Recipient = recipient, EmailList = newEmailList}).ToArray();
 
             var newSchedulerTask = new SchedulerTask
             {
