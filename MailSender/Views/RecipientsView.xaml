@@ -12,7 +12,7 @@
     <DockPanel Margin="3">
         <DockPanel DockPanel.Dock="Top" Margin="0,5">
             <TextBlock DockPanel.Dock="Left" Margin="0,0,5,0">Поиск по имени:</TextBlock>
-            <TextBox Text = "{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
         <Button DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="0,5,0,0"
                 Command="{Binding LoadRecipientsDataCommand}">
@@ -21,9 +21,9 @@
                 <TextBlock Margin="5 0 0 0" Text="Обновить" />
             </StackPanel>
         </Button>
-        <DataGrid ItemsSource="{Binding FilteredRecipients}" SelectedItem="{Binding SelectedRecipient}"
+        <DataGrid ItemsSource="{Binding FilteredRecipients}" Name="RecipientsGrid"
+                  SelectedItem="{Binding SelectedRecipient}"
                   AutoGenerateColumns="False"
-                  SelectionMode="Single"
                   IsReadOnly="True"
                   HorizontalGridLinesBrush="Gray"
                   VerticalGridLinesBrush="Gray"
@@ -33,12 +33,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="10" />
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" />
-                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="250"  />
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="250" />
             </DataGrid.Columns>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
                         Command="{Binding EditRecipientCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction
+                        Command="{Binding SelectedRecipientsChangedCommand}"
+                        CommandParameter="{Binding ElementName=RecipientsGrid, Path=SelectedItems}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>

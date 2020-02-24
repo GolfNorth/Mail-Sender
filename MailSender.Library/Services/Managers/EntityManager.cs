@@ -3,19 +3,24 @@ using MailSender.Infrastructure.Services.Interfaces;
 using MailSender.Library.Entities.Base;
 using MailSender.Library.Services.Interfaces;
 
-namespace MailSender.Library.Services
+namespace MailSender.Library.Services.Managers
 {
     public abstract class EntityManager<T> : IEntityManager<T> where T : BaseEntity
     {
-        /// <summary>
-        ///     Хранилище данных
-        /// </summary>
-        private readonly IEntityStore<T> _store;
         /// <summary>
         ///     Редактор данных
         /// </summary>
         private readonly IEntityEditor<T> _editor;
 
+        /// <summary>
+        ///     Хранилище данных
+        /// </summary>
+        private readonly IEntityStore<T> _store;
+
+        protected EntityManager(IEntityStore<T> store)
+        {
+            _store = store;
+        }
 
         protected EntityManager(IEntityStore<T> store, IEntityEditor<T> editor)
         {
@@ -30,12 +35,12 @@ namespace MailSender.Library.Services
 
         public int Add(T newItem)
         {
-            return _editor.Edit(ref newItem) ? _store.Add(newItem) : 0;
+            return _editor is null || _editor.Edit(ref newItem) ? _store.Add(newItem) : 0;
         }
 
         public void Edit(T item)
         {
-            if (_editor.Edit(ref item))
+            if (_editor is null || _editor.Edit(ref item))
                 _store.Edit(item.Id, item);
         }
 

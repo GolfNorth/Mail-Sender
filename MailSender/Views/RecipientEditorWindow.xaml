@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MailSender.Views"
-        xmlns:behaviors="clr-namespace:MailSender.Infrastructure.Behaviors"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:MailSender.Infrastructure.Behaviors"
         mc:Ignorable="d"
         DataContext="{Binding DistributionGroupViewModel, Source={StaticResource Locator}}"
         Title="{Binding EditableRecipient.Name}" Height="Auto" Width="256" SizeToContent="Height"
@@ -13,15 +13,15 @@
     <Grid Margin="5,2" Validation.Error="OnDataValidationError">
         <Grid.Resources>
             <Style TargetType="TextBox">
-                <Setter Property="Margin" Value="0,3"/>
+                <Setter Property="Margin" Value="0,3" />
             </Style>
             <Style TargetType="Button">
-                <Setter Property="Margin" Value="0,3"/>
+                <Setter Property="Margin" Value="0,3" />
             </Style>
             <Style TargetType="TextBlock">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="HorizontalAlignment" Value="Right"/>
-                <Setter Property="Margin" Value="5,0"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Margin" Value="5,0" />
             </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
@@ -39,13 +39,15 @@
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Имя" />
         <TextBlock Grid.Column="0" Grid.Row="2" Text="Адрес" />
 
-        <TextBox Grid.Column="1" Grid.Row="0" Name="IdEditor" IsReadOnly="True" Text="{Binding EditableRecipient.Id, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Name="NameEditor" Text="{Binding EditableRecipient.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Name="AddressEditor" Text="{Binding EditableRecipient.Address, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Name="IdEditor" IsReadOnly="True" Text="{Binding EditableRecipient.Id}" />
+        <TextBox Grid.Column="1" Grid.Row="1" Name="NameEditor"
+                 Text="{Binding EditableRecipient.Name, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}" />
+        <TextBox Grid.Column="1" Grid.Row="2" Name="AddressEditor"
+                 Text="{Binding EditableRecipient.Address, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}" />
 
         <Button Grid.Column="1" Grid.Row="3" Name="Test">
             <i:Interaction.Behaviors>
-                <behaviors:SaveChangesBehavior/>
+                <behaviors:SaveChangesBehavior />
             </i:Interaction.Behaviors>
             <StackPanel Orientation="Horizontal">
                 <Image Source="/MailSender;component/Resources/icons8-save-48.png" Width="20" />

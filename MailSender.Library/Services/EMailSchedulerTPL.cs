@@ -10,19 +10,30 @@ namespace MailSender.Library.Services
 {
     public class EMailSchedulerTPL
     {
-        private readonly Dictionary<Server, EmailSend> _emailSendServices;  // Словарь сервисов отправки электронной почты
-        private readonly IEntityStore<SchedulerTask> _schedulerTasksStore;  // Хранилище заданий
-        private volatile CancellationTokenSource _processTaskCancellation;  // Токен отмены выполнения заданий
+        private readonly IEmailSenderService _emailSenderService; // Сервис отправки сообщений
+
+        private readonly Dictionary<Server, IEmailSender>
+            _emailSendServices; // Словарь сервисов отправки электронной почты
+
+        private readonly IEntityManager<SchedulerTask> _schedulerTaskManager; // Хранилище заданий
+        private volatile CancellationTokenSource _processTaskCancellation; // Токен отмены выполнения заданий
 
         /// <summary>
         ///     Инициализация класса выполнения заданий
         /// </summary>
-        /// <param name="schedulerTasksStore">Хранилище заданий</param>
-        public EMailSchedulerTPL(IEntityStore<SchedulerTask> schedulerTasksStore)
+        /// <param name="schedulerTaskManager">Хранилище заданий</param>
+        public EMailSchedulerTPL(IEntityManager<SchedulerTask> schedulerTaskManager,
+            IEmailSenderService emailSenderService)
         {
-            _schedulerTasksStore = schedulerTasksStore;
-            _emailSendServices = new Dictionary<Server, EmailSend>();
+            _emailSenderService = emailSenderService;
+            _schedulerTaskManager = schedulerTaskManager;
+            _emailSendServices = new Dictionary<Server, IEmailSender>();
         }
+
+        /// <summary>
+        ///     Occurs when a property value changes.
+        /// </summary>
+        public event EventHandler TaskExecuted;
 
         /// <summary>
         ///     Выполнение отправки писем из хранилища заданий
@@ -34,7 +45,7 @@ namespace MailSender.Library.Services
 
             Interlocked.Exchange(ref _processTaskCancellation, cancellation)?.Cancel();
 
-            var firstTask = _schedulerTasksStore.GetAll()
+            var firstTask = _schedulerTaskManager.GetAll()
                 .Where(task => task.Time > DateTime.Now)
                 .OrderBy(task => task.Time)
                 .FirstOrDefault();
@@ -57,7 +68,11 @@ namespace MailSender.Library.Services
             await Task.Delay(delta, cancel).ConfigureAwait(false);
 
             await ExecuteTask(schedulerTask, cancel);
-            _schedulerTasksStore.Remove(schedulerTask.Id);
+
+            _schedulerTaskManager.Remove(schedulerTask);
+            _schedulerTaskManager.SaveChanges();
+
+            TaskExecuted?.Invoke(this, EventArgs.Empty);
 
             await StartAsync();
         }
@@ -81,9 +96,10 @@ namespace MailSender.Library.Services
             cancel.ThrowIfCancellationRequested();
 
             if (!_emailSendServices.ContainsKey(schedulerTask.Server))
-                _emailSendServices.Add(schedulerTask.Server, new EmailSend(schedulerTask.Server));
+                _emailSendServices.Add(schedulerTask.Server, _emailSenderService.GetSender(schedulerTask.Server));
 
-            await _emailSendServices[schedulerTask.Server].SendMailAsync(schedulerTask.Sender, schedulerTask.Recipients, schedulerTask.Email, cancel);
+            await _emailSendServices[schedulerTask.Server].SendMailAsync(schedulerTask.Sender, schedulerTask.Recipients,
+                schedulerTask.Email, cancel);
         }
     }
 }

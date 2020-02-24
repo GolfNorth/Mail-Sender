@@ -4,10 +4,11 @@ using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using MailSender.Library.Entities;
+using MailSender.Library.Services.Interfaces;
 
 namespace MailSender.Library.Services
 {
-    public class EmailSend
+    public class EmailSender : IEmailSender
     {
         private readonly Server _server; // Объект почтового сервера
 
@@ -15,17 +16,11 @@ namespace MailSender.Library.Services
         ///     Инициализация класса отправки электронной почты
         /// </summary>
         /// <param name="server">Объект почтового сервера</param>
-        public EmailSend(Server server)
+        public EmailSender(Server server)
         {
             _server = server;
         }
 
-        /// <summary>
-        ///     Отправить сообщение
-        /// </summary>
-        /// <param name="sender">Объект отправителя</param>
-        /// <param name="recipient">Объект получателя</param>
-        /// <param name="email">Объект электронного письма</param>
         public void SendMail(Sender sender, Recipient recipient, Email email)
         {
             using (var message = new MailMessage(sender.Address, recipient.Address, email.Subject, email.Body))
@@ -41,24 +36,12 @@ namespace MailSender.Library.Services
             }
         }
 
-        /// <summary>
-        ///     Отправить сообщения
-        /// </summary>
-        /// <param name="sender">Объект отправителя</param>
-        /// <param name="recipients">Коллекция объектов получателя</param>
-        /// <param name="email">Объект электронного письма</param>
         public void SendMail(Sender sender, IEnumerable<Recipient> recipients, Email email)
         {
             foreach (var recipient in recipients)
                 SendMail(sender, recipient, email);
         }
 
-        /// <summary>
-        ///     Асинхронный метод оправки сообщений
-        /// </summary>
-        /// <param name="sender">Объект отправителя</param>
-        /// <param name="recipient">Объект получателя</param>
-        /// <param name="email">Объект электронного письма</param>
         public async Task SendMailAsync(Sender sender, Recipient recipient, Email email)
         {
             using (var message = new MailMessage(sender.Address, recipient.Address, email.Subject, email.Body))
@@ -74,18 +57,13 @@ namespace MailSender.Library.Services
             }
         }
 
-        /// <summary>
-        ///     Асинхронный метод отправки сообщений
-        /// </summary>
-        /// <param name="sender">Объект отправителя</param>
-        /// <param name="recipients">Коллекция объектов получателя</param>
-        /// <param name="email">Объект электронного письма</param>
-        public async Task SendMailAsync(Sender sender, EmailList recipients, Email email, CancellationToken Cancel = default)
+        public async Task SendMailAsync(Sender sender, EmailList recipients, Email email,
+            CancellationToken Cancel = default)
         {
-            foreach (var recipient in recipients.Recipients)
+            foreach (var recipientsList in recipients.RecipientsList)
             {
                 Cancel.ThrowIfCancellationRequested();
-                await SendMailAsync(sender, recipient, email).ConfigureAwait(false);
+                await SendMailAsync(sender, recipientsList.Recipient, email).ConfigureAwait(false);
             }
         }
     }

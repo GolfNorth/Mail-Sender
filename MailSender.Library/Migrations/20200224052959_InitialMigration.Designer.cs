@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MailSender.Library.Migrations
 {
     [DbContext(typeof(MailSenderDB))]
-    [Migration("20200222064412_InitialMigration")]
+    [Migration("20200224052959_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,7 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Subject")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -41,9 +42,27 @@ namespace MailSender.Library.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("EmailLists");
+                });
+
+            modelBuilder.Entity("MailSender.Library.Entities.EmailListRecipient", b =>
+                {
+                    b.Property<int>("EmailListId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("EmailListId", "RecipientId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.ToTable("EmailListRecipients");
                 });
 
             modelBuilder.Entity("MailSender.Library.Entities.Recipient", b =>
@@ -53,17 +72,15 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("EmailListId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmailListId");
 
                     b.ToTable("Recipients");
                 });
@@ -74,16 +91,16 @@ namespace MailSender.Library.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("EmailId")
+                    b.Property<int>("EmailId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RecipientsId")
+                    b.Property<int>("RecipientsId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("SenderId")
+                    b.Property<int>("SenderId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ServerId")
+                    b.Property<int>("ServerId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Time")
@@ -109,10 +126,13 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -129,13 +149,16 @@ namespace MailSender.Library.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Host")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Login")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
@@ -148,30 +171,46 @@ namespace MailSender.Library.Migrations
                     b.ToTable("Servers");
                 });
 
-            modelBuilder.Entity("MailSender.Library.Entities.Recipient", b =>
+            modelBuilder.Entity("MailSender.Library.Entities.EmailListRecipient", b =>
                 {
-                    b.HasOne("MailSender.Library.Entities.EmailList", null)
-                        .WithMany("Recipients")
-                        .HasForeignKey("EmailListId");
+                    b.HasOne("MailSender.Library.Entities.EmailList", "EmailList")
+                        .WithMany("RecipientsList")
+                        .HasForeignKey("EmailListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MailSender.Library.Entities.Recipient", "Recipient")
+                        .WithMany("EmailListsList")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MailSender.Library.Entities.SchedulerTask", b =>
                 {
                     b.HasOne("MailSender.Library.Entities.Email", "Email")
                         .WithMany()
-                        .HasForeignKey("EmailId");
+                        .HasForeignKey("EmailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MailSender.Library.Entities.EmailList", "Recipients")
                         .WithMany()
-                        .HasForeignKey("RecipientsId");
+                        .HasForeignKey("RecipientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MailSender.Library.Entities.Sender", "Sender")
                         .WithMany()
-                        .HasForeignKey("SenderId");
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MailSender.Library.Entities.Server", "Server")
                         .WithMany()
-                        .HasForeignKey("ServerId");
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

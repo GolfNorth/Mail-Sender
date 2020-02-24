@@ -1,4 +1,6 @@
-﻿namespace MailSender.Library.Entities.Base
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MailSender.Library.Entities.Base
 {
     /// <summary>
     ///     Абстрактный класс базовой сущности
@@ -8,6 +10,7 @@
         /// <summary>
         ///     Идентификатор сущности
         /// </summary>
+        [Key]
         public int Id { get; set; }
     }
 }

@@ -15,8 +15,17 @@
         Title="Рассыльщик" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Файл" />
-            <MenuItem Header="Помощь" />
+            <MenuItem Header="Экспорт">
+                <MenuItem Header="Экспорт получателей" Command="{Binding ExportRecipients}" />
+                <MenuItem Header="Экспорт отправителей" Command="{Binding ExportSenders}" />
+                <MenuItem Header="Экспорт серверов" Command="{Binding ExportServers}" />
+                <MenuItem Header="Экспорт сообщений" Command="{Binding ExportEmails}" />
+            </MenuItem>
+            <MenuItem Header="О программе">
+                <i:Interaction.Behaviors>
+                    <behaviors:OpenAboutBehavior />
+                </i:Interaction.Behaviors>
+            </MenuItem>
         </Menu>
         <TabControl Name="TabControl" DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem Name="DistributionGroup" Header="Формирование группы рассылки"
@@ -25,7 +34,8 @@
                     <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
                         <ToolBar Band="0" BandIndex="0">
                             <Label Width="140">Выбрать отправителя:</Label>
-                            <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}" SelectedItem="{Binding SelectedSender}" SelectedIndex="0">
+                            <ComboBox Name="SendersList" Width="200" ItemsSource="{Binding Senders}"
+                                      SelectedItem="{Binding SelectedSender}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Sender">
                                         <StackPanel Orientation="Horizontal">
@@ -42,12 +52,12 @@
                             <Button Command="{Binding EditSenderCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
-                            <Button>
+                            <Button Command="{Binding RemoveSenderCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
                         <ToolBar Band="0" BandIndex="1">
-                            <Button HorizontalAlignment="Right" Command="{Binding SwitchToScheduler}">
+                            <Button HorizontalAlignment="Right" Command="{Binding SwitchToSchedulerCommand}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Width="202">Перейти в планировщик</TextBlock>
                                     <Image Source="..\Resources\icons8-alarm-clock-48.png" Width="20" />
@@ -56,7 +66,8 @@
                         </ToolBar>
                         <ToolBar Band="1" BandIndex="0">
                             <Label Width="140">Выбрать SMTP-сервер:</Label>
-                            <ComboBox Name="ServersList" Width="200" ItemsSource="{Binding Servers}" SelectedItem="{Binding SelectedServer}" SelectedIndex="0">
+                            <ComboBox Name="ServersList" Width="200" ItemsSource="{Binding Servers}"
+                                      SelectedItem="{Binding SelectedServer}" SelectedIndex="0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="entities:Server">
                                         <StackPanel Orientation="Horizontal">
@@ -73,13 +84,13 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
-                            <Button Command="{Binding AddSenderCommand}">
+                            <Button Command="{Binding AddServerCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-add-48.png" Width="20" />
                             </Button>
                             <Button Command="{Binding EditServerCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
-                            <Button>
+                            <Button Command="{Binding RemoveServerCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
@@ -91,7 +102,7 @@
                             <Button Command="{Binding EditRecipientCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-pencil-drawing-48.png" Width="20" />
                             </Button>
-                            <Button>
+                            <Button Command="{Binding RemoveRecipientCommand}">
                                 <Image Source="/MailSender;component/Resources/icons8-minus-48.png" Width="20" />
                             </Button>
                         </ToolBar>
@@ -105,17 +116,17 @@
                     <GroupBox Header="Управление">
                         <StackPanel>
                             <TextBlock Text="Календарь" />
-                            <Calendar />
-                            <xctk:TimePicker />
+                            <Calendar SelectedDate="{Binding SelectedDate}" />
+                            <xctk:TimePicker Value="{Binding SelectedDate}" DefaultValue="0:00" />
                             <StackPanel>
-                                <Button Margin="0 3 0 0">
+                                <Button Margin="0 3 0 0" Command="{Binding CreatNewDelayedSchedulerTaskCommand}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/MailSender;component/Resources/icons8-planner-48.png"
                                                Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Отправить запланировано" />
                                     </StackPanel>
                                 </Button>
-                                <Button Margin="0 5 0 0">
+                                <Button Margin="0 5 0 0" Command="{Binding CreatNewSchedulerTaskCommand}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/MailSender;component/Resources/icons8-send-48.png" Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Отправить сразу" />
@@ -125,43 +136,63 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания">
-                        <ListBox>
-                            <ListBoxItem HorizontalContentAlignment="Stretch">
-                                <GroupBox Header="Задание 1">
-                                    <StackPanel>
-                                        <TextBlock Text="Время" />
-                                        <TextBlock Text="Сервер" />
-                                        <TextBlock Text="Отправитель" />
-                                        <TextBlock Text="Список получателей" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem HorizontalContentAlignment="Stretch">
-                                <GroupBox Header="Задание 2">
-                                    <StackPanel>
-                                        <TextBlock Text="Время" />
-                                        <TextBlock Text="Сервер" />
-                                        <TextBlock Text="Отправитель" />
-                                        <TextBlock Text="Список получателей" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem HorizontalContentAlignment="Stretch">
-                                <GroupBox Header="Задание 3">
-                                    <StackPanel>
-                                        <TextBlock Text="Время" />
-                                        <TextBlock Text="Сервер" />
-                                        <TextBlock Text="Отправитель" />
-                                        <TextBlock Text="Список получателей" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
+                        <ListBox Name="SchedulerTasksLists" ItemsSource="{Binding SchedulerTasks}"
+                                 SelectedItem="{Binding SelectedSchedulerTask}" SelectedIndex="0"
+                                 HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="entities:SchedulerTask">
+                                    <GroupBox>
+                                        <GroupBox.Header>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Задание {0}">
+                                                        <Binding Path="Id" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </GroupBox.Header>
+                                        <StackPanel>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Время: {0}">
+                                                        <Binding Path="Time" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Сервер: {0} ({1}:{2})">
+                                                        <Binding Path="Server.Name" />
+                                                        <Binding Path="Server.Host" />
+                                                        <Binding Path="Server.Port" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Отправитель: {0} ({1})">
+                                                        <Binding Path="Sender.Name" />
+                                                        <Binding Path="Sender.Address" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Список получателей: {0}">
+                                                        <Binding Path="Recipients" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
                     </GroupBox>
                 </DockPanel>
             </TabItem>
             <TabItem Name="MailEditor" Header="Редактор писем"
-                     DataContext="{Binding MailEditorViewModel, Source={StaticResource Locator}}">
+                     DataContext="{Binding EmailEditorViewModel, Source={StaticResource Locator}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="150" MaxWidth="300" Width="Auto" />
@@ -170,14 +201,14 @@
                     <GroupBox Header="Список писем">
                         <DockPanel>
                             <StackPanel DockPanel.Dock="Bottom">
-                                <Button Margin="0 5 0 0">
+                                <Button Margin="0 5 0 0" Command="{Binding AddEmailCommand}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/MailSender;component/Resources/icons8-new-message-48.png"
                                                Width="20" />
                                         <TextBlock Margin="5 0 0 0" Text="Добавить" />
                                     </StackPanel>
                                 </Button>
-                                <Button Margin="0 5 0 0">
+                                <Button Margin="0 5 0 0" Command="{Binding RemoveEmailCommand}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/MailSender;component/Resources/icons8-deleted-message-48.png"
                                                Width="20" />
@@ -185,21 +216,43 @@
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
-                            <ListBox>
-                                <ListBoxItem>Письмо 1</ListBoxItem>
-                                <ListBoxItem>Письмо 2</ListBoxItem>
-                                <ListBoxItem>Письмо 3</ListBoxItem>
-                                <ListBoxItem>Письмо 4</ListBoxItem>
+                            <ListBox Name="EmailsList" ItemsSource="{Binding Emails}"
+                                     SelectedItem="{Binding SelectedEmail}" SelectedIndex="0">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="entities:Email">
+                                        <TextBlock Text="{Binding Subject}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
                             </ListBox>
                         </DockPanel>
                     </GroupBox>
-                    <GroupBox Header="Выбранное письмо" Grid.Column="1">
+                    <GroupBox Header="Выбранное письмо" Grid.Column="1" Validation.Error="OnDataValidationError">
                         <DockPanel>
                             <GroupBox DockPanel.Dock="Top" Header="Тема письма">
-                                <TextBox Text="Текст заголовка письма" Name="MailSubject" />
+                                <TextBox
+                                    Text="{Binding SelectedEmail.Subject, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"
+                                    Name="EmailSubject">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction
+                                                Command="{Binding EditEmailCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:TextBoxChangedBehavior />
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
                             </GroupBox>
                             <GroupBox Header="Текст письма">
-                                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Name="MailBody">Текст тела письма</TextBox>
+                                <TextBox Text="{Binding SelectedEmail.Body}" TextWrapping="Wrap" AcceptsReturn="True"
+                                         Name="EmailBody">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction
+                                                Command="{Binding EditEmailCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                             </GroupBox>
                         </DockPanel>
                     </GroupBox>
@@ -208,7 +261,29 @@
             <TabItem Name="Statistics" Header="Статистика"
                      DataContext="{Binding StatisticsViewModel, Source={StaticResource Locator}}">
                 <Grid>
-                    <Button Command="{Binding ExportRecipientsToExcel}">Экспортировать получателей в Excel файл</Button>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" Name="IdRow" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Количество заданий:" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Количество получателей:" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Количество отправителей:" />
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество писем:" />
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Количество серверов:" />
+
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SchedulerTasksCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding RecipientsCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding SendersCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding EmailsCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ServersCount}" />
                 </Grid>
             </TabItem>
         </TabControl>

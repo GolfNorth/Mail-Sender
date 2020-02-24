@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace MailSender.Views
 {
     /// <summary>
-    /// Логика взаимодействия для SenderEditorWindow.xaml
+    ///     Логика взаимодействия для SenderEditorWindow.xaml
     /// </summary>
     public partial class SenderEditorWindow : Window
     {
@@ -13,12 +13,12 @@ namespace MailSender.Views
             InitializeComponent();
         }
 
-        private void OnDataValidationError(object Sender, ValidationErrorEventArgs E)
+        private void OnDataValidationError(object sender, ValidationErrorEventArgs e)
         {
-            if (!(E.Source is Control control)) return;
+            if (!(e.Source is Control control)) return;
 
-            if (E.Action == ValidationErrorEventAction.Added)
-                control.ToolTip = E.Error.ErrorContent.ToString();
+            if (e.Action == ValidationErrorEventAction.Added)
+                control.ToolTip = e.Error.ErrorContent.ToString();
             else
                 control.ClearValue(ToolTipProperty);
         }
