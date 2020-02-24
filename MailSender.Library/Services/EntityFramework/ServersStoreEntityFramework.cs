@@ -6,10 +6,8 @@ namespace MailSender.Library.Services.EntityFramework
 {
     public class ServersStoreEntityFramework : EntityStoreEntityFramework<Server>
     {
-
         public ServersStoreEntityFramework(MailSenderDB db) : base(db)
         {
-
         }
 
         public override void Edit(int id, Server item)

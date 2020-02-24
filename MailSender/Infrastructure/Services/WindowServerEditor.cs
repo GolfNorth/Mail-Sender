@@ -10,9 +10,9 @@ namespace MailSender.Infrastructure.Services
     {
         public bool Edit(ref Server server)
         {
-            var currentMainWindow = (MainWindow)Application.Current.MainWindow;
+            var currentMainWindow = (MainWindow) Application.Current.MainWindow;
 
-            var editor = new ServerEditorWindow()
+            var editor = new ServerEditorWindow
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Owner = currentMainWindow

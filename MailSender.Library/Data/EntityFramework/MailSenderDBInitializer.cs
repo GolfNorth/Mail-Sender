@@ -10,7 +10,10 @@ namespace MailSender.Library.Data.EntityFramework
     {
         private readonly MailSenderDB _db;
 
-        public MailSenderDBInitializer(MailSenderDB db) => _db = db;
+        public MailSenderDBInitializer(MailSenderDB db)
+        {
+            _db = db;
+        }
 
         public async Task InitializeAsync()
         {
@@ -22,10 +25,10 @@ namespace MailSender.Library.Data.EntityFramework
             await SeedAsync(_db.Senders);
             await SeedAsync(_db.Recipients);
 
-            
+
             if (!await _db.EmailLists.AnyAsync())
             {
-                var newEmailList = new EmailList()
+                var newEmailList = new EmailList
                 {
                     Name = "New list"
                 };
@@ -59,7 +62,7 @@ namespace MailSender.Library.Data.EntityFramework
             if (await emails.AnyAsync().ConfigureAwait(false)) return;
 
             for (var i = 0; i < 10; i++)
-                emails.Add(new Email { Subject = $"Письмо {i}", Body = $"Текст письма {i}" });
+                emails.Add(new Email {Subject = $"Письмо {i}", Body = $"Текст письма {i}"});
 
             await _db.SaveChangesAsync();
         }
@@ -80,7 +83,7 @@ namespace MailSender.Library.Data.EntityFramework
             for (var i = 0; i < 10; i++)
                 servers.Add(new Server { Name = $"Сервер {i}", Host = $"smtp.server{i}.ru", Login = "login", Password = "pass" });
             */
-            
+
             await _db.SaveChangesAsync();
         }
 
@@ -89,8 +92,8 @@ namespace MailSender.Library.Data.EntityFramework
             if (await senders.AnyAsync()) return;
 
             for (var i = 0; i < 10; i++)
-                senders.Add(new Sender { Name = $"Отправитель {i}", Address = $"sender{i}@server.ru" });
-            
+                senders.Add(new Sender {Name = $"Отправитель {i}", Address = $"sender{i}@server.ru"});
+
             await _db.SaveChangesAsync();
         }
 
@@ -99,8 +102,8 @@ namespace MailSender.Library.Data.EntityFramework
             if (await recipients.AnyAsync()) return;
 
             for (var i = 0; i < 10; i++)
-                recipients.Add(new Recipient { Name = $"Получатель {i}", Address = $"recipient{i}@server.ru" });
-            
+                recipients.Add(new Recipient {Name = $"Получатель {i}", Address = $"recipient{i}@server.ru"});
+
             await _db.SaveChangesAsync();
         }
 #endif

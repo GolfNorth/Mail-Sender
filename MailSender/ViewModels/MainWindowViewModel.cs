@@ -10,31 +10,20 @@ namespace MailSender.ViewModels
     {
         private int _selectedTabIndex;
 
-        public MainWindowViewModel(IEntityManager<Recipient> recipientsManager, IEntityExport<Recipient> recipientsExporter,
+        public MainWindowViewModel(IEntityManager<Recipient> recipientsManager,
+            IEntityExport<Recipient> recipientsExporter,
             IEntityManager<Sender> sendersManager, IEntityExport<Sender> sendersExporter,
             IEntityManager<Server> serversManager, IEntityExport<Server> serversExporter,
             IEntityManager<Email> emailsManager, IEntityExport<Email> emailsExporter)
         {
             // Экспорт получателей
-            ExportRecipients = new DelegateCommand(() =>
-            {
-                recipientsExporter.Export(recipientsManager.GetAll());
-            });
+            ExportRecipients = new DelegateCommand(() => { recipientsExporter.Export(recipientsManager.GetAll()); });
             // Экспорт отправителей
-            ExportSenders = new DelegateCommand(() =>
-            {
-                sendersExporter.Export(sendersManager.GetAll());
-            });
+            ExportSenders = new DelegateCommand(() => { sendersExporter.Export(sendersManager.GetAll()); });
             // Экспорт серверов
-            ExportServers = new DelegateCommand(() =>
-            {
-                serversExporter.Export(serversManager.GetAll());
-            });
+            ExportServers = new DelegateCommand(() => { serversExporter.Export(serversManager.GetAll()); });
             // Экспорт сообщений
-            ExportEmails = new DelegateCommand(() =>
-            {
-                emailsExporter.Export(emailsManager.GetAll());
-            });
+            ExportEmails = new DelegateCommand(() => { emailsExporter.Export(emailsManager.GetAll()); });
         }
 
 
@@ -51,14 +40,17 @@ namespace MailSender.ViewModels
         ///     Экспорт получателей
         /// </summary>
         public DelegateCommand ExportRecipients { get; }
+
         /// <summary>
         ///     Экспорт отправителей
         /// </summary>
         public DelegateCommand ExportSenders { get; }
+
         /// <summary>
         ///     Экспорт серверов
         /// </summary>
         public DelegateCommand ExportServers { get; }
+
         /// <summary>
         ///     Экспорт сообщений
         /// </summary>

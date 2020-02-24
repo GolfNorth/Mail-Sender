@@ -6,7 +6,6 @@ namespace MailSender.Library.Services.EntityFramework
 {
     public class RecipientsStoreEntityFramework : EntityStoreEntityFramework<Recipient>
     {
-
         public RecipientsStoreEntityFramework(MailSenderDB db) : base(db)
         {
         }

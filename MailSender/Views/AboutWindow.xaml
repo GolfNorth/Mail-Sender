@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="О программе" Height="80" Width="256"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
             Рассыльщик почты
         </TextBlock>

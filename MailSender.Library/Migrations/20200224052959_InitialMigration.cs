@@ -8,191 +8,176 @@ namespace MailSender.Library.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EmailLists",
-                columns: table => new
+                "EmailLists",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmailLists", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_EmailLists", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Emails",
-                columns: table => new
+                "Emails",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Sqlite:Autoincrement", true),
-                    Subject = table.Column<string>(nullable: false),
+                    Subject = table.Column<string>(),
                     Body = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Emails", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Emails", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Recipients",
-                columns: table => new
+                "Recipients",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Address = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(maxLength: 50),
+                    Address = table.Column<string>()
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Recipients", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Recipients", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Senders",
-                columns: table => new
+                "Senders",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Address = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(maxLength: 50),
+                    Address = table.Column<string>()
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Senders", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Senders", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Servers",
-                columns: table => new
+                "Servers",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Host = table.Column<string>(nullable: false),
-                    Port = table.Column<int>(nullable: false),
-                    EnableSsl = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50),
+                    Host = table.Column<string>(),
+                    Port = table.Column<int>(),
+                    EnableSsl = table.Column<bool>(),
                     Login = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Servers", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Servers", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "EmailListRecipients",
-                columns: table => new
+                "EmailListRecipients",
+                table => new
                 {
-                    EmailListId = table.Column<int>(nullable: false),
-                    RecipientId = table.Column<int>(nullable: false)
+                    EmailListId = table.Column<int>(),
+                    RecipientId = table.Column<int>()
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmailListRecipients", x => new { x.EmailListId, x.RecipientId });
+                    table.PrimaryKey("PK_EmailListRecipients", x => new {x.EmailListId, x.RecipientId});
                     table.ForeignKey(
-                        name: "FK_EmailListRecipients_EmailLists_EmailListId",
-                        column: x => x.EmailListId,
-                        principalTable: "EmailLists",
-                        principalColumn: "Id",
+                        "FK_EmailListRecipients_EmailLists_EmailListId",
+                        x => x.EmailListId,
+                        "EmailLists",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmailListRecipients_Recipients_RecipientId",
-                        column: x => x.RecipientId,
-                        principalTable: "Recipients",
-                        principalColumn: "Id",
+                        "FK_EmailListRecipients_Recipients_RecipientId",
+                        x => x.RecipientId,
+                        "Recipients",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SchedulerTasks",
-                columns: table => new
+                "SchedulerTasks",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("Sqlite:Autoincrement", true),
-                    Time = table.Column<DateTime>(nullable: false),
-                    SenderId = table.Column<int>(nullable: false),
-                    RecipientsId = table.Column<int>(nullable: false),
-                    ServerId = table.Column<int>(nullable: false),
-                    EmailId = table.Column<int>(nullable: false)
+                    Time = table.Column<DateTime>(),
+                    SenderId = table.Column<int>(),
+                    RecipientsId = table.Column<int>(),
+                    ServerId = table.Column<int>(),
+                    EmailId = table.Column<int>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SchedulerTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SchedulerTasks_Emails_EmailId",
-                        column: x => x.EmailId,
-                        principalTable: "Emails",
-                        principalColumn: "Id",
+                        "FK_SchedulerTasks_Emails_EmailId",
+                        x => x.EmailId,
+                        "Emails",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SchedulerTasks_EmailLists_RecipientsId",
-                        column: x => x.RecipientsId,
-                        principalTable: "EmailLists",
-                        principalColumn: "Id",
+                        "FK_SchedulerTasks_EmailLists_RecipientsId",
+                        x => x.RecipientsId,
+                        "EmailLists",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SchedulerTasks_Senders_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "Senders",
-                        principalColumn: "Id",
+                        "FK_SchedulerTasks_Senders_SenderId",
+                        x => x.SenderId,
+                        "Senders",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SchedulerTasks_Servers_ServerId",
-                        column: x => x.ServerId,
-                        principalTable: "Servers",
-                        principalColumn: "Id",
+                        "FK_SchedulerTasks_Servers_ServerId",
+                        x => x.ServerId,
+                        "Servers",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmailListRecipients_RecipientId",
-                table: "EmailListRecipients",
-                column: "RecipientId");
+                "IX_EmailListRecipients_RecipientId",
+                "EmailListRecipients",
+                "RecipientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchedulerTasks_EmailId",
-                table: "SchedulerTasks",
-                column: "EmailId");
+                "IX_SchedulerTasks_EmailId",
+                "SchedulerTasks",
+                "EmailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchedulerTasks_RecipientsId",
-                table: "SchedulerTasks",
-                column: "RecipientsId");
+                "IX_SchedulerTasks_RecipientsId",
+                "SchedulerTasks",
+                "RecipientsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchedulerTasks_SenderId",
-                table: "SchedulerTasks",
-                column: "SenderId");
+                "IX_SchedulerTasks_SenderId",
+                "SchedulerTasks",
+                "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchedulerTasks_ServerId",
-                table: "SchedulerTasks",
-                column: "ServerId");
+                "IX_SchedulerTasks_ServerId",
+                "SchedulerTasks",
+                "ServerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmailListRecipients");
+                "EmailListRecipients");
 
             migrationBuilder.DropTable(
-                name: "SchedulerTasks");
+                "SchedulerTasks");
 
             migrationBuilder.DropTable(
-                name: "Recipients");
+                "Recipients");
 
             migrationBuilder.DropTable(
-                name: "Emails");
+                "Emails");
 
             migrationBuilder.DropTable(
-                name: "EmailLists");
+                "EmailLists");
 
             migrationBuilder.DropTable(
-                name: "Senders");
+                "Senders");
 
             migrationBuilder.DropTable(
-                name: "Servers");
+                "Servers");
         }
     }
 }

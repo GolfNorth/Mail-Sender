@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using MailSender.Library.Entities;
 using MailSender.Library.Services;
 using MailSender.Library.Services.Interfaces;
@@ -15,7 +13,9 @@ namespace MailSender.ViewModels
 {
     public class SchedulerViewModel : BindableBase
     {
-        private readonly DistributionGroupViewModel _distributionGroupViewModel; // Вью-модель вкладки формирования рассылки
+        private readonly DistributionGroupViewModel
+            _distributionGroupViewModel; // Вью-модель вкладки формирования рассылки
+
         private readonly EmailEditorViewModel _emailEditorViewModel; // Вью-модель вкладки редактора писем
         private ObservableCollection<SchedulerTask> _schedulerTasks; // Коллекция сообщений
         private DateTime? _selectedDate; // Выбраная дата
@@ -32,7 +32,8 @@ namespace MailSender.ViewModels
             _distributionGroupViewModel.PropertyChanged += ViewModelsPropertyChanged;
             _emailEditorViewModel.PropertyChanged += ViewModelsPropertyChanged;
 
-            emailScheduler.TaskExecuted += (sender, args) => SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
+            emailScheduler.TaskExecuted += (sender, args) =>
+                SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
 
             // Запуск заданий, если остались
             _ = emailScheduler.StartAsync();
@@ -68,18 +69,9 @@ namespace MailSender.ViewModels
             }, () => CanCreateNewTask);
         }
 
-        /// <summary>
-        ///     Оповещение команд о изменении данных
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ViewModelsPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            CreatNewDelayedSchedulerTaskCommand.RaiseCanExecuteChanged();
-            CreatNewSchedulerTaskCommand.RaiseCanExecuteChanged();
-        }
+        private IEnumerable<Recipient> SelectedRecipients =>
+            _distributionGroupViewModel.SelectedRecipients; // Выбранные получатели
 
-        private IEnumerable<Recipient> SelectedRecipients => _distributionGroupViewModel.SelectedRecipients; // Выбранные получатели
         private Server SelectedServer => _distributionGroupViewModel.SelectedServer; // Выбранный сервер
         private Sender SelectedSender => _distributionGroupViewModel.SelectedSender; // Выбранный отправитель
         private Email SelectedEmail => _emailEditorViewModel.SelectedEmail; // Выбранное сообщение
@@ -129,13 +121,24 @@ namespace MailSender.ViewModels
         public DelegateCommand CreatNewDelayedSchedulerTaskCommand { get; }
 
         /// <summary>
+        ///     Оповещение команд о изменении данных
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ViewModelsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            CreatNewDelayedSchedulerTaskCommand.RaiseCanExecuteChanged();
+            CreatNewSchedulerTaskCommand.RaiseCanExecuteChanged();
+        }
+
+        /// <summary>
         ///     Создание нового задания
         /// </summary>
         /// <param name="dateTime">Время выполнения</param>
         /// <returns></returns>
         private SchedulerTask CreateNewSchedulerTask(DateTime dateTime)
         {
-            var newEmailList = new EmailList()
+            var newEmailList = new EmailList
             {
                 Name = SelectedEmail.Subject
             };

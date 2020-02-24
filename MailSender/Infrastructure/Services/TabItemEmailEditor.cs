@@ -9,7 +9,7 @@ namespace MailSender.Infrastructure.Services
     {
         public bool Edit(ref Email email)
         {
-            var currentMainWindow = (MainWindow)Application.Current.MainWindow;
+            var currentMainWindow = (MainWindow) Application.Current.MainWindow;
 
             return InfrastructureUtilities.IsValid(currentMainWindow?.EmailSubject);
         }

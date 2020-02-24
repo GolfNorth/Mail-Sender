@@ -13,17 +13,17 @@ namespace MailSender.Infrastructure.Services
             // Добавление строки в таблицу ячеек
             var row = new Row();
 
-            row.Append(new Cell()
+            row.Append(new Cell
             {
                 CellValue = new CellValue("ID"),
                 DataType = new EnumValue<CellValues>(CellValues.String)
             });
-            row.Append(new Cell()
+            row.Append(new Cell
             {
                 CellValue = new CellValue("Заголовок"),
                 DataType = new EnumValue<CellValues>(CellValues.String)
             });
-            row.Append(new Cell()
+            row.Append(new Cell
             {
                 CellValue = new CellValue("Текст"),
                 DataType = new EnumValue<CellValues>(CellValues.String)
@@ -35,17 +35,17 @@ namespace MailSender.Infrastructure.Services
             {
                 var newRow = new Row();
 
-                newRow.Append(new Cell()
+                newRow.Append(new Cell
                 {
                     CellValue = new CellValue(email.Id.ToString()),
                     DataType = new EnumValue<CellValues>(CellValues.Number)
                 });
-                newRow.Append(new Cell()
+                newRow.Append(new Cell
                 {
                     CellValue = new CellValue(email.Subject),
                     DataType = new EnumValue<CellValues>(CellValues.String)
                 });
-                newRow.Append(new Cell()
+                newRow.Append(new Cell
                 {
                     CellValue = new CellValue(email.Body),
                     DataType = new EnumValue<CellValues>(CellValues.String)

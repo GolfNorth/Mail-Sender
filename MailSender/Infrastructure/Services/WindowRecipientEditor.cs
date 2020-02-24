@@ -9,7 +9,7 @@ namespace MailSender.Infrastructure.Services
     {
         public bool Edit(ref Recipient recipient)
         {
-            var currentMainWindow = (MainWindow)Application.Current.MainWindow;
+            var currentMainWindow = (MainWindow) Application.Current.MainWindow;
 
             var editor = new RecipientEditorWindow
             {

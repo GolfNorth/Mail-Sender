@@ -14,7 +14,8 @@ namespace MailSender.Library.Entities
         /// <summary>
         ///     Заголовок электронного письма
         /// </summary>
-        [Required, MinLength(MinSubjectLength)]
+        [Required]
+        [MinLength(MinSubjectLength)]
         public string Subject { get; set; }
 
         /// <summary>
@@ -39,7 +40,8 @@ namespace MailSender.Library.Entities
                             break;
                         }
 
-                        if (Subject.Length <= 2) result = $"Заголовок должен содержать {MinSubjectLength} или более символов";
+                        if (Subject.Length <= 2)
+                            result = $"Заголовок должен содержать {MinSubjectLength} или более символов";
 
                         break;
                     case nameof(Body):

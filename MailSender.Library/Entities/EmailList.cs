@@ -13,7 +13,7 @@ namespace MailSender.Library.Entities
         ///     Коллекция получателей в списке рассылки
         /// </summary>
         [Required]
-        public virtual IEnumerable<EmailListRecipient> RecipientsList { get; set; }// = new List<Recipient>();
+        public virtual IEnumerable<EmailListRecipient> RecipientsList { get; set; } // = new List<Recipient>();
 
         public override string ToString()
         {

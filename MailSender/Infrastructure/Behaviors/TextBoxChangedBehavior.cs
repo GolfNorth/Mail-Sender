@@ -55,8 +55,5 @@ namespace MailSender.Infrastructure.Behaviors
         {
             _originalText = AssociatedObject.Text;
         }
-
-
-
     }
 }

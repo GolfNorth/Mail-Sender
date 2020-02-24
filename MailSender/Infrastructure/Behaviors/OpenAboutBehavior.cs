@@ -29,9 +29,9 @@ namespace MailSender.Infrastructure.Behaviors
 
         private void AssociatedObjectOnClick(object sender, RoutedEventArgs e)
         {
-            var currentMainWindow = (MainWindow)Application.Current.MainWindow;
+            var currentMainWindow = (MainWindow) Application.Current.MainWindow;
 
-            var aboutWindow = new AboutWindow()
+            var aboutWindow = new AboutWindow
             {
                 Owner = currentMainWindow
             };

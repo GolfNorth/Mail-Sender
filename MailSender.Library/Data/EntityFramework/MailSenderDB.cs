@@ -7,9 +7,13 @@ namespace MailSender.Library.Data.EntityFramework
 {
     public class MailSenderDB : DbContext
     {
-        public MailSenderDB() : base() { }
+        public MailSenderDB()
+        {
+        }
 
-        public MailSenderDB(DbContextOptions opt) : base(opt) { }
+        public MailSenderDB(DbContextOptions opt) : base(opt)
+        {
+        }
 
         public DbSet<Email> Emails { get; set; }
         public DbSet<EmailList> EmailLists { get; set; }
@@ -37,7 +41,7 @@ namespace MailSender.Library.Data.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EmailListRecipient>()
-                .HasKey(elr => new { elr.EmailListId, elr.RecipientId });
+                .HasKey(elr => new {elr.EmailListId, elr.RecipientId});
 
             modelBuilder.Entity<EmailListRecipient>()
                 .HasOne(elr => elr.Recipient)

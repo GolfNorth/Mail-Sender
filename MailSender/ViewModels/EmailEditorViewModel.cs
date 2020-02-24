@@ -18,7 +18,7 @@ namespace MailSender.ViewModels
             // Добавление сообщения
             AddEmailCommand = new DelegateCommand(() =>
             {
-                var newEmail = new Email()
+                var newEmail = new Email
                 {
                     Subject = "New Email"
                 };

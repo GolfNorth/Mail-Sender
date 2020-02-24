@@ -57,7 +57,8 @@ namespace MailSender.Library.Services
             }
         }
 
-        public async Task SendMailAsync(Sender sender, EmailList recipients, Email email, CancellationToken Cancel = default)
+        public async Task SendMailAsync(Sender sender, EmailList recipients, Email email,
+            CancellationToken Cancel = default)
         {
             foreach (var emailListRecipient in recipients.RecipientsList)
             {

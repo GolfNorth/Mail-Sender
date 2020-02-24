@@ -5,6 +5,9 @@ namespace MailSender.Library.Services
 {
     public class EmailSenderService : IEmailSenderService
     {
-        public IEmailSender GetSender(Server server) => new EmailSender(server);
+        public IEmailSender GetSender(Server server)
+        {
+            return new EmailSender(server);
+        }
     }
 }

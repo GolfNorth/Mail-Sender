@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace MailSender.Views
 {
     /// <summary>
-    /// Логика взаимодействия для SenderEditorWindow.xaml
+    ///     Логика взаимодействия для SenderEditorWindow.xaml
     /// </summary>
     public partial class SenderEditorWindow : Window
     {

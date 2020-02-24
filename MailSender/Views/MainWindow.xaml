@@ -23,7 +23,7 @@
             </MenuItem>
             <MenuItem Header="О программе">
                 <i:Interaction.Behaviors>
-                    <behaviors:OpenAboutBehavior/>
+                    <behaviors:OpenAboutBehavior />
                 </i:Interaction.Behaviors>
             </MenuItem>
         </Menu>
@@ -136,9 +136,11 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания">
-                        <ListBox Name="SchedulerTasksLists" ItemsSource="{Binding SchedulerTasks}" SelectedItem="{Binding SelectedSchedulerTask}" SelectedIndex="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <ListBox Name="SchedulerTasksLists" ItemsSource="{Binding SchedulerTasks}"
+                                 SelectedItem="{Binding SelectedSchedulerTask}" SelectedIndex="0"
+                                 HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                             <ListBox.ItemTemplate>
-                                <DataTemplate DataType="entities:SchedulerTask" >
+                                <DataTemplate DataType="entities:SchedulerTask">
                                     <GroupBox>
                                         <GroupBox.Header>
                                             <TextBlock>
@@ -177,7 +179,7 @@
                                             <TextBlock>
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat="{}Список получателей: {0}">
-                                                        <Binding Path="Recipients"  />
+                                                        <Binding Path="Recipients" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
@@ -227,7 +229,9 @@
                     <GroupBox Header="Выбранное письмо" Grid.Column="1" Validation.Error="OnDataValidationError">
                         <DockPanel>
                             <GroupBox DockPanel.Dock="Top" Header="Тема письма">
-                                <TextBox Text="{Binding SelectedEmail.Subject, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}" Name="EmailSubject">
+                                <TextBox
+                                    Text="{Binding SelectedEmail.Subject, NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True}"
+                                    Name="EmailSubject">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="LostFocus">
                                             <i:InvokeCommandAction
@@ -235,12 +239,13 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <i:Interaction.Behaviors>
-                                        <behaviors:TextBoxChangedBehavior/>
+                                        <behaviors:TextBoxChangedBehavior />
                                     </i:Interaction.Behaviors>
                                 </TextBox>
                             </GroupBox>
                             <GroupBox Header="Текст письма">
-                                <TextBox Text="{Binding SelectedEmail.Body}" TextWrapping="Wrap" AcceptsReturn="True" Name="EmailBody">
+                                <TextBox Text="{Binding SelectedEmail.Body}" TextWrapping="Wrap" AcceptsReturn="True"
+                                         Name="EmailBody">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="LostFocus">
                                             <i:InvokeCommandAction
@@ -274,11 +279,11 @@
                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество писем:" />
                     <TextBlock Grid.Column="0" Grid.Row="4" Text="Количество серверов:" />
 
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SchedulerTasksCount}"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding RecipientsCount}"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding SendersCount}"/>
-                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding EmailsCount}"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ServersCount}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SchedulerTasksCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding RecipientsCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding SendersCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding EmailsCount}" />
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ServersCount}" />
                 </Grid>
             </TabItem>
         </TabControl>

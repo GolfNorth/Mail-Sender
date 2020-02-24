@@ -8,13 +8,14 @@ namespace MailSender.Library.Services.Managers
     public abstract class EntityManager<T> : IEntityManager<T> where T : BaseEntity
     {
         /// <summary>
-        ///     Хранилище данных
-        /// </summary>
-        private readonly IEntityStore<T> _store;
-        /// <summary>
         ///     Редактор данных
         /// </summary>
         private readonly IEntityEditor<T> _editor;
+
+        /// <summary>
+        ///     Хранилище данных
+        /// </summary>
+        private readonly IEntityStore<T> _store;
 
         protected EntityManager(IEntityStore<T> store)
         {
@@ -34,7 +35,7 @@ namespace MailSender.Library.Services.Managers
 
         public int Add(T newItem)
         {
-            return (_editor is null || _editor.Edit(ref newItem)) ? _store.Add(newItem) : 0;
+            return _editor is null || _editor.Edit(ref newItem) ? _store.Add(newItem) : 0;
         }
 
         public void Edit(T item)

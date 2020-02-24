@@ -28,10 +28,11 @@ namespace MailSender.Infrastructure.Services
             worksheetPart.Worksheet = new Worksheet(new SheetData());
 
             // Добавление листов в книгу
-            var sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+            var sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
 
             // Добавление листа и связывание его с книгой
-            var sheet = new Sheet() { Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Получатели" };
+            var sheet = new Sheet
+                {Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Получатели"};
             sheets.Append(sheet);
 
             // Получене листа данных таблицы ячеек
