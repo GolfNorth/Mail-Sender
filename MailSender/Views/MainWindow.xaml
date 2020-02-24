@@ -252,6 +252,29 @@
             <TabItem Name="Statistics" Header="Статистика"
                      DataContext="{Binding StatisticsViewModel, Source={StaticResource Locator}}">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" Name="IdRow" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Количество заданий:" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Количество получателей:" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Количество отправителей:" />
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество писем:" />
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Количество серверов:" />
+
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SchedulerTasksCount}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding RecipientsCount}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding SendersCount}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding EmailsCount}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ServersCount}"/>
                 </Grid>
             </TabItem>
         </TabControl>
