@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using MailSender.Library.Entities;
 using MailSender.Library.Services;
 using MailSender.Library.Services.Interfaces;
@@ -11,17 +13,11 @@ namespace MailSender.ViewModels
 {
     public class SchedulerViewModel : BindableBase
     {
+        private readonly DistributionGroupViewModel _distributionGroupViewModel; // Вью-модель вкладки формирования рассылки
+        private readonly EmailEditorViewModel _emailEditorViewModel; // Вью-модель вкладки редактора писем
         private ObservableCollection<SchedulerTask> _schedulerTasks; // Коллекция сообщений
-        private SchedulerTask _selectedSchedulerTask; // Выбранное сообщение
         private DateTime? _selectedDate; // Выбраная дата
-        private IEnumerable<Recipient> SelectedRecipients => _distributionGroupViewModel.SelectedRecipients; // Выбранные получатели
-        private Server SelectedServer => _distributionGroupViewModel.SelectedServer; // Выбранный сервер
-        private Sender SelectedSender => _distributionGroupViewModel.SelectedSender; // Выбранный отправитель
-        private Email SelectedEmail => _emailEditorViewModel.SelectedEmail; // Выбранное сообщение
-
-        private readonly DistributionGroupViewModel _distributionGroupViewModel;
-        private readonly EmailEditorViewModel _emailEditorViewModel;
-
+        private SchedulerTask _selectedSchedulerTask; // Выбранное сообщение
 
         public SchedulerViewModel(IEntityManager<SchedulerTask> schedulerTaskManager,
             DistributionGroupViewModel distributionGroupViewModel,
@@ -31,6 +27,9 @@ namespace MailSender.ViewModels
             _distributionGroupViewModel = distributionGroupViewModel;
             _emailEditorViewModel = emailEditorViewModel;
 
+            _distributionGroupViewModel.PropertyChanged += ViewModelsPropertyChanged;
+            _emailEditorViewModel.PropertyChanged += ViewModelsPropertyChanged;
+
             SelectedDate = DateTime.Now;
 
             SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
@@ -38,61 +37,48 @@ namespace MailSender.ViewModels
             // Добавление задания
             CreatNewSchedulerTaskCommand = new DelegateCommand(() =>
             {
-                if (!CanCreateNewTask) return;
-                
-                var newSchedulerTask = CreatNewSchedulerTask(DateTime.Now);
+                var newSchedulerTask = CreateNewSchedulerTask(DateTime.Now);
 
                 schedulerTaskManager.Add(newSchedulerTask);
                 schedulerTaskManager.SaveChanges();
 
                 SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
-            });//, () => CanCreateNewTask).ObservesCanExecute(() => CanCreateNewTask);
+            }, () => CanCreateNewTask);
 
             // Добавление задания с задержкой
             CreatNewDelayedSchedulerTaskCommand = new DelegateCommand(() =>
             {
-                if (!CanCreateNewTask) return;
-
-                var newSchedulerTask = CreatNewSchedulerTask(SelectedDate ?? DateTime.Now);
+                var newSchedulerTask = CreateNewSchedulerTask(SelectedDate ?? DateTime.Now);
 
                 schedulerTaskManager.Add(newSchedulerTask);
                 schedulerTaskManager.SaveChanges();
 
                 SchedulerTasks = new ObservableCollection<SchedulerTask>(schedulerTaskManager.GetAll());
-            });//, () => CanCreateNewTask).ObservesProperty(() => CanCreateNewTask);
+            }, () => CanCreateNewTask);
         }
 
         /// <summary>
-        ///     Создание нового задания
+        ///     Оповещение команд о изменении данных
         /// </summary>
-        /// <param name="dateTime">Время выполнения</param>
-        /// <returns></returns>
-        private SchedulerTask CreatNewSchedulerTask(DateTime dateTime)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ViewModelsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var newEmailList = new EmailList();
-
-            foreach (var recipient in SelectedRecipients)
-                newEmailList.Recipients.Add(recipient);
-
-            var newSchedulerTask = new SchedulerTask()
-            {
-                Recipients = newEmailList,
-                Server = SelectedServer,
-                Sender = SelectedSender,
-                Email = SelectedEmail,
-                Time = dateTime
-            };
-
-            return newSchedulerTask;
+            CreatNewDelayedSchedulerTaskCommand.RaiseCanExecuteChanged();
+            CreatNewSchedulerTaskCommand.RaiseCanExecuteChanged();
         }
+
+        private IEnumerable<Recipient> SelectedRecipients => _distributionGroupViewModel.SelectedRecipients; // Выбранные получатели
+        private Server SelectedServer => _distributionGroupViewModel.SelectedServer; // Выбранный сервер
+        private Sender SelectedSender => _distributionGroupViewModel.SelectedSender; // Выбранный отправитель
+        private Email SelectedEmail => _emailEditorViewModel.SelectedEmail; // Выбранное сообщение
 
         /// <summary>
         ///     Разрешение на запуск команды
         /// </summary>
         private bool CanCreateNewTask =>
-            SelectedSender != null && SelectedRecipients != null && SelectedServer != null &&
-            SelectedEmail != null;
-
+            SelectedRecipients != null && SelectedRecipients.Any() && SelectedServer != null &&
+            SelectedEmail != null && SelectedSender != null;
 
         /// <summary>
         ///     Выбраная дата
@@ -130,5 +116,29 @@ namespace MailSender.ViewModels
         ///     Создает задачу по расписанию
         /// </summary>
         public DelegateCommand CreatNewDelayedSchedulerTaskCommand { get; }
+
+        /// <summary>
+        ///     Создание нового задания
+        /// </summary>
+        /// <param name="dateTime">Время выполнения</param>
+        /// <returns></returns>
+        private SchedulerTask CreateNewSchedulerTask(DateTime dateTime)
+        {
+            var newEmailList = new EmailList();
+
+            foreach (var recipient in SelectedRecipients)
+                newEmailList.Recipients.Add(recipient);
+
+            var newSchedulerTask = new SchedulerTask
+            {
+                Recipients = newEmailList,
+                Server = SelectedServer,
+                Sender = SelectedSender,
+                Email = SelectedEmail,
+                Time = dateTime
+            };
+
+            return newSchedulerTask;
+        }
     }
 }

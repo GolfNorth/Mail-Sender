@@ -95,6 +95,9 @@ namespace MailSender.ViewModels
 
                 recipientsManager.SaveChanges();
 
+                SelectedRecipients = null;
+                SelectedRecipient = null;
+
                 Recipients = new ObservableCollection<Recipient>(recipientsManager.GetAll());
                 FilterRecipients();
             }, () => SelectedRecipient != null).ObservesProperty(() => SelectedRecipient);
@@ -131,6 +134,8 @@ namespace MailSender.ViewModels
             {
                 sendersManager.Remove(SelectedSender);
                 sendersManager.SaveChanges();
+
+                SelectedSender = null;
 
                 Senders = new ObservableCollection<Sender>(sendersManager.GetAll());
             }, () => SelectedSender != null).ObservesProperty(() => SelectedSender);
@@ -171,6 +176,8 @@ namespace MailSender.ViewModels
             {
                 serversManager.Remove(SelectedServer);
                 serversManager.SaveChanges();
+
+                SelectedServer = null;
 
                 Servers = new ObservableCollection<Server>(serversManager.GetAll());
             }, () => SelectedServer != null).ObservesProperty(() => SelectedServer);

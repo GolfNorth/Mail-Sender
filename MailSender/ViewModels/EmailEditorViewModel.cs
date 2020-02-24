@@ -37,6 +37,8 @@ namespace MailSender.ViewModels
                 emailsManager.Remove(SelectedEmail);
                 emailsManager.SaveChanges();
 
+                SelectedEmail = null;
+
                 Emails = new ObservableCollection<Email>(emailsManager.GetAll());
             }, () => SelectedEmail != null).ObservesProperty(() => SelectedEmail);
 

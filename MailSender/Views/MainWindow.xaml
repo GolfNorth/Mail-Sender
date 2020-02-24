@@ -173,7 +173,7 @@
                                             <TextBlock>
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat="{}Список получателей: {0}">
-                                                        <Binding Path="Server.Name" />
+                                                        <Binding Path="Recipients"  />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
